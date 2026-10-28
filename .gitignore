@@ -1,0 +1,33 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Next.js Build Output
+/.next/
+/out/
+/build/
+/dist/
+
+# Environment Variables & Secrets (CRITICAL)
+.env
+.env*.local
+.env.development
+.env.production
+.env.test
+
+# Testing & Coverage
+/coverage
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Legacy Archives & Backups (Preservation Boundaries)
+Solar-BP-Files/
+Solar SQL/
+*.sql
+*.tar.gz
+*.zip
+*.bak
+
