@@ -4,28 +4,34 @@
 
 @layer base {
   :root {
-    --color-bg: #F8FAFC;
-    --color-text: #0F172A;
+    --color-bg-dark: #061321;
+    --color-bg-secondary: #101F32;
+    --color-gold: #F2B33F;
+    --color-gold-light: #FFD17A;
+    --color-text-ivory: #F7F7F5;
+    --color-text-muted: #B6C1D0;
+    --color-border: #29445E;
   }
 
   html {
-    color-scheme: light;
+    scroll-behavior: smooth;
+    color-scheme: dark light;
   }
 
   body {
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-ivory);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Accessible focus indicators for keyboard navigation */
+  /* Accessible focus indicator for keyboard users */
   :focus-visible {
-    outline: 2px solid #E5A93C !important;
+    outline: 2px solid #F2B33F !important;
     outline-offset: 2px !important;
   }
 
-  /* Accessibility: Prefers-reduced-motion support */
+  /* Accessibility: Prefers-reduced-motion overrides */
   @media (prefers-reduced-motion: reduce) {
     *,
     ::before,
@@ -38,3 +44,18 @@
   }
 }
 
+/* Glassmorphism utility for technical cards */
+.glass-panel {
+  background: rgba(16, 31, 50, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #29445E;
+}
+
+.glass-panel-elevated {
+  background: rgba(16, 31, 50, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(41, 68, 94, 0.9);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+}
