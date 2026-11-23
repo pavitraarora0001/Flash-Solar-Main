@@ -83,8 +83,16 @@ export default function AvatarUploadPage() {
         </div>
 
         {error && (
-          <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs">
-            {error}
+          <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs flex flex-col gap-2">
+            <span>{error}</span>
+            {error.includes("UNAUTHORIZED") && (
+              <Link
+                href="/admin/login"
+                className="text-gold-400 hover:underline font-semibold inline-flex items-center gap-1"
+              >
+                Go to Admin Login &rarr;
+              </Link>
+            )}
           </div>
         )}
 

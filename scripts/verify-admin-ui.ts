@@ -235,6 +235,58 @@ async function runUIVerification() {
         headers: { Cookie: cookieHeader },
       });
     }
+
+    // 6.4 Security check: Executable rejection
+    const maliciousForm = new FormData();
+    maliciousForm.append("file", new Blob(["MZ...executable binary content"], { type: "application/x-msdownload" }), "backdoor.exe");
+    maliciousForm.append("category", "General");
+    const maliciousRes = await fetch(`${baseUrl}/api/media`, {
+      method: "POST",
+      headers: { Cookie: cookieHeader },
+      body: maliciousForm,
+    });
+    assert(maliciousRes.status === 400, "6.4 Security: Disallowed executable (.exe) rejected with HTTP 400");
+
+    // 6.5 Security check: MIME spoofing rejection (PHP script claiming to be image/png)
+    const spoofForm = new FormData();
+    spoofForm.append("file", new Blob(["<?php echo 'malicious shell'; ?>"], { type: "image/png" }), "spoofed.png");
+    spoofForm.append("category", "General");
+    const spoofRes = await fetch(`${baseUrl}/api/media`, {
+      method: "POST",
+      headers: { Cookie: cookieHeader },
+      body: spoofForm,
+    });
+    assert(spoofRes.status === 400, "6.5 Security: Spoofed MIME signature rejected with HTTP 400");
+
+    // 6.6 Security check: Unauthenticated avatar upload rejected
+    const unauthAvatarRes = await fetch(`${baseUrl}/api/avatar/upload?filename=avatar.png`, {
+      method: "POST",
+      headers: { "Content-Type": "image/png" },
+      body: fakeImageBuffer,
+    });
+    assert(unauthAvatarRes.status === 401, "6.6 Security: Unauthenticated /api/avatar/upload rejected with HTTP 401");
+
+    // 6.7 Security check: Authenticated avatar upload succeeds
+    const authAvatarRes = await fetch(`${baseUrl}/api/avatar/upload?filename=e2e-avatar.png`, {
+      method: "POST",
+      headers: {
+        Cookie: cookieHeader,
+        "Content-Type": "image/png",
+      },
+      body: fakeImageBuffer,
+    });
+    assert(authAvatarRes.status === 200, "6.7 Security: Authenticated avatar upload returns HTTP 200");
+    const avatarData: any = await authAvatarRes.json().catch(() => ({}));
+    assert(
+      typeof avatarData.url === "string" && (avatarData.url.includes("blob.vercel-storage.com") || avatarData.url.startsWith("/uploads/")),
+      "6.8 Avatar returned valid public CDN or local URL"
+    );
+
+    // Clean up test avatar
+    if (avatarData.url?.includes("blob.vercel-storage.com")) {
+      const { deleteFromBlob } = await import("../src/lib/storage/blob");
+      await deleteFromBlob(avatarData.url).catch(() => {});
+    }
   } catch (err) {
     assert(false, "6. Media Upload Test", String(err));
   }

@@ -1,18 +1,20 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import {
   isBlobConfigured,
   getBlobToken,
   uploadToBlob,
   deleteFromBlob,
+  assertProductionBlobReadiness,
 } from "./blob";
 import fs from "fs";
 import path from "path";
 
-describe("Flash Solar Vercel Blob Storage Integration", () => {
-  const originalEnv = process.env.BLOB_READ_WRITE_TOKEN;
+describe("Flash Solar Vercel Blob Storage Integration & Production Safety", () => {
+  const originalEnvToken = process.env.BLOB_READ_WRITE_TOKEN;
 
   afterEach(() => {
-    process.env.BLOB_READ_WRITE_TOKEN = originalEnv;
+    process.env.BLOB_READ_WRITE_TOKEN = originalEnvToken;
+    vi.unstubAllEnvs();
   });
 
   it("accurately detects Vercel Blob configuration status", () => {
@@ -25,11 +27,33 @@ describe("Flash Solar Vercel Blob Storage Integration", () => {
     expect(getBlobToken()).toBeUndefined();
   });
 
-  it("gracefully falls back to local storage when Blob token is unconfigured", async () => {
+  it("STRICTLY fails in production when Blob token is unconfigured (NO local fallback)", async () => {
+    vi.stubEnv("NODE_ENV", "production");
     delete process.env.BLOB_READ_WRITE_TOKEN;
 
-    const content = Buffer.from("Unit test storage file buffer");
-    const filename = "test-fallback-spec.txt";
+    expect(() => assertProductionBlobReadiness()).toThrow("CRITICAL_STORAGE_CONFIG_ERROR");
+
+    const content = Buffer.from("Sensitive production file data");
+    await expect(
+      uploadToBlob("prod-file.png", content, { contentType: "image/png" })
+    ).rejects.toThrow("PRODUCTION_STORAGE_ERROR");
+
+    // Ensure NO file was written to public/uploads
+    const diskPath = path.resolve(process.cwd(), "public/uploads/prod-file.png");
+    expect(fs.existsSync(diskPath)).toBe(false);
+  });
+
+  it("strictly forbids local filesystem deletion in production mode", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    await expect(deleteFromBlob("/uploads/local-file.png")).rejects.toThrow("PRODUCTION_STORAGE_ERROR");
+  });
+
+  it("gracefully falls back to local storage in DEVELOPMENT mode when token is absent", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    delete process.env.BLOB_READ_WRITE_TOKEN;
+
+    const content = Buffer.from("Development test storage file buffer");
+    const filename = "test-fallback-dev.txt";
 
     const result = await uploadToBlob(filename, content, {
       folder: "test-docs",
@@ -49,15 +73,16 @@ describe("Flash Solar Vercel Blob Storage Integration", () => {
     expect(fs.existsSync(diskPath)).toBe(false);
   });
 
-  it("handles string and Blob content in uploadToBlob", async () => {
+  it("handles string and Blob content in uploadToBlob during development", async () => {
+    vi.stubEnv("NODE_ENV", "development");
     delete process.env.BLOB_READ_WRITE_TOKEN;
 
-    const textResult = await uploadToBlob("string-upload.txt", "Raw string payload", {
+    const textResult = await uploadToBlob("string-upload-dev.txt", "Raw string payload", {
       contentType: "text/plain",
     });
 
     expect(textResult.storageProvider).toBe("LOCAL_DISK");
-    expect(textResult.url).toContain("string-upload");
+    expect(textResult.url).toContain("string-upload-dev");
 
     const diskPath = path.resolve(process.cwd(), "public", textResult.url.replace(/^\//, ""));
     expect(fs.existsSync(diskPath)).toBe(true);

@@ -95,6 +95,14 @@
       "description": "Test series for acceptance verification",
       "displayOrder": 99,
       "createdAt": "2026-11-23T13:53:23.370Z"
+    },
+    {
+      "id": "cat_1795452530125",
+      "slug": "test-inverter-series",
+      "name": "Test Inverter Series",
+      "description": "Test series for acceptance verification",
+      "displayOrder": 99,
+      "createdAt": "2026-11-23T16:48:50.125Z"
     }
   ],
   "products": [
@@ -389,6 +397,30 @@
       "galleryImages": [],
       "createdAt": "2026-11-23T13:53:23.391Z",
       "updatedAt": "2026-11-23T13:53:23.391Z"
+    },
+    {
+      "id": "prod_1795452530138",
+      "name": "Flash Test Cell 500W",
+      "slug": "flash-test-cell-500w",
+      "categoryId": "cat_solar_panels",
+      "summary": "High efficiency test PV module",
+      "description": "Complete description for testing specifications matrix",
+      "status": "PUBLISHED",
+      "featured": false,
+      "displayOrder": 1,
+      "specifications": {
+        "nominalPower": "500 W",
+        "efficiency": "24.5%",
+        "dimensions": "2000 x 1000 x 35 mm",
+        "warranty": "25 Years"
+      },
+      "features": [
+        "Anti-reflective coating",
+        "Direct DC busbar"
+      ],
+      "galleryImages": [],
+      "createdAt": "2026-11-23T16:48:50.140Z",
+      "updatedAt": "2026-11-23T16:48:50.140Z"
     }
   ],
   "services": [
@@ -446,6 +478,48 @@
     }
   ],
   "enquiries": [
+    {
+      "fullName": "Dr. Walter Bishop",
+      "email": "walter@fringe-energy.org",
+      "phone": "+1 (555) 019-2834",
+      "company": "Bishop Dynamics",
+      "country": "USA",
+      "city": "Boston",
+      "productOfInterest": "Flash Power Wall",
+      "projectType": "Off-Grid Research Facility",
+      "estimatedPowerReq": "50 kW",
+      "estimatedDailyEnergy": "250 kWh",
+      "message": "Need immediate quotation for 5x Flash Power Wall parallel units.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795452530192",
+      "referenceNumber": "FS-2026-8131",
+      "priority": "URGENT",
+      "createdAt": "2026-11-23T16:48:50.192Z",
+      "updatedAt": "2026-11-23T16:48:50.229Z",
+      "internalNotes": "Verified load profiles. Ready for technical sizing proposal."
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795452382577",
+      "referenceNumber": "FS-2026-7433",
+      "priority": "MEDIUM",
+      "createdAt": "2026-11-23T16:46:22.577Z",
+      "updatedAt": "2026-11-23T16:46:22.596Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
     {
       "fullName": "Dr. Walter Bishop",
       "email": "walter@fringe-energy.org",
@@ -1156,6 +1230,171 @@
     }
   ],
   "auditLogs": [
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "DATABASE_BACKUP_EXPORTED",
+      "entityType": "System",
+      "entityId": "backup",
+      "id": "log_1795452532381",
+      "createdAt": "2026-11-23T16:48:52.381Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENQUIRY_UPDATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795452530192",
+      "metadata": {
+        "referenceNumber": "FS-2026-8131",
+        "oldStatus": "NEW",
+        "newStatus": "QUALIFIED",
+        "notesUpdated": true
+      },
+      "id": "log_1795452530236",
+      "createdAt": "2026-11-23T16:48:50.236Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795452530192",
+      "metadata": {
+        "referenceNumber": "FS-2026-8131",
+        "product": "Flash Power Wall",
+        "email": "walter@fringe-energy.org"
+      },
+      "id": "log_1795452530210",
+      "createdAt": "2026-11-23T16:48:50.210Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENGINEERING_STAGE_UPDATED",
+      "entityType": "EngineeringStage",
+      "entityId": "stg_01",
+      "metadata": {
+        "stageNumber": 1,
+        "title": "Solar Photovoltaic Generation"
+      },
+      "id": "log_1795452530172",
+      "createdAt": "2026-11-23T16:48:50.172Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PRODUCT_CREATED",
+      "entityType": "Product",
+      "entityId": "prod_1795452530138",
+      "metadata": {
+        "name": "Flash Test Cell 500W",
+        "slug": "flash-test-cell-500w"
+      },
+      "id": "log_1795452530144",
+      "createdAt": "2026-11-23T16:48:50.144Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "CATEGORY_SAVED",
+      "entityType": "ProductCategory",
+      "entityId": "cat_1795452530125",
+      "metadata": {
+        "name": "Test Inverter Series",
+        "slug": "test-inverter-series"
+      },
+      "id": "log_1795452530131",
+      "createdAt": "2026-11-23T16:48:50.131Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PAGE_SECTION_SAVED",
+      "entityType": "PageSection",
+      "entityId": "sec_1795452530111",
+      "metadata": {
+        "pageId": "page_home",
+        "sectionKey": "hero"
+      },
+      "id": "log_1795452530117",
+      "createdAt": "2026-11-23T16:48:50.117Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795452530068",
+      "createdAt": "2026-11-23T16:48:50.068Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "MEDIA_DELETED",
+      "entityType": "MediaAsset",
+      "entityId": "med_1795452512659",
+      "metadata": {
+        "filename": "e2e-test-badge.png",
+        "fileUrl": "https://neztl6wocpqysvu9.public.blob.vercel-storage.com/media/e2e-test-badge_1795452511448-CMLkJ882y8rQhOFgYSGQv0pr61r2fT.png"
+      },
+      "id": "log_1795452513712",
+      "createdAt": "2026-11-23T16:48:33.712Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "MEDIA_UPLOADED",
+      "entityType": "MediaAsset",
+      "entityId": "med_1795452512659",
+      "metadata": {
+        "filename": "e2e-test-badge.png",
+        "fileUrl": "https://neztl6wocpqysvu9.public.blob.vercel-storage.com/media/e2e-test-badge_1795452511448-CMLkJ882y8rQhOFgYSGQv0pr61r2fT.png",
+        "sizeBytes": 70,
+        "provider": "VERCEL_BLOB"
+      },
+      "id": "log_1795452512667",
+      "createdAt": "2026-11-23T16:48:32.667Z"
+    },
+    {
+      "userId": "usr_sales_01",
+      "userName": "Technical Sizing Lead",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_sales_01",
+      "metadata": {
+        "email": "sales@flashsolar.org",
+        "role": "SALES_MANAGER"
+      },
+      "id": "log_1795452511324",
+      "createdAt": "2026-11-23T16:48:31.324Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795452510454",
+      "createdAt": "2026-11-23T16:48:30.454Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795452382600",
+      "createdAt": "2026-11-23T16:46:22.600Z"
+    },
     {
       "userId": "usr_superadmin_01",
       "userName": "Flash Solar Administrator",
@@ -2534,6 +2773,30 @@
       "eventType": "CTA_CLICK",
       "path": "/",
       "deviceType": "desktop",
+      "id": "evt_1795452530295",
+      "createdAt": "2026-11-23T16:48:50.295Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795452530192",
+      "metadata": {
+        "referenceNumber": "FS-2026-8131"
+      },
+      "id": "evt_1795452530213",
+      "createdAt": "2026-11-23T16:48:50.213Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795452382603",
+      "createdAt": "2026-11-23T16:46:22.604Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/",
+      "deviceType": "desktop",
       "id": "evt_1795442003594",
       "createdAt": "2026-11-23T13:53:23.594Z"
     },
@@ -2972,66 +3235,6 @@
   ],
   "mediaAssets": [
     {
-      "id": "med_1795441117838",
-      "filename": "e2e-test-badge.png",
-      "fileUrl": "/uploads/e2e-test-badge_1795441117837.png",
-      "mimeType": "image/png",
-      "sizeBytes": 70,
-      "category": "Solar Modules",
-      "altText": "E2E Verification Image",
-      "createdAt": "2026-11-23T13:38:37.838Z"
-    },
-    {
-      "id": "med_1795439425100",
-      "filename": "e2e-test-badge.png",
-      "fileUrl": "/uploads/e2e-test-badge_1795439425099.png",
-      "mimeType": "image/png",
-      "sizeBytes": 70,
-      "category": "Solar Modules",
-      "altText": "E2E Verification Image",
-      "createdAt": "2026-11-23T13:10:25.100Z"
-    },
-    {
-      "id": "med_1795439383982",
-      "filename": "e2e-test-badge.png",
-      "fileUrl": "/uploads/e2e-test-badge_1795439383981.png",
-      "mimeType": "image/png",
-      "sizeBytes": 70,
-      "category": "Solar Modules",
-      "altText": "E2E Verification Image",
-      "createdAt": "2026-11-23T13:09:43.982Z"
-    },
-    {
-      "id": "med_1795439362389",
-      "filename": "e2e-test-badge.png",
-      "fileUrl": "/uploads/e2e-test-badge_1795439362389.png",
-      "mimeType": "image/png",
-      "sizeBytes": 70,
-      "category": "Solar Modules",
-      "altText": "E2E Verification Image",
-      "createdAt": "2026-11-23T13:09:22.389Z"
-    },
-    {
-      "id": "med_1795439332681",
-      "filename": "e2e-test-badge.png",
-      "fileUrl": "/uploads/e2e-test-badge_1795439332680.png",
-      "mimeType": "image/png",
-      "sizeBytes": 70,
-      "category": "Solar Modules",
-      "altText": "E2E Verification Image",
-      "createdAt": "2026-11-23T13:08:52.681Z"
-    },
-    {
-      "id": "med_1795439184251",
-      "filename": "e2e-test-badge.png",
-      "fileUrl": "/uploads/e2e-test-badge_1795439184249.png",
-      "mimeType": "image/png",
-      "sizeBytes": 70,
-      "category": "Solar Modules",
-      "altText": "E2E Verification Image",
-      "createdAt": "2026-11-23T13:06:24.251Z"
-    },
-    {
       "id": "med_01",
       "filename": "solar-photovoltaic-generation.jpg",
       "fileUrl": "/images/solar-photovoltaic-generation.jpg",
@@ -3149,7 +3352,7 @@
       "updatedAt": "2026-11-23T11:26:51.763Z"
     },
     {
-      "id": "sec_1795442003356",
+      "id": "sec_1795452530111",
       "pageId": "page_home",
       "sectionKey": "hero",
       "title": "Flash Solar Clean Energy Systems",
@@ -3160,8 +3363,8 @@
       "displayOrder": 1,
       "isVisible": true,
       "status": "PUBLISHED",
-      "createdAt": "2026-11-23T13:53:23.356Z",
-      "updatedAt": "2026-11-23T13:53:23.357Z"
+      "createdAt": "2026-11-23T16:48:50.111Z",
+      "updatedAt": "2026-11-23T16:48:50.113Z"
     }
   ],
   "engineeringStages": [
@@ -3200,7 +3403,7 @@
       "isVisible": true,
       "status": "PUBLISHED",
       "createdAt": "2026-11-23T11:26:51.763Z",
-      "updatedAt": "2026-11-23T13:53:23.426Z"
+      "updatedAt": "2026-11-23T16:48:50.169Z"
     },
     {
       "id": "stg_02",
