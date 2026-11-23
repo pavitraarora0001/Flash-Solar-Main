@@ -1,6 +1,24 @@
 import fs from "fs";
 import path from "path";
 
+function loadEnvVar(key: string, defaultValue?: string): string {
+  if (process.env[key]) return process.env[key]!;
+  try {
+    const envPath = path.resolve(process.cwd(), ".env.local");
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, "utf-8");
+      for (const line of content.split("\n")) {
+        const trimmed = line.trim();
+        if (trimmed.startsWith(`${key}=`)) {
+          return trimmed.substring(key.length + 1).trim();
+        }
+      }
+    }
+  } catch {}
+  if (defaultValue !== undefined) return defaultValue;
+  throw new Error(`CRITICAL SECURITY: ${key} is not configured in environment or .env.local.`);
+}
+
 async function runUIVerification() {
   console.log("================================================================================");
   console.log("       FLASH SOLAR ENTERPRISE ADMIN — COMPREHENSIVE UI & ROUTE AUDIT            ");
@@ -22,8 +40,8 @@ async function runUIVerification() {
   }
 
   // 1. Authenticate with rotated credentials
-  const email = process.env.ADMIN_EMAIL || "admin@flashsolar.org";
-  const password = process.env.ADMIN_PASSWORD || "FS_Admin_2026_Secure_Key_!#";
+  const email = loadEnvVar("ADMIN_EMAIL", "admin@flashsolar.org");
+  const password = loadEnvVar("ADMIN_PASSWORD");
 
   try {
     const loginRes = await fetch(`${baseUrl}/api/auth/login`, {
@@ -121,8 +139,8 @@ async function runUIVerification() {
   console.log("\n--- VERIFYING ROLE-BASED ACCESS CONTROL (RBAC) BOUNDARIES ---");
   try {
     // Authenticate as SALES_MANAGER
-    const salesEmail = process.env.SALES_EMAIL || "sales@flashsolar.org";
-    const salesPassword = process.env.SALES_PASSWORD || "FS_Sales_2026_Secure_Key_!#";
+    const salesEmail = loadEnvVar("SALES_EMAIL", "sales@flashsolar.org");
+    const salesPassword = loadEnvVar("SALES_PASSWORD");
     const salesLogin = await fetch(`${baseUrl}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -194,16 +212,28 @@ async function runUIVerification() {
     let uploadData: any = {};
     try { uploadData = JSON.parse(uploadText); } catch {}
     assert(uploadRes.status === 200 || uploadRes.status === 201, "6.1 Multipart Media Upload POST /api/media (HTTP 200/201)");
-    assert(uploadData.success === true && uploadData.asset?.fileUrl?.startsWith("/uploads/"), "6.2 Media asset saved with public URL");
+    const isBlobUrl = typeof uploadData.asset?.fileUrl === "string" && uploadData.asset.fileUrl.includes("blob.vercel-storage.com");
+    const isLocalUrl = typeof uploadData.asset?.fileUrl === "string" && uploadData.asset.fileUrl.startsWith("/uploads/");
+    assert(uploadData.success === true && (isBlobUrl || isLocalUrl), "6.2 Media asset saved with valid CDN or local URL");
 
-    // Check file on disk
-    const diskPath = path.resolve(process.cwd(), "public", uploadData.asset.fileUrl.replace(/^\//, ""));
-    const fileExists = fs.existsSync(diskPath);
-    assert(fileExists, "6.3 Uploaded file physically verified on disk");
+    if (isBlobUrl) {
+      console.log("   -> Verified remote Vercel Blob URL:", uploadData.asset.fileUrl);
+      assert(uploadData.asset.fileUrl.startsWith("https://"), "6.3 Uploaded file verified on Vercel Blob HTTPS CDN");
+    } else {
+      const diskPath = path.resolve(process.cwd(), "public", (uploadData.asset.fileUrl || "").replace(/^\//, ""));
+      const fileExists = fs.existsSync(diskPath);
+      assert(fileExists, "6.3 Uploaded file physically verified on disk");
+      if (fileExists) {
+        try { fs.unlinkSync(diskPath); } catch {}
+      }
+    }
 
-    // Clean up test file
-    if (fileExists) {
-      fs.unlinkSync(diskPath);
+    // Clean up created media asset from store and remote blob
+    if (uploadData.asset?.id) {
+      await fetch(`${baseUrl}/api/media?id=${uploadData.asset.id}`, {
+        method: "DELETE",
+        headers: { Cookie: cookieHeader },
+      });
     }
   } catch (err) {
     assert(false, "6. Media Upload Test", String(err));

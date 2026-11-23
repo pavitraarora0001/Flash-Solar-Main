@@ -16,6 +16,8 @@ export const serverEnvSchema = z.object({
   CLOUDFLARE_R2_ACCESS_KEY_ID: z.string().optional(),
   CLOUDFLARE_R2_SECRET_ACCESS_KEY: z.string().optional(),
   CLOUDFLARE_R2_BUCKET_NAME: z.string().optional(),
+  BLOB_STORE_ID: z.string().optional(),
+  BLOB_READ_WRITE_TOKEN: z.string().optional(),
 });
 
 /**

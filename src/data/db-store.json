@@ -3,24 +3,24 @@
     {
       "id": "usr_superadmin_01",
       "email": "admin@flashsolar.org",
-      "passwordHash": "$2b$10$22D7QL9BYUPoDHltB9fXXO5ti7akeZ9/HYr3vtZgdmD58vIGYloVO",
+      "passwordHash": "$2b$12$J41TRDOpvRpQXK.VSapnC.Z0ZB6YLlYoTZ2acVCwhqjN0xTlwo3TO",
       "name": "Flash Solar Administrator",
       "company": "Flash Solar Engineering Desk",
       "role": "SUPER_ADMIN",
       "isActive": true,
       "createdAt": "2026-11-23T08:27:46.959Z",
-      "updatedAt": "2026-11-23T11:16:59.369Z"
+      "updatedAt": "2026-11-23T13:30:52.860Z"
     },
     {
       "id": "usr_sales_01",
       "email": "sales@flashsolar.org",
-      "passwordHash": "$2b$10$5jaCXXoA8zXDa4AImK4zNe6LouCrJu30kS.7tdlFmrfQHE4sIdQgq",
+      "passwordHash": "$2b$12$ptfEeGTAkJPtfw67b3OMPOLgeastp/PNbMRj2eQLH2KPlOAT3pfE2",
       "name": "Technical Sizing Lead",
       "company": "Flash Solar",
       "role": "SALES_MANAGER",
       "isActive": true,
       "createdAt": "2026-11-23T08:27:46.960Z",
-      "updatedAt": "2026-11-23T08:27:46.960Z"
+      "updatedAt": "2026-11-23T13:30:52.861Z"
     }
   ],
   "productCategories": [
@@ -79,6 +79,22 @@
       "description": "Test series for acceptance verification",
       "displayOrder": 99,
       "createdAt": "2026-11-23T13:10:11.909Z"
+    },
+    {
+      "id": "cat_1795441099752",
+      "slug": "test-inverter-series",
+      "name": "Test Inverter Series",
+      "description": "Test series for acceptance verification",
+      "displayOrder": 99,
+      "createdAt": "2026-11-23T13:38:19.752Z"
+    },
+    {
+      "id": "cat_1795442003370",
+      "slug": "test-inverter-series",
+      "name": "Test Inverter Series",
+      "description": "Test series for acceptance verification",
+      "displayOrder": 99,
+      "createdAt": "2026-11-23T13:53:23.370Z"
     }
   ],
   "products": [
@@ -325,6 +341,54 @@
       "galleryImages": [],
       "createdAt": "2026-11-23T13:10:11.930Z",
       "updatedAt": "2026-11-23T13:10:11.930Z"
+    },
+    {
+      "id": "prod_1795441099771",
+      "name": "Flash Test Cell 500W",
+      "slug": "flash-test-cell-500w",
+      "categoryId": "cat_solar_panels",
+      "summary": "High efficiency test PV module",
+      "description": "Complete description for testing specifications matrix",
+      "status": "PUBLISHED",
+      "featured": false,
+      "displayOrder": 1,
+      "specifications": {
+        "nominalPower": "500 W",
+        "efficiency": "24.5%",
+        "dimensions": "2000 x 1000 x 35 mm",
+        "warranty": "25 Years"
+      },
+      "features": [
+        "Anti-reflective coating",
+        "Direct DC busbar"
+      ],
+      "galleryImages": [],
+      "createdAt": "2026-11-23T13:38:19.772Z",
+      "updatedAt": "2026-11-23T13:38:19.772Z"
+    },
+    {
+      "id": "prod_1795442003389",
+      "name": "Flash Test Cell 500W",
+      "slug": "flash-test-cell-500w",
+      "categoryId": "cat_solar_panels",
+      "summary": "High efficiency test PV module",
+      "description": "Complete description for testing specifications matrix",
+      "status": "PUBLISHED",
+      "featured": false,
+      "displayOrder": 1,
+      "specifications": {
+        "nominalPower": "500 W",
+        "efficiency": "24.5%",
+        "dimensions": "2000 x 1000 x 35 mm",
+        "warranty": "25 Years"
+      },
+      "features": [
+        "Anti-reflective coating",
+        "Direct DC busbar"
+      ],
+      "galleryImages": [],
+      "createdAt": "2026-11-23T13:53:23.391Z",
+      "updatedAt": "2026-11-23T13:53:23.391Z"
     }
   ],
   "services": [
@@ -382,6 +446,90 @@
     }
   ],
   "enquiries": [
+    {
+      "fullName": "Dr. Walter Bishop",
+      "email": "walter@fringe-energy.org",
+      "phone": "+1 (555) 019-2834",
+      "company": "Bishop Dynamics",
+      "country": "USA",
+      "city": "Boston",
+      "productOfInterest": "Flash Power Wall",
+      "projectType": "Off-Grid Research Facility",
+      "estimatedPowerReq": "50 kW",
+      "estimatedDailyEnergy": "250 kWh",
+      "message": "Need immediate quotation for 5x Flash Power Wall parallel units.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795442003457",
+      "referenceNumber": "FS-2026-5239",
+      "priority": "URGENT",
+      "createdAt": "2026-11-23T13:53:23.457Z",
+      "updatedAt": "2026-11-23T13:53:23.503Z",
+      "internalNotes": "Verified load profiles. Ready for technical sizing proposal."
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795441837801",
+      "referenceNumber": "FS-2026-8231",
+      "priority": "MEDIUM",
+      "createdAt": "2026-11-23T13:50:37.801Z",
+      "updatedAt": "2026-11-23T13:50:37.836Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
+    {
+      "fullName": "Dr. Walter Bishop",
+      "email": "walter@fringe-energy.org",
+      "phone": "+1 (555) 019-2834",
+      "company": "Bishop Dynamics",
+      "country": "USA",
+      "city": "Boston",
+      "productOfInterest": "Flash Power Wall",
+      "projectType": "Off-Grid Research Facility",
+      "estimatedPowerReq": "50 kW",
+      "estimatedDailyEnergy": "250 kWh",
+      "message": "Need immediate quotation for 5x Flash Power Wall parallel units.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795441099847",
+      "referenceNumber": "FS-2026-8176",
+      "priority": "URGENT",
+      "createdAt": "2026-11-23T13:38:19.847Z",
+      "updatedAt": "2026-11-23T13:38:19.970Z",
+      "internalNotes": "Verified load profiles. Ready for technical sizing proposal."
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795440988203",
+      "referenceNumber": "FS-2026-1353",
+      "priority": "MEDIUM",
+      "createdAt": "2026-11-23T13:36:28.203Z",
+      "updatedAt": "2026-11-23T13:36:28.211Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
     {
       "fullName": "Dr. Walter Bishop",
       "email": "walter@fringe-energy.org",
@@ -1008,6 +1156,322 @@
     }
   ],
   "auditLogs": [
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "DATABASE_BACKUP_EXPORTED",
+      "entityType": "System",
+      "entityId": "backup",
+      "id": "log_1795442005718",
+      "createdAt": "2026-11-23T13:53:25.718Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENQUIRY_UPDATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795442003457",
+      "metadata": {
+        "referenceNumber": "FS-2026-5239",
+        "oldStatus": "NEW",
+        "newStatus": "QUALIFIED",
+        "notesUpdated": true
+      },
+      "id": "log_1795442003512",
+      "createdAt": "2026-11-23T13:53:23.512Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795442003457",
+      "metadata": {
+        "referenceNumber": "FS-2026-5239",
+        "product": "Flash Power Wall",
+        "email": "walter@fringe-energy.org"
+      },
+      "id": "log_1795442003483",
+      "createdAt": "2026-11-23T13:53:23.483Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENGINEERING_STAGE_UPDATED",
+      "entityType": "EngineeringStage",
+      "entityId": "stg_01",
+      "metadata": {
+        "stageNumber": 1,
+        "title": "Solar Photovoltaic Generation"
+      },
+      "id": "log_1795442003429",
+      "createdAt": "2026-11-23T13:53:23.429Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PRODUCT_CREATED",
+      "entityType": "Product",
+      "entityId": "prod_1795442003389",
+      "metadata": {
+        "name": "Flash Test Cell 500W",
+        "slug": "flash-test-cell-500w"
+      },
+      "id": "log_1795442003395",
+      "createdAt": "2026-11-23T13:53:23.395Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "CATEGORY_SAVED",
+      "entityType": "ProductCategory",
+      "entityId": "cat_1795442003370",
+      "metadata": {
+        "name": "Test Inverter Series",
+        "slug": "test-inverter-series"
+      },
+      "id": "log_1795442003381",
+      "createdAt": "2026-11-23T13:53:23.381Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PAGE_SECTION_SAVED",
+      "entityType": "PageSection",
+      "entityId": "sec_1795442003356",
+      "metadata": {
+        "pageId": "page_home",
+        "sectionKey": "hero"
+      },
+      "id": "log_1795442003361",
+      "createdAt": "2026-11-23T13:53:23.361Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795442003299",
+      "createdAt": "2026-11-23T13:53:23.299Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "MEDIA_DELETED",
+      "entityType": "MediaAsset",
+      "entityId": "med_1795441982002",
+      "metadata": {
+        "filename": "e2e-test-badge.png",
+        "fileUrl": "https://neztl6wocpqysvu9.public.blob.vercel-storage.com/media/e2e-test-badge_1795441980753-IqwLTQoHKrj5A97JTx3lq9NHqJgzV7.png"
+      },
+      "id": "log_1795441983136",
+      "createdAt": "2026-11-23T13:53:03.136Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "MEDIA_UPLOADED",
+      "entityType": "MediaAsset",
+      "entityId": "med_1795441982002",
+      "metadata": {
+        "filename": "e2e-test-badge.png",
+        "fileUrl": "https://neztl6wocpqysvu9.public.blob.vercel-storage.com/media/e2e-test-badge_1795441980753-IqwLTQoHKrj5A97JTx3lq9NHqJgzV7.png",
+        "sizeBytes": 70,
+        "provider": "VERCEL_BLOB"
+      },
+      "id": "log_1795441982011",
+      "createdAt": "2026-11-23T13:53:02.011Z"
+    },
+    {
+      "userId": "usr_sales_01",
+      "userName": "Technical Sizing Lead",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_sales_01",
+      "metadata": {
+        "email": "sales@flashsolar.org",
+        "role": "SALES_MANAGER"
+      },
+      "id": "log_1795441980233",
+      "createdAt": "2026-11-23T13:53:00.233Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795441979033",
+      "createdAt": "2026-11-23T13:52:59.033Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795441837852",
+      "createdAt": "2026-11-23T13:50:37.852Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "MEDIA_UPLOADED",
+      "entityType": "MediaAsset",
+      "entityId": "med_1795441117838",
+      "metadata": {
+        "filename": "e2e-test-badge.png",
+        "fileUrl": "/uploads/e2e-test-badge_1795441117837.png",
+        "sizeBytes": 70
+      },
+      "id": "log_1795441117843",
+      "createdAt": "2026-11-23T13:38:37.843Z"
+    },
+    {
+      "userId": "usr_sales_01",
+      "userName": "Technical Sizing Lead",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_sales_01",
+      "metadata": {
+        "email": "sales@flashsolar.org",
+        "role": "SALES_MANAGER"
+      },
+      "id": "log_1795441117813",
+      "createdAt": "2026-11-23T13:38:37.813Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795441117102",
+      "createdAt": "2026-11-23T13:38:37.102Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "DATABASE_BACKUP_EXPORTED",
+      "entityType": "System",
+      "entityId": "backup",
+      "id": "log_1795441102258",
+      "createdAt": "2026-11-23T13:38:22.258Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENQUIRY_UPDATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795441099847",
+      "metadata": {
+        "referenceNumber": "FS-2026-8176",
+        "oldStatus": "NEW",
+        "newStatus": "QUALIFIED",
+        "notesUpdated": true
+      },
+      "id": "log_1795441099974",
+      "createdAt": "2026-11-23T13:38:19.974Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795441099847",
+      "metadata": {
+        "referenceNumber": "FS-2026-8176",
+        "product": "Flash Power Wall",
+        "email": "walter@fringe-energy.org"
+      },
+      "id": "log_1795441099907",
+      "createdAt": "2026-11-23T13:38:19.907Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENGINEERING_STAGE_UPDATED",
+      "entityType": "EngineeringStage",
+      "entityId": "stg_01",
+      "metadata": {
+        "stageNumber": 1,
+        "title": "Solar Photovoltaic Generation"
+      },
+      "id": "log_1795441099818",
+      "createdAt": "2026-11-23T13:38:19.818Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PRODUCT_CREATED",
+      "entityType": "Product",
+      "entityId": "prod_1795441099771",
+      "metadata": {
+        "name": "Flash Test Cell 500W",
+        "slug": "flash-test-cell-500w"
+      },
+      "id": "log_1795441099776",
+      "createdAt": "2026-11-23T13:38:19.776Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "CATEGORY_SAVED",
+      "entityType": "ProductCategory",
+      "entityId": "cat_1795441099752",
+      "metadata": {
+        "name": "Test Inverter Series",
+        "slug": "test-inverter-series"
+      },
+      "id": "log_1795441099758",
+      "createdAt": "2026-11-23T13:38:19.758Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PAGE_SECTION_SAVED",
+      "entityType": "PageSection",
+      "entityId": "sec_1795441099735",
+      "metadata": {
+        "pageId": "page_home",
+        "sectionKey": "hero"
+      },
+      "id": "log_1795441099742",
+      "createdAt": "2026-11-23T13:38:19.742Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795441099667",
+      "createdAt": "2026-11-23T13:38:19.667Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795440988216",
+      "createdAt": "2026-11-23T13:36:28.216Z"
+    },
     {
       "userId": "usr_superadmin_01",
       "userName": "Flash Solar Administrator",
@@ -2070,6 +2534,54 @@
       "eventType": "CTA_CLICK",
       "path": "/",
       "deviceType": "desktop",
+      "id": "evt_1795442003594",
+      "createdAt": "2026-11-23T13:53:23.594Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795442003457",
+      "metadata": {
+        "referenceNumber": "FS-2026-5239"
+      },
+      "id": "evt_1795442003488",
+      "createdAt": "2026-11-23T13:53:23.488Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795441837865",
+      "createdAt": "2026-11-23T13:50:37.865Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/",
+      "deviceType": "desktop",
+      "id": "evt_1795441100048",
+      "createdAt": "2026-11-23T13:38:20.048Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795441099847",
+      "metadata": {
+        "referenceNumber": "FS-2026-8176"
+      },
+      "id": "evt_1795441099918",
+      "createdAt": "2026-11-23T13:38:19.918Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795440988221",
+      "createdAt": "2026-11-23T13:36:28.221Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/",
+      "deviceType": "desktop",
       "id": "evt_1795439412157",
       "createdAt": "2026-11-23T13:10:12.157Z"
     },
@@ -2460,6 +2972,16 @@
   ],
   "mediaAssets": [
     {
+      "id": "med_1795441117838",
+      "filename": "e2e-test-badge.png",
+      "fileUrl": "/uploads/e2e-test-badge_1795441117837.png",
+      "mimeType": "image/png",
+      "sizeBytes": 70,
+      "category": "Solar Modules",
+      "altText": "E2E Verification Image",
+      "createdAt": "2026-11-23T13:38:37.838Z"
+    },
+    {
       "id": "med_1795439425100",
       "filename": "e2e-test-badge.png",
       "fileUrl": "/uploads/e2e-test-badge_1795439425099.png",
@@ -2627,7 +3149,7 @@
       "updatedAt": "2026-11-23T11:26:51.763Z"
     },
     {
-      "id": "sec_1795439411893",
+      "id": "sec_1795442003356",
       "pageId": "page_home",
       "sectionKey": "hero",
       "title": "Flash Solar Clean Energy Systems",
@@ -2638,8 +3160,8 @@
       "displayOrder": 1,
       "isVisible": true,
       "status": "PUBLISHED",
-      "createdAt": "2026-11-23T13:10:11.893Z",
-      "updatedAt": "2026-11-23T13:10:11.895Z"
+      "createdAt": "2026-11-23T13:53:23.356Z",
+      "updatedAt": "2026-11-23T13:53:23.357Z"
     }
   ],
   "engineeringStages": [
@@ -2678,7 +3200,7 @@
       "isVisible": true,
       "status": "PUBLISHED",
       "createdAt": "2026-11-23T11:26:51.763Z",
-      "updatedAt": "2026-11-23T13:10:11.966Z"
+      "updatedAt": "2026-11-23T13:53:23.426Z"
     },
     {
       "id": "stg_02",

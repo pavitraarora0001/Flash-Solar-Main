@@ -31,6 +31,8 @@ interface SystemInfo {
   memoryUsageMb: number;
   uptimeSeconds: number;
   databaseType: string;
+  postgresStatus?: string;
+  postgresDetail?: string;
   counts: {
     products: number;
     enquiries: number;
@@ -609,6 +611,23 @@ export default function AdminSettingsPage() {
                     {system?.counts.enquiries || 0} logged
                   </span>
                 </div>
+              </div>
+
+              {/* PostgreSQL Engine Telemetry */}
+              <div className="p-3.5 bg-midnight-950 rounded-lg border border-midnight-800 space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-ivory-200">PostgreSQL 16 Service Status</span>
+                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase ${
+                    system?.postgresStatus === "CONNECTED"
+                      ? "bg-emerald-950/80 text-emerald-400 border-emerald-800"
+                      : "bg-amber-950/80 text-amber-400 border-amber-800"
+                  }`}>
+                    {system?.postgresStatus || "DISCONNECTED"}
+                  </span>
+                </div>
+                <p className="text-[11px] text-ivory-400">
+                  {system?.postgresDetail || "PostgreSQL 16 container at localhost:5433 requires Docker Desktop engine start."}
+                </p>
               </div>
             </div>
 

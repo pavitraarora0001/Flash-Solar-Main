@@ -30,4 +30,6 @@ Solar SQL/
 *.tar.gz
 *.zip
 *.bak
+*.backup.json
+*backup*.json
 

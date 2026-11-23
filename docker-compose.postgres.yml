@@ -4,9 +4,9 @@ services:
     container_name: flashsolar_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: flashsolar_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-flashsolar_dev_secure_pg_pass_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-flashsolar_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5433:5432"
     volumes:

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db/store";
+import { prisma } from "@/lib/db/prisma";
 import { requireAuthSession } from "@/lib/auth/session";
 import { Role } from "@prisma/client";
 
@@ -15,12 +16,31 @@ export async function GET() {
     const posts = db.getPosts();
     const leads = db.getEnquiries();
 
+    // Probe PostgreSQL availability
+    let postgresStatus = "UNAVAILABLE";
+    let postgresDetail = "Port 5433 unreachable. Docker Desktop daemon is stopped.";
+    if (process.env.DATABASE_URL) {
+      try {
+        await Promise.race([
+          prisma.$queryRaw`SELECT 1`,
+          new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout (2000ms)")), 2000)),
+        ]);
+        postgresStatus = "CONNECTED";
+        postgresDetail = "PostgreSQL 16 active and responsive.";
+      } catch (pgErr) {
+        postgresStatus = "DISCONNECTED";
+        postgresDetail = pgErr instanceof Error ? pgErr.message : "Connection failed";
+      }
+    }
+
     const systemInfo = {
       nodeVersion: process.version,
       platform: process.platform,
       memoryUsageMb: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
       uptimeSeconds: Math.round(process.uptime()),
-      databaseType: "Dual-Engine (JSON ACID Store Active / Prisma PostgreSQL Ready)",
+      databaseType: "PostgreSQL Ready (Engine: Docker Compose port 5433) / Controlled Local Backup Active",
+      postgresStatus,
+      postgresDetail,
       counts: {
         products: products.length,
         enquiries: enquiries.length,
@@ -28,7 +48,7 @@ export async function GET() {
         blogPosts: posts.length,
         leads: leads.length,
       },
-      health: "HEALTHY",
+      health: postgresStatus === "CONNECTED" ? "HEALTHY" : "DEGRADED_DATABASE_BLOCKED",
       environment: process.env.NODE_ENV || "development",
     };
 

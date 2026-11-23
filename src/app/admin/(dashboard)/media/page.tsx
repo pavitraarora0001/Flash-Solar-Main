@@ -41,6 +41,7 @@ export default function MediaLibraryPage() {
   const [uploading, setUploading] = React.useState(false);
   const [copiedId, setCopiedId] = React.useState<string | null>(null);
   const [message, setMessage] = React.useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [storageEngine, setStorageEngine] = React.useState<string>("VERCEL_BLOB");
 
   // Upload modal state
   const [uploadModalOpen, setUploadModalOpen] = React.useState(false);
@@ -55,6 +56,9 @@ export default function MediaLibraryPage() {
       const data = await res.json();
       if (data.success) {
         setAssets(data.assets);
+        if (data.storageEngine) {
+          setStorageEngine(data.storageEngine);
+        }
       }
     } catch {
       setMessage({ type: "error", text: "Failed to load media assets." });
@@ -147,6 +151,12 @@ export default function MediaLibraryPage() {
           <p className="text-xs text-ivory-400 mt-1">
             Secure asset repository supporting JPG, PNG, WebP, SVG, and PDF documents. Assign high-resolution photography to products, stages, and pages.
           </p>
+          <div className="flex items-center gap-2 mt-2">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium border bg-emerald-500/10 text-emerald-300 border-emerald-500/20">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Active Remote Storage: {storageEngine === "VERCEL_BLOB" ? "Vercel Blob Global CDN" : "Local Disk Storage"}
+            </span>
+          </div>
         </div>
 
         <button

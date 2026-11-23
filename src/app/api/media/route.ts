@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db/store";
 import { getSession } from "@/lib/auth/session";
 import { Role } from "@prisma/client";
-import fs from "fs";
 import path from "path";
+import { uploadToBlob, deleteFromBlob, isBlobConfigured } from "@/lib/storage/blob";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +22,11 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category");
   const assets = db.getMediaAssets(category || undefined);
-  return NextResponse.json({ success: true, assets });
+  return NextResponse.json({
+    success: true,
+    assets,
+    storageEngine: isBlobConfigured() ? "VERCEL_BLOB" : "LOCAL_DISK",
+  });
 }
 
 export async function POST(req: NextRequest) {
@@ -64,23 +68,20 @@ export async function POST(req: NextRequest) {
     // Sanitize filename
     const ext = path.extname(file.name) || ".jpg";
     const baseName = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, "_");
-    const uniqueFilename = `${baseName}_${Date.now()}${ext.toLowerCase()}`;
+    const sanitizedFilename = `${baseName}_${Date.now()}${ext.toLowerCase()}`;
 
-    // Target directory: public/uploads
-    const uploadDir = path.resolve(process.cwd(), "public/uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
-    const filePath = path.join(uploadDir, uniqueFilename);
-    fs.writeFileSync(filePath, buffer);
-
-    const fileUrl = `/uploads/${uniqueFilename}`;
+    // Upload to Vercel Blob (with local fallback if offline)
+    const stored = await uploadToBlob(sanitizedFilename, buffer, {
+      folder: "media",
+      contentType: file.type,
+      access: "public",
+      addRandomSuffix: true,
+    });
 
     const newAsset = db.saveMediaAsset({
       id: `med_${Date.now()}`,
       filename: file.name,
-      fileUrl,
+      fileUrl: stored.url,
       mimeType: file.type,
       sizeBytes: file.size,
       category,
@@ -95,10 +96,19 @@ export async function POST(req: NextRequest) {
       action: "MEDIA_UPLOADED",
       entityType: "MediaAsset",
       entityId: newAsset.id,
-      metadata: { filename: newAsset.filename, fileUrl: newAsset.fileUrl, sizeBytes: newAsset.sizeBytes },
+      metadata: {
+        filename: newAsset.filename,
+        fileUrl: newAsset.fileUrl,
+        sizeBytes: newAsset.sizeBytes,
+        provider: stored.storageProvider,
+      },
     });
 
-    return NextResponse.json({ success: true, asset: newAsset });
+    return NextResponse.json({
+      success: true,
+      asset: newAsset,
+      storageProvider: stored.storageProvider,
+    });
   } catch (err: unknown) {
     console.error("Media upload error:", err);
     return NextResponse.json({
@@ -123,13 +133,8 @@ export async function DELETE(req: NextRequest) {
 
     const asset = db.getMediaAssets().find((a) => a.id === id);
     if (asset) {
-      // If it's a locally saved upload, attempt to remove file
-      if (asset.fileUrl.startsWith("/uploads/")) {
-        const localPath = path.resolve(process.cwd(), `public${asset.fileUrl}`);
-        if (fs.existsSync(localPath)) {
-          try { fs.unlinkSync(localPath); } catch {}
-        }
-      }
+      // Remove from Vercel Blob or local storage
+      await deleteFromBlob(asset.fileUrl);
       db.deleteMediaAsset(id);
 
       db.addAuditLog({
@@ -138,12 +143,15 @@ export async function DELETE(req: NextRequest) {
         action: "MEDIA_DELETED",
         entityType: "MediaAsset",
         entityId: id,
-        metadata: { filename: asset.filename },
+        metadata: { filename: asset.filename, fileUrl: asset.fileUrl },
       });
     }
 
     return NextResponse.json({ success: true, message: "Asset removed successfully." });
   } catch (err: unknown) {
-    return NextResponse.json({ success: false, error: err instanceof Error ? err.message : "Failed to delete asset" }, { status: 500 });
+    return NextResponse.json({
+      success: false,
+      error: err instanceof Error ? err.message : "Failed to delete asset",
+    }, { status: 500 });
   }
 }

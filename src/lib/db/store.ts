@@ -306,7 +306,7 @@ const INITIAL_STORE: DBStore = {
     {
       id: "usr_superadmin_01",
       email: "admin@flashsolar.org",
-      passwordHash: "$2b$10$22D7QL9BYUPoDHltB9fXXO5ti7akeZ9/HYr3vtZgdmD58vIGYloVO",
+      passwordHash: "$2b$12$J41TRDOpvRpQXK.VSapnC.Z0ZB6YLlYoTZ2acVCwhqjN0xTlwo3TO",
       name: "Flash Solar Administrator",
       company: "Flash Solar Engineering Desk",
       role: Role.SUPER_ADMIN,
@@ -317,7 +317,7 @@ const INITIAL_STORE: DBStore = {
     {
       id: "usr_sales_01",
       email: "sales@flashsolar.org",
-      passwordHash: "$2b$10$5jaCXXoA8zXDa4AImK4zNe6LouCrJu30kS.7tdlFmrfQHE4sIdQgq",
+      passwordHash: "$2b$12$ptfEeGTAkJPtfw67b3OMPOLgeastp/PNbMRj2eQLH2KPlOAT3pfE2",
       name: "Technical Sizing Lead",
       company: "Flash Solar",
       role: Role.SALES_MANAGER,
