@@ -101,7 +101,7 @@ export default function AdminProductsPage() {
               displayOrder: products.length + 1,
               specifications: { "Operating Voltage": "48V DC" },
               features: ["High efficiency", "Direct battery integration"],
-              galleryImages: ["/images/power-wall.svg"],
+              galleryImages: ["/images/flash-power-wall.jpg"],
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
             };

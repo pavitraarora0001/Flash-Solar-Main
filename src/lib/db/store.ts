@@ -244,7 +244,7 @@ const INITIAL_STORE: DBStore = {
         "Direct compatibility with Flash DC bus and hybrid pure sine inverters",
         "CAN / RS485 communication protocols for live telemetry",
       ],
-      galleryImages: ["/images/power-wall.svg"],
+      galleryImages: ["/images/flash-power-wall.jpg"],
       metaTitle: "Flash Power Wall | 51.2V LiFePO4 Energy Storage",
       metaDescription: "Dedicated high-density lithium battery storage with integrated active BMS and modular scalability.",
       createdAt: new Date().toISOString(),

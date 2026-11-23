@@ -207,6 +207,26 @@
   ],
   "enquiries": [
     {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795425141456",
+      "referenceNumber": "FS-2026-1358",
+      "createdAt": "2026-11-23T09:12:21.456Z",
+      "updatedAt": "2026-11-23T09:12:21.462Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
+    {
       "id": "enq_demo_01",
       "referenceNumber": "FS-2026-1001",
       "fullName": "Marcus Vance",
@@ -309,6 +329,16 @@
   ],
   "auditLogs": [
     {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795425141465",
+      "createdAt": "2026-11-23T09:12:21.465Z"
+    },
+    {
       "id": "log_01",
       "userId": "usr_superadmin_01",
       "userName": "Flash Solar Administrator",
@@ -322,6 +352,13 @@
     }
   ],
   "analytics": [
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795425141468",
+      "createdAt": "2026-11-23T09:12:21.468Z"
+    },
     {
       "id": "evt_01",
       "eventType": "PAGE_VIEW",

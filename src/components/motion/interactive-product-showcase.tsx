@@ -14,7 +14,8 @@ export function InteractiveProductShowcase() {
       title: "Flash Power Wall",
       tagline: "Dedicated High-Density LiFePO4 Energy Storage",
       badge: "Core Hardware • 51.2V DC",
-      image: "/images/power-wall.svg",
+      image: "/images/flash-power-wall.jpg",
+      isPhoto: true,
       summary:
         "Engineered for residential wall-mount and commercial parallel clustering. Standardizes on high-purity Lithium Iron Phosphate cells with multi-tier active BMS thermal protection.",
       specs: [
@@ -188,16 +189,46 @@ export function InteractiveProductShowcase() {
 
               {/* Right Column: Visual Component Presentation */}
               <div className="lg:col-span-6 relative">
-                <div className="relative h-80 sm:h-96 w-full rounded-2xl overflow-hidden border border-midnight-700 bg-midnight-950 flex items-center justify-center p-6 shadow-inner">
+                <div
+                  className={`group relative w-full rounded-2xl overflow-hidden border border-midnight-700/80 bg-midnight-950 shadow-2xl transition-all duration-300 hover:border-gold-500/50 ${
+                    current.isPhoto ? "h-80 sm:h-96 lg:h-[420px]" : "h-80 sm:h-96 flex items-center justify-center p-6"
+                  }`}
+                >
                   <Image
                     src={current.image}
-                    alt={`${current.title} Concept Visualization`}
+                    alt={`${current.title} High Resolution Product Presentation`}
                     fill
-                    className="object-contain p-4"
+                    className={`${
+                      current.isPhoto
+                        ? "object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                        : "object-contain p-4"
+                    }`}
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 45vw"
                   />
-                  {/* Subtle Illustrative Badge */}
-                  <div className="absolute bottom-4 right-4 bg-midnight-900/90 border border-midnight-700 px-3 py-1 rounded text-[10px] font-mono text-ivory-400">
-                    CONCEPT VISUALIZATION • ILLUSTRATIVE
+
+                  {current.isPhoto && (
+                    <>
+                      <div className="absolute inset-0 bg-gradient-to-t from-midnight-950/80 via-transparent to-midnight-950/20 pointer-events-none" />
+
+                      {/* Brand Overlay Badge in HTML */}
+                      <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-midnight-950/90 backdrop-blur-md border border-gold-500/30 px-3 py-1.5 rounded-lg shadow-lg">
+                        <div className="relative w-5 h-5 rounded overflow-hidden">
+                          <Image src="/images/logo.jpg" alt="Flash Solar Logo" width={20} height={20} className="object-contain" />
+                        </div>
+                        <span className="text-[11px] font-heading font-extrabold text-ivory-100 tracking-tight">
+                          FLASH <span className="text-gold-400">SOLAR</span>
+                        </span>
+                        <span className="text-[9px] font-mono uppercase tracking-widest text-emerald-400 font-semibold border-l border-midnight-700 pl-2">
+                          ACTIVE HARDWARE
+                        </span>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Identification Badge */}
+                  <div className="absolute bottom-4 right-4 bg-midnight-900/90 backdrop-blur-sm border border-midnight-700 px-3 py-1 rounded text-[10px] font-mono text-gold-400 shadow-md">
+                    {current.isPhoto ? "AUTHENTIC FLASH POWER WALL • 51.2V DC" : "SYSTEM TOPOLOGY • ILLUSTRATIVE MAP"}
                   </div>
                 </div>
               </div>

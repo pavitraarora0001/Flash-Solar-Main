@@ -17,6 +17,10 @@ export function DcArchitectureJourney() {
       icon: Sun,
       color: "text-amber-400",
       borderColor: "border-amber-500",
+      image: "/images/solar-photovoltaic-generation.jpg",
+      isPhoto: true,
+      badge: "COMMERCIAL SOLAR FARM • 100% NATIVE DC GENERATION",
+      alt: "High-Efficiency Commercial Solar Photovoltaic Farm at Golden Hour",
       description:
         "Solar arrays generate pure Direct Current (DC) electricity naturally from photon-electron excitation in crystalline silicon cells. No inversion is required at this stage.",
       metrics: { voltage: "120V - 450V DC", losses: "0.0%", state: "Active Inflow" },
@@ -29,6 +33,10 @@ export function DcArchitectureJourney() {
       icon: Cpu,
       color: "text-blue-400",
       borderColor: "border-blue-500",
+      image: "/images/dc-house.svg",
+      isPhoto: false,
+      badge: "SOLID-STATE BUCK REGULATION ARCHITECTURE",
+      alt: "Solid-State MPPT Controller Topology",
       description:
         "High-frequency solid-state MPPT controllers sweep optimal I-V curves continuously, stepping down string voltage directly to the 48V/51.2V battery bus with near-zero thermal loss.",
       metrics: { voltage: "48V - 51.2V DC", losses: "1.5%", state: "Voltage Matched" },
@@ -41,6 +49,10 @@ export function DcArchitectureJourney() {
       icon: Battery,
       color: "text-emerald-400",
       borderColor: "border-emerald-500",
+      image: "/images/flash-power-wall.jpg",
+      isPhoto: true,
+      badge: "FLASH POWER WALL • 51.2V LIFEPO4 ENERGY STORAGE",
+      alt: "Flash Power Wall Premium Lithium Iron Phosphate Battery Storage",
       description:
         "Direct chemical energy storage into modular LiFePO4 cells. Active BMS monitors individual cell voltages, temperature gradients, and state-of-charge with zero phantom AC standby drain.",
       metrics: { voltage: "51.2V Nominal", losses: "3.5%", state: "Full Buffer" },
@@ -53,6 +65,10 @@ export function DcArchitectureJourney() {
       icon: Network,
       color: "text-gold-400",
       borderColor: "border-gold-500",
+      image: "/images/dc-house.svg",
+      isPhoto: false,
+      badge: "SUB-60V DIRECT-CURRENT BUS TOPOLOGY",
+      alt: "Sub-60V Safe Direct-Current Distribution Bus",
       description:
         "Power distributes throughout the premise across specialized low-voltage DC conduits. Eliminates bulky 230V central inverters, fire risks from high-voltage AC arcing, and harmonic distortion.",
       metrics: { voltage: "48V DC Bus", losses: "1.0%", state: "Conductor Flow" },
@@ -65,6 +81,10 @@ export function DcArchitectureJourney() {
       icon: Laptop,
       color: "text-purple-400",
       borderColor: "border-purple-500",
+      image: "/images/ac-house.svg",
+      isPhoto: false,
+      badge: "NATIVE BRUSHLESS DC MOTOR & LED INTEGRATION",
+      alt: "Native DC High-Efficiency End-Load Distribution",
       description:
         "Modern efficient appliances (BLDC ceiling fans, LED lighting arrays, DC refrigeration compressors, heat pumps, computers) run natively on DC. Energy flows directly into end-devices without power bricks.",
       metrics: { voltage: "Direct DC", losses: "0.0%", state: "100% Usable" },
@@ -202,17 +222,28 @@ export function DcArchitectureJourney() {
                 </div>
               </div>
 
-              {/* Right Architectural Diagram Graphic */}
+              {/* Right Architectural Presentation Graphic */}
               <div className="lg:col-span-5">
-                <div className="relative h-64 sm:h-72 w-full rounded-xl overflow-hidden border border-midnight-700 bg-midnight-900 flex items-center justify-center p-4">
+                <div className={`group relative w-full rounded-2xl overflow-hidden border border-midnight-700/80 bg-midnight-950 shadow-2xl transition-all duration-300 hover:border-gold-500/50 ${
+                  steps[activeStep].isPhoto ? "h-72 sm:h-80 lg:h-96" : "h-64 sm:h-72 p-4"
+                }`}>
                   <Image
-                    src="/images/dc-house.svg"
-                    alt="Flash DC House Architecture Diagram"
+                    src={steps[activeStep].image}
+                    alt={steps[activeStep].alt}
                     fill
-                    className="object-contain p-2"
+                    className={`${
+                      steps[activeStep].isPhoto
+                        ? "object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                        : "object-contain p-2"
+                    }`}
+                    priority={activeStep === 0}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
                   />
-                  <div className="absolute bottom-3 right-3 bg-midnight-950/90 border border-midnight-700 px-2.5 py-1 rounded text-[10px] font-mono text-gold-400">
-                    ILLUSTRATIVE ARCHITECTURE MAP
+                  {steps[activeStep].isPhoto && (
+                    <div className="absolute inset-0 bg-gradient-to-t from-midnight-950/85 via-midnight-950/20 to-transparent pointer-events-none" />
+                  )}
+                  <div className="absolute bottom-3 right-3 bg-midnight-950/90 backdrop-blur-sm border border-midnight-700 px-2.5 py-1 rounded text-[10px] font-mono text-gold-400 shadow-md">
+                    {steps[activeStep].badge}
                   </div>
                 </div>
               </div>
