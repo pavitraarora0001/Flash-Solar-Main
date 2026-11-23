@@ -169,22 +169,11 @@ const INITIAL_STORE: DBStore = {
     {
       id: "usr_superadmin_01",
       email: "admin@flashsolar.org",
-      // Bcrypt hash for "FlashSolar2026!"
-      passwordHash: "$2b$12$7r7Uhjo2CnsLvauG5h9yKOlxt7WcvNQRY4bPT0L8e60wmWdb6jFGG",
+      // Uninitialized / pending bootstrap marker - cannot be matched by any bcrypt comparison
+      passwordHash: "!LOCKED_PENDING_BOOTSTRAP!",
       name: "Flash Solar Administrator",
       company: "Flash Solar Engineering Desk",
       role: Role.SUPER_ADMIN,
-      isActive: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: "usr_sales_01",
-      email: "sales@flashsolar.org",
-      passwordHash: "$2b$12$7r7Uhjo2CnsLvauG5h9yKOlxt7WcvNQRY4bPT0L8e60wmWdb6jFGG",
-      name: "Technical Sizing Lead",
-      company: "Flash Solar",
-      role: Role.SALES_MANAGER,
       isActive: true,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -663,6 +652,19 @@ export const db = {
   getUserByEmail: (email: string) => readStore().users.find((u) => u.email.toLowerCase() === email.toLowerCase()),
   getUserById: (id: string) => readStore().users.find((u) => u.id === id),
   getUsers: () => readStore().users.map(({ passwordHash: _, ...u }) => u),
+  upsertUser: (user: DBUser) => {
+    const store = readStore();
+    const idx = store.users.findIndex(
+      (u) => u.id === user.id || u.email.toLowerCase() === user.email.toLowerCase()
+    );
+    if (idx >= 0) {
+      store.users[idx] = { ...user, updatedAt: new Date().toISOString() };
+    } else {
+      store.users.push({ ...user, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+    }
+    writeStore(store);
+    return user;
+  },
 
   // Audit Logs
   getAuditLogs: () => readStore().auditLogs,

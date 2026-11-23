@@ -4,7 +4,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, Key } from "lucide-react";
+import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -39,12 +39,6 @@ export default function AdminLoginPage() {
       setError("Network error communicating with authentication service.");
       setLoading(false);
     }
-  };
-
-  const handleAutofillDev = () => {
-    setEmail("admin@flashsolar.org");
-    setPassword("FlashSolar2026!");
-    setError(null);
   };
 
   return (
@@ -140,17 +134,8 @@ export default function AdminLoginPage() {
             <div className="flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5 text-ivory-400">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                Role-based session (24h)
+                Protected administrative session (24h)
               </span>
-              <button
-                type="button"
-                onClick={handleAutofillDev}
-                className="text-gold-400 hover:text-gold-300 font-mono text-[11px] underline flex items-center gap-1"
-                title="Autofill development administrator credentials"
-              >
-                <Key className="w-3 h-3" />
-                Dev Fill
-              </button>
             </div>
 
             <button
@@ -169,12 +154,10 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          {/* Development credentials helper banner */}
+          {/* Security policy notice */}
           <div className="mt-6 pt-5 border-t border-midnight-800 text-center">
             <p className="text-[11px] text-ivory-400">
-              Development seed credentials:{" "}
-              <code className="text-gold-400 font-mono">admin@flashsolar.org</code> /{" "}
-              <code className="text-gold-400 font-mono">FlashSolar2026!</code>
+              Authorized personnel only. All administrative actions and authentication attempts are logged to an immutable audit trail.
             </p>
           </div>
         </div>

@@ -10,7 +10,7 @@ import { Role } from "@prisma/client";
 
 describe("Flash Solar Authentication & Session Security", () => {
   it("correctly hashes and verifies passwords using bcryptjs", async () => {
-    const raw = "FlashSolar2026!";
+    const raw = "SecureRandomTestPassword2026!#";
     const hash = await hashPassword(raw);
 
     expect(hash).not.toBe(raw);
