@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { TelemetryBeacon } from "@/components/analytics/telemetry-beacon";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -51,6 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-midnight-950 text-ivory-100 font-sans flex flex-col selection:bg-gold-500 selection:text-midnight-950">
+        <TelemetryBeacon />
         {children}
       </body>
     </html>

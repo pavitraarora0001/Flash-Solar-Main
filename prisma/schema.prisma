@@ -1,0 +1,447 @@
+// Flash Solar - Relational PostgreSQL Schema via Prisma ORM
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  CONTENT_MANAGER
+  SALES_MANAGER
+  VIEWER
+}
+
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL_SENT
+  NEGOTIATION
+  WON
+  LOST
+}
+
+enum MessageStatus {
+  UNREAD
+  READ
+  IN_PROGRESS
+  RESOLVED
+  ARCHIVED
+}
+
+// -----------------------------------------------------------------------------
+// 1 & 2. User, Role & Permissions
+// -----------------------------------------------------------------------------
+model User {
+  id                    String        @id @default(cuid())
+  email                 String        @unique
+  passwordHash          String
+  name                  String
+  phone                 String?
+  company               String?
+  role                  Role          @default(VIEWER)
+  isActive              Boolean       @default(true)
+  lastLoginAt           DateTime?
+  failedLoginAttempts   Int           @default(0)
+  lockoutUntil          DateTime?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  sessions              Session[]
+  assignedEnquiries     Enquiry[]     @relation("AssignedLeads")
+  authoredPosts         BlogPost[]
+  auditLogs             AuditLog[]
+  notifications         Notification[]
+
+  @@index([email])
+  @@index([role])
+}
+
+// -----------------------------------------------------------------------------
+// 3. Session & Authentication Records
+// -----------------------------------------------------------------------------
+model Session {
+  id                    String        @id @default(cuid())
+  sessionToken          String        @unique
+  userId                String
+  expiresAt             DateTime
+  ipAddress             String?
+  userAgent             String?
+  createdAt             DateTime      @default(now())
+
+  user                  User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([sessionToken])
+}
+
+// -----------------------------------------------------------------------------
+// 4 & 5. Products & Product Categories
+// -----------------------------------------------------------------------------
+model ProductCategory {
+  id                    String        @id @default(cuid())
+  slug                  String        @unique
+  name                  String        @unique
+  description           String?       @db.Text
+  displayOrder          Int           @default(0)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  products              Product[]
+
+  @@index([slug])
+}
+
+model Product {
+  id                    String        @id @default(cuid())
+  categoryId            String
+  slug                  String        @unique
+  name                  String
+  sku                   String?       @unique
+  summary               String        @db.Text
+  description           String        @db.Text
+  status                PublishStatus @default(DRAFT)
+  featured              Boolean       @default(false)
+  displayOrder          Int           @default(0)
+
+  // Technical Specs & Features (JSON array of { key: string, value: string, group?: string })
+  specifications        Json?
+  features              Json?
+  galleryImages         Json?
+
+  // SEO & Social Graph
+  metaTitle             String?
+  metaDescription       String?
+  ogImageUrl            String?
+
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  category              ProductCategory @relation(fields: [categoryId], references: [id])
+
+  @@index([slug])
+  @@index([status])
+  @@index([categoryId])
+}
+
+// -----------------------------------------------------------------------------
+// 6 & 7. Services & Service Categories
+// -----------------------------------------------------------------------------
+model ServiceCategory {
+  id                    String        @id @default(cuid())
+  slug                  String        @unique
+  name                  String        @unique
+  description           String?       @db.Text
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  services              Service[]
+
+  @@index([slug])
+}
+
+model Service {
+  id                    String        @id @default(cuid())
+  categoryId            String
+  slug                  String        @unique
+  title                 String
+  summary               String        @db.Text
+  description           String        @db.Text
+  iconName              String?       // Lucide icon identifier
+  status                PublishStatus @default(DRAFT)
+  displayOrder          Int           @default(0)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  category              ServiceCategory @relation(fields: [categoryId], references: [id])
+
+  @@index([slug])
+  @@index([status])
+}
+
+// -----------------------------------------------------------------------------
+// 8. Enquiries & Leads Management
+// -----------------------------------------------------------------------------
+model Enquiry {
+  id                    String        @id @default(cuid())
+  referenceNumber       String        @unique // e.g. "FS-2026-1042"
+  fullName              String
+  company               String?
+  email                 String
+  phone                 String
+  country               String?       @default("Global")
+  city                  String?
+  productOfInterest     String
+  projectType           String?       // Residential, Commercial, Agricultural
+  estimatedPowerReq     String?       // e.g. "5 kW", "20 kWh"
+  estimatedDailyEnergy  String?       // e.g. "25 kWh/day"
+  message               String        @db.Text
+  privacyConsent        Boolean       @default(true)
+  status                EnquiryStatus @default(NEW)
+  assignedToId          String?
+  followUpDate          DateTime?
+  internalNotes         String?       @db.Text
+  sourceReferrer        String?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  assignedTo            User?         @relation("AssignedLeads", fields: [assignedToId], references: [id])
+
+  @@index([referenceNumber])
+  @@index([status])
+  @@index([email])
+  @@index([createdAt])
+}
+
+// -----------------------------------------------------------------------------
+// 9. Contact Messages
+// -----------------------------------------------------------------------------
+model ContactMessage {
+  id                    String        @id @default(cuid())
+  referenceNumber       String        @unique
+  name                  String
+  email                 String
+  phone                 String?
+  subject               String?
+  message               String        @db.Text
+  status                MessageStatus @default(UNREAD)
+  internalNotes         String?       @db.Text
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  @@index([status])
+  @@index([email])
+}
+
+// -----------------------------------------------------------------------------
+// 10. Projects & Portfolio Showcases
+// -----------------------------------------------------------------------------
+model Project {
+  id                    String        @id @default(cuid())
+  slug                  String        @unique
+  title                 String
+  location              String
+  capacity              String        // e.g. "120 kWp PV + 250 kWh BESS"
+  systemType            String        // Direct DC, Hybrid AC, Commercial BESS
+  description           String        @db.Text
+  featuredImage         String?
+  completionDate        DateTime?
+  clientName            String?
+  status                PublishStatus @default(DRAFT)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([status])
+}
+
+// -----------------------------------------------------------------------------
+// 11 & 12. Blog Posts & Categories
+// -----------------------------------------------------------------------------
+model BlogCategory {
+  id                    String        @id @default(cuid())
+  slug                  String        @unique
+  name                  String        @unique
+  description           String?       @db.Text
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  posts                 BlogPost[]
+
+  @@index([slug])
+}
+
+model BlogPost {
+  id                    String        @id @default(cuid())
+  categoryId            String
+  authorId              String
+  slug                  String        @unique
+  title                 String
+  excerpt               String        @db.Text
+  content               String        @db.Text
+  status                PublishStatus @default(DRAFT)
+  publishedAt           DateTime?
+  featuredImage         String?
+  metaTitle             String?
+  metaDescription       String?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  category              BlogCategory  @relation(fields: [categoryId], references: [id])
+  author                User          @relation(fields: [authorId], references: [id])
+
+  @@index([slug])
+  @@index([status])
+}
+
+// -----------------------------------------------------------------------------
+// 13. Technical Resources & Documentation
+// -----------------------------------------------------------------------------
+model TechnicalResource {
+  id                    String        @id @default(cuid())
+  slug                  String        @unique
+  title                 String
+  resourceType          String        // DATASHEET, WHITEPAPER, SIZING_GUIDE, USER_MANUAL
+  summary               String        @db.Text
+  fileUrl               String
+  fileSize              String?       // e.g. "2.4 MB"
+  downloadCount         Int           @default(0)
+  status                PublishStatus @default(PUBLISHED)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([resourceType])
+}
+
+// -----------------------------------------------------------------------------
+// 14. Media Assets & Document Storage
+// -----------------------------------------------------------------------------
+model MediaAsset {
+  id                    String        @id @default(cuid())
+  filename              String
+  fileUrl               String        @unique
+  mimeType              String
+  sizeBytes             Int
+  altText               String?
+  caption               String?
+  publicId              String?       // Object storage key / Cloudinary ID
+  createdAt             DateTime      @default(now())
+
+  @@index([mimeType])
+}
+
+// -----------------------------------------------------------------------------
+// 15. Testimonials (Verified Only)
+// -----------------------------------------------------------------------------
+model Testimonial {
+  id                    String        @id @default(cuid())
+  authorName            String
+  authorTitle           String?
+  company               String?
+  quote                 String        @db.Text
+  rating                Int           @default(5)
+  verified              Boolean       @default(true)
+  isPublished           Boolean       @default(false)
+  createdAt             DateTime      @default(now())
+}
+
+// -----------------------------------------------------------------------------
+// 16. FAQs (Frequently Asked Questions)
+// -----------------------------------------------------------------------------
+model FAQ {
+  id                    String        @id @default(cuid())
+  category              String        // Power Wall, DC House, AC Hybrid, Warranty
+  question              String
+  answer                String        @db.Text
+  displayOrder          Int           @default(0)
+  isPublished           Boolean       @default(true)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  @@index([category])
+  @@index([isPublished])
+}
+
+// -----------------------------------------------------------------------------
+// 17. SEO Settings
+// -----------------------------------------------------------------------------
+model SEOSetting {
+  id                    String        @id @default(cuid())
+  path                  String        @unique // e.g. "/", "/products", "/services"
+  metaTitle             String
+  metaDescription       String        @db.Text
+  canonicalUrl          String?
+  ogImageUrl            String?
+  noIndex               Boolean       @default(false)
+  structuredData        Json?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  @@index([path])
+}
+
+// -----------------------------------------------------------------------------
+// 18. Site Settings & Configuration
+// -----------------------------------------------------------------------------
+model SiteSetting {
+  id                    String        @id @default(cuid())
+  key                   String        @unique // e.g. "site_name", "contact_email"
+  value                 String        @db.Text
+  description           String?
+  group                 String        @default("general") // general, email, integrations, theme
+  updatedAt             DateTime      @updatedAt
+
+  @@index([key])
+  @@index([group])
+}
+
+// -----------------------------------------------------------------------------
+// 19. Notifications (In-App & Email Audit)
+// -----------------------------------------------------------------------------
+model Notification {
+  id                    String        @id @default(cuid())
+  recipientId           String
+  type                  String        // NEW_ENQUIRY, LEAD_ASSIGNED, SYSTEM_ALERT
+  title                 String
+  message               String        @db.Text
+  read                  Boolean       @default(false)
+  link                  String?
+  createdAt             DateTime      @default(now())
+
+  recipient             User          @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+
+  @@index([recipientId])
+  @@index([read])
+}
+
+// -----------------------------------------------------------------------------
+// 20. Audit Logs
+// -----------------------------------------------------------------------------
+model AuditLog {
+  id                    String        @id @default(cuid())
+  userId                String?
+  action                String        // PRODUCT_CREATE, LEAD_STATUS_CHANGE, USER_LOGIN
+  entityType            String        // Product, Enquiry, User, SiteSetting
+  entityId              String?
+  metadata              Json?
+  ipAddress             String?
+  userAgent             String?
+  createdAt             DateTime      @default(now())
+
+  user                  User?         @relation(fields: [userId], references: [id])
+
+  @@index([action])
+  @@index([entityType])
+  @@index([createdAt])
+}
+
+// -----------------------------------------------------------------------------
+// 21. Privacy-Conscious First-Party Analytics Events
+// -----------------------------------------------------------------------------
+model AnalyticsEvent {
+  id                    String        @id @default(cuid())
+  eventType             String        // PAGE_VIEW, PRODUCT_VIEW, CTA_CLICK, ENQUIRY_START, ENQUIRY_SUCCESS, RESOURCE_DOWNLOAD
+  path                  String
+  entityId              String?       // Product slug or resource ID
+  referrer              String?
+  deviceType            String?       // desktop, mobile, tablet
+  ipHash                String?       // Anonymized one-way hash for unique session aggregation
+  metadata              Json?
+  createdAt             DateTime      @default(now())
+
+  @@index([eventType])
+  @@index([path])
+  @@index([createdAt])
+}

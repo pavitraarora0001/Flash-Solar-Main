@@ -120,6 +120,9 @@ export function Footer() {
             <span className="hover:text-gold-400 transition-colors cursor-pointer">Privacy Policy</span>
             <span className="hover:text-gold-400 transition-colors cursor-pointer">Terms & Conditions</span>
             <span className="hover:text-gold-400 transition-colors cursor-pointer">Warranty Framework</span>
+            <Link href="/admin" className="hover:text-gold-400 text-gold-400/80 transition-colors font-mono">
+              Admin Portal
+            </Link>
           </div>
         </div>
       </div>

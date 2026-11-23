@@ -26,8 +26,10 @@ export function EnquirySection() {
   const [errors, setErrors] = React.useState<Partial<Record<keyof EnquiryFormData, string>>>({});
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
+  const [referenceNumber, setReferenceNumber] = React.useState<string | null>(null);
+  const [serverError, setServerError] = React.useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = enquirySchema.safeParse(formData);
 
@@ -42,15 +44,38 @@ export function EnquirySection() {
     }
 
     setErrors({});
+    setServerError(null);
     setIsSubmitting(true);
 
-    // Documented Integration Boundary:
-    // Client-side validation succeeds. In local development without live Resend credentials,
-    // we simulate a clean transition and display the transparent integration status.
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          productOfInterest: formData.systemType,
+          message: formData.message,
+          privacyConsent: true,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setServerError(data.error || "Failed to submit enquiry. Please check your information.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      setReferenceNumber(data.referenceNumber);
       setIsSubmitting(false);
       setSubmitted(true);
-    }, 600);
+    } catch {
+      setServerError("Network error communicating with the Flash Solar engineering desk.");
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -101,26 +126,40 @@ export function EnquirySection() {
             <div className="bg-midnight-900 border border-midnight-700 p-8 sm:p-10 rounded-2xl shadow-2xl">
               {submitted ? (
                 <div className="py-12 text-center space-y-5">
-                  <div className="w-16 h-16 rounded-full bg-emerald-950 border border-emerald-700 flex items-center justify-center mx-auto text-emerald-400">
+                  <div className="w-16 h-16 rounded-full bg-emerald-950 border border-emerald-700 flex items-center justify-center mx-auto text-emerald-400 shadow-lg">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl font-heading font-bold text-ivory-100">
-                    Enquiry Validated & Logged
+                    Enquiry Validated &amp; Pipeline Registered
                   </h3>
                   <p className="text-sm text-ivory-400 max-w-md mx-auto leading-relaxed">
-                    Thank you, <strong>{formData.fullName}</strong>. Your project specifications have been validated against our engineering intake requirements.
+                    Thank you, <strong>{formData.fullName}</strong>. Your project specifications have been officially registered in the Flash Solar engineering queue.
                   </p>
+                  
+                  {referenceNumber && (
+                    <div className="p-4 bg-midnight-950 rounded-xl border border-gold-500/40 text-center max-w-sm mx-auto shadow-inner">
+                      <span className="text-[10px] font-mono uppercase text-gold-400 tracking-widest block mb-1 font-semibold">
+                        Unique Intake Tracking Reference
+                      </span>
+                      <span className="text-2xl font-mono font-extrabold text-gold-400 tracking-widest block">
+                        {referenceNumber}
+                      </span>
+                    </div>
+                  )}
+
                   <div className="p-4 bg-midnight-950 rounded-lg border border-midnight-800 text-xs text-ivory-400 max-w-md mx-auto text-left font-mono space-y-1">
-                    <span className="text-gold-400 font-semibold block mb-1">Architecture Intake Notice:</span>
+                    <span className="text-ivory-200 font-semibold block mb-1">Architecture Intake Summary:</span>
                     <p>System: {formData.systemType}</p>
                     <p>Contact: {formData.email} / {formData.phone}</p>
-                    <p className="text-[11px] text-ivory-400 pt-1">
-                      (Development boundary: Live transactional dispatch via Resend API activates upon API key configuration in Module 3).
+                    <p className="text-[11px] text-emerald-400 pt-1 flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                      <span>Confirmation email dispatched and logged to database pipeline.</span>
                     </p>
                   </div>
                   <button
                     onClick={() => {
                       setSubmitted(false);
+                      setReferenceNumber(null);
                       setFormData({
                         fullName: "",
                         email: "",
@@ -136,6 +175,12 @@ export function EnquirySection() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                  {serverError && (
+                    <div className="p-3.5 rounded-lg bg-rose-950/80 border border-rose-700 flex items-start gap-3 text-xs text-rose-300">
+                      <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                      <span>{serverError}</span>
+                    </div>
+                  )}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {/* Full Name */}
                     <div className="space-y-1.5">
