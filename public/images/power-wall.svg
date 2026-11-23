@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#040D17" />
+      <stop offset="50%" stop-color="#0A1828" />
+      <stop offset="100%" stop-color="#061321" />
+    </linearGradient>
+    <linearGradient id="wallMountGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#14263D" />
+      <stop offset="100%" stop-color="#0D1A2B" />
+    </linearGradient>
+    <linearGradient id="chassisGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A334F" />
+      <stop offset="50%" stop-color="#102337" />
+      <stop offset="100%" stop-color="#0A1624" />
+    </linearGradient>
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D49522" />
+      <stop offset="50%" stop-color="#F2B33F" />
+      <stop offset="100%" stop-color="#FFD17A" />
+    </linearGradient>
+    <linearGradient id="ledGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="50%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Environment -->
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+  
+  <!-- Architectural Wall Lines -->
+  <g stroke="#182C44" stroke-width="1" opacity="0.4">
+    <line x1="100" y1="0" x2="100" y2="600" />
+    <line x1="700" y1="0" x2="700" y2="600" />
+    <line x1="0" y1="450" x2="800" y2="450" />
+  </g>
+
+  <!-- Ground Plane Floor Grid -->
+  <polygon points="0,450 800,450 800,600 0,600" fill="#040A12" />
+  <g stroke="#1A334F" stroke-width="1" opacity="0.3">
+    <line x1="100" y1="450" x2="0" y2="600" />
+    <line x1="250" y1="450" x2="150" y2="600" />
+    <line x1="400" y1="450" x2="400" y2="600" />
+    <line x1="550" y1="450" x2="650" y2="600" />
+    <line x1="700" y1="450" x2="800" y2="600" />
+  </g>
+
+  <!-- Shadow below battery unit -->
+  <ellipse cx="400" cy="460" rx="190" ry="25" fill="#000000" opacity="0.6" filter="url(#glow)" />
+
+  <!-- Wall-Mount Chassis Shadow & Base -->
+  <rect x="250" y="90" width="300" height="360" rx="20" fill="#03080F" opacity="0.8" />
+
+  <!-- Flash Power Wall Main Body -->
+  <rect x="240" y="80" width="320" height="360" rx="16" fill="url(#chassisGrad)" stroke="#29445E" stroke-width="2" />
+
+  <!-- Metallic Front Plate -->
+  <rect x="255" y="95" width="290" height="330" rx="10" fill="#0C1B2B" stroke="#182C44" stroke-width="1.5" />
+
+  <!-- Brushed Metal Texture Lines -->
+  <g stroke="#13273D" stroke-width="1" opacity="0.5">
+    <line x1="255" y1="140" x2="545" y2="140" />
+    <line x1="255" y1="200" x2="545" y2="200" />
+    <line x1="255" y1="260" x2="545" y2="260" />
+    <line x1="255" y1="320" x2="545" y2="320" />
+    <line x1="255" y1="380" x2="545" y2="380" />
+  </g>
+
+  <!-- Top Logo & Model Inscription -->
+  <text x="400" y="130" font-family="system-ui, sans-serif" font-weight="800" font-size="14" fill="#F7F7F5" text-anchor="middle" letter-spacing="4">
+    FLASH <tspan fill="#F2B33F">SOLAR</tspan>
+  </text>
+  <text x="400" y="150" font-family="system-ui, sans-serif" font-weight="600" font-size="9" fill="#B6C1D0" text-anchor="middle" letter-spacing="3">
+    POWER WALL • LIFEPO4 51.2V
+  </text>
+
+  <!-- Central Gold Brand Accent Ribbon -->
+  <rect x="255" y="165" width="290" height="3" fill="url(#goldAccent)" opacity="0.9" />
+
+  <!-- Active Status Dynamic LED Bar -->
+  <rect x="300" y="220" width="200" height="6" rx="3" fill="#061321" stroke="#1A334F" stroke-width="1" />
+  <rect x="300" y="220" width="180" height="6" rx="3" fill="url(#ledGlow)" filter="url(#glow)" />
+
+  <!-- System Metrics Badges on Chassis -->
+  <g transform="translate(280, 260)">
+    <!-- Battery Level -->
+    <rect x="0" y="0" width="110" height="50" rx="6" fill="#081422" stroke="#1E3E62" stroke-width="1" />
+    <text x="12" y="20" font-family="monospace" font-size="9" fill="#B6C1D0">SOC CHARGE</text>
+    <text x="12" y="38" font-family="monospace" font-size="16" font-weight="bold" fill="#34D399">96.4%</text>
+
+    <!-- Usable Capacity -->
+    <rect x="130" y="0" width="110" height="50" rx="6" fill="#081422" stroke="#1E3E62" stroke-width="1" />
+    <text x="142" y="20" font-family="monospace" font-size="9" fill="#B6C1D0">NOMINAL BUS</text>
+    <text x="142" y="38" font-family="monospace" font-size="16" font-weight="bold" fill="#F2B33F">51.2 V</text>
+  </g>
+
+  <!-- Active BMS Connection Hub & Terminals -->
+  <g transform="translate(300, 340)">
+    <circle cx="20" cy="20" r="12" fill="#0B1A2C" stroke="#29445E" stroke-width="2" />
+    <circle cx="20" cy="20" r="5" fill="#EF4444" />
+    <text x="20" y="45" font-family="monospace" font-size="8" fill="#B6C1D0" text-anchor="middle">DC (+)</text>
+
+    <circle cx="100" cy="20" r="12" fill="#0B1A2C" stroke="#29445E" stroke-width="2" />
+    <circle cx="100" cy="20" r="5" fill="#3B82F6" />
+    <text x="100" y="45" font-family="monospace" font-size="8" fill="#B6C1D0" text-anchor="middle">CAN/RS485</text>
+
+    <circle cx="180" cy="20" r="12" fill="#0B1A2C" stroke="#29445E" stroke-width="2" />
+    <circle cx="180" cy="20" r="5" fill="#10B981" />
+    <text x="180" y="45" font-family="monospace" font-size="8" fill="#B6C1D0" text-anchor="middle">DC (-)</text>
+  </g>
+
+  <!-- Bottom Ventilation Grille -->
+  <g stroke="#182C44" stroke-width="2">
+    <line x1="330" y1="415" x2="470" y2="415" />
+    <line x1="340" y1="420" x2="460" y2="420" />
+  </g>
+
+  <!-- Technical Overlay HUD Annotations -->
+  <g font-family="monospace" font-size="10" fill="#F2B33F" opacity="0.9">
+    <!-- Callout 1 -->
+    <line x1="160" y1="120" x2="240" y2="120" stroke="#F2B33F" stroke-width="1" stroke-dasharray="3,3" />
+    <circle cx="160" cy="120" r="3" fill="#F2B33F" />
+    <text x="70" y="123" fill="#FFD17A">CELL ARCHITECTURE</text>
+
+    <!-- Callout 2 -->
+    <line x1="560" y1="223" x2="640" y2="223" stroke="#34D399" stroke-width="1" stroke-dasharray="3,3" />
+    <circle cx="640" cy="223" r="3" fill="#34D399" />
+    <text x="650" y="226" fill="#34D399">ACTIVE BMS BALANCING</text>
+
+    <!-- Callout 3 -->
+    <line x1="160" y1="360" x2="280" y2="360" stroke="#F2B33F" stroke-width="1" stroke-dasharray="3,3" />
+    <circle cx="160" cy="360" r="3" fill="#F2B33F" />
+    <text x="70" y="363" fill="#FFD17A">DIRECT 48V DC BUS</text>
+  </g>
+</svg>
