@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db/store";
 import { requireAuthSession } from "@/lib/auth/session";
-import { EnquiryStatus, Role } from "@prisma/client";
+import { EnquiryStatus, Role, LeadPriority } from "@prisma/client";
 
 const updateEnquirySchema = z.object({
   status: z.nativeEnum(EnquiryStatus).optional(),
+  priority: z.nativeEnum(LeadPriority).optional(),
   internalNotes: z.string().optional(),
   assignedToId: z.string().optional(),
   followUpDate: z.string().optional(),
@@ -54,12 +55,13 @@ export async function PATCH(
       return NextResponse.json({ success: false, error: "Enquiry not found" }, { status: 404 });
     }
 
-    const { status, internalNotes, assignedToId } = parsed.data;
+    const { status, internalNotes, assignedToId, priority } = parsed.data;
     const updated = db.updateEnquiryStatus(
       params.id,
       status || current.status,
       internalNotes,
-      assignedToId
+      assignedToId,
+      priority || current.priority
     );
 
     db.addAuditLog({

@@ -6,19 +6,32 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
-  Inbox,
+  BarChart3,
+  Globe,
+  Cpu,
+  Image as ImageIcon,
+  BookOpen,
+  Quote,
+  HelpCircle,
   Package,
+  FolderTree,
   Wrench,
   FileText,
+  Inbox,
+  Users,
   Mail,
-  BarChart3,
+  Search,
+  Send,
+  Shield,
   ShieldAlert,
   Settings,
   LogOut,
   ExternalLink,
   Menu,
   X,
-  User,
+  Sun,
+  Moon,
+  ChevronRight,
 } from "lucide-react";
 
 interface UserProfile {
@@ -28,16 +41,62 @@ interface UserProfile {
   role: string;
 }
 
-const navItems = [
-  { name: "Overview", href: "/admin", icon: LayoutDashboard },
-  { name: "Leads & Enquiries", href: "/admin/enquiries", icon: Inbox },
-  { name: "Products", href: "/admin/products", icon: Package },
-  { name: "Services", href: "/admin/services", icon: Wrench },
-  { name: "Resources", href: "/admin/resources", icon: FileText },
-  { name: "Messages", href: "/admin/messages", icon: Mail },
-  { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
-  { name: "Audit Trail", href: "/admin/audit-logs", icon: ShieldAlert },
-  { name: "Site Settings", href: "/admin/settings", icon: Settings },
+interface NavGroup {
+  group: string;
+  items: Array<{
+    name: string;
+    href: string;
+    icon: React.ComponentType<{ className?: string }>;
+    badge?: string;
+  }>;
+}
+
+const navGroups: NavGroup[] = [
+  {
+    group: "Core Dashboard",
+    items: [
+      { name: "Overview", href: "/admin", icon: LayoutDashboard },
+      { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+    ],
+  },
+  {
+    group: "Website CMS",
+    items: [
+      { name: "Website CMS", href: "/admin/cms", icon: Globe },
+      { name: "Engineering Architecture", href: "/admin/engineering", icon: Cpu },
+      { name: "Media Library", href: "/admin/media", icon: ImageIcon },
+      { name: "Blog & Articles", href: "/admin/blog", icon: BookOpen },
+      { name: "Testimonials", href: "/admin/testimonials", icon: Quote },
+      { name: "FAQs", href: "/admin/faqs", icon: HelpCircle },
+    ],
+  },
+  {
+    group: "Products & Engineering",
+    items: [
+      { name: "Products", href: "/admin/products", icon: Package },
+      { name: "Product Categories", href: "/admin/categories", icon: FolderTree },
+      { name: "Services", href: "/admin/services", icon: Wrench },
+      { name: "Resources / Datasheets", href: "/admin/resources", icon: FileText },
+    ],
+  },
+  {
+    group: "CRM & Inquiries",
+    items: [
+      { name: "Enquiries", href: "/admin/enquiries", icon: Inbox },
+      { name: "Customers / Leads", href: "/admin/leads", icon: Users },
+      { name: "Contact Messages", href: "/admin/messages", icon: Mail },
+    ],
+  },
+  {
+    group: "System & Management",
+    items: [
+      { name: "SEO Manager", href: "/admin/seo", icon: Search },
+      { name: "Email Templates", href: "/admin/email-templates", icon: Send },
+      { name: "Users & Permissions", href: "/admin/users", icon: Shield },
+      { name: "Audit Logs", href: "/admin/audit-logs", icon: ShieldAlert },
+      { name: "Settings", href: "/admin/settings", icon: Settings },
+    ],
+  },
 ];
 
 export default function AdminDashboardLayout({
@@ -50,6 +109,7 @@ export default function AdminDashboardLayout({
   const [user, setUser] = React.useState<UserProfile | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [theme, setTheme] = React.useState<"dark" | "light">("dark");
 
   React.useEffect(() => {
     async function checkAuth() {
@@ -70,6 +130,10 @@ export default function AdminDashboardLayout({
     }
     checkAuth();
   }, [router]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
   const handleLogout = async () => {
     try {
@@ -92,10 +156,25 @@ export default function AdminDashboardLayout({
     );
   }
 
+  // Active page title resolution
+  let activeTitle = "Admin Control Center";
+  for (const group of navGroups) {
+    for (const item of group.items) {
+      if (item.href === "/admin" && pathname === "/admin") {
+        activeTitle = item.name;
+        break;
+      }
+      if (item.href !== "/admin" && pathname.startsWith(item.href)) {
+        activeTitle = item.name;
+        break;
+      }
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-midnight-950 text-ivory-100 flex flex-col lg:flex-row">
-      {/* Mobile Top Bar */}
-      <div className="lg:hidden bg-midnight-900 border-b border-midnight-800 px-4 py-3 flex items-center justify-between z-30">
+    <div className={`min-h-screen flex flex-col lg:flex-row ${theme === "dark" ? "bg-[#061321] text-ivory-100" : "bg-[#F7F9FC] text-midnight-950"}`}>
+      {/* Mobile Top Header */}
+      <div className="lg:hidden bg-midnight-900 border-b border-midnight-800 px-4 py-3 flex items-center justify-between z-30 sticky top-0 text-ivory-100">
         <div className="flex items-center gap-2.5">
           <div className="relative w-7 h-7 rounded bg-midnight-950 border border-gold-500/40 p-1 flex items-center justify-center">
             <Image src="/images/logo.jpg" alt="Logo" width={22} height={22} className="object-contain" />
@@ -104,136 +183,203 @@ export default function AdminDashboardLayout({
             FLASH <span className="text-gold-400">ADMIN</span>
           </span>
         </div>
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-1.5 rounded-md bg-midnight-800 text-ivory-300 hover:text-white"
-          aria-label="Toggle Navigation"
-        >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            className="p-1.5 rounded-md bg-midnight-800 text-ivory-300 hover:text-white"
+            title="Toggle theme"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4 text-gold-400" /> : <Moon className="w-4 h-4 text-ivory-300" />}
+          </button>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-1.5 rounded-md bg-midnight-800 text-ivory-300 hover:text-white"
+            aria-label="Toggle Navigation"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
 
-      {/* Sidebar Navigation */}
+      {/* Persistent Midnight Navy Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-midnight-900 border-r border-midnight-800/80 flex flex-col transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 w-72 bg-[#0a192f] border-r border-midnight-800/80 flex flex-col transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
           mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Brand Header */}
-        <div className="p-5 border-b border-midnight-800/80 flex items-center gap-3">
-          <div className="relative w-9 h-9 rounded-lg bg-midnight-950 border border-gold-500/40 p-1.5 flex items-center justify-center shadow">
-            <Image src="/images/logo.jpg" alt="Flash Solar" width={28} height={28} className="object-contain" />
+        <div className="p-5 border-b border-midnight-800/80 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="relative w-9 h-9 rounded-lg bg-midnight-950 border border-gold-500/40 p-1.5 flex items-center justify-center shadow">
+              <Image src="/images/logo.jpg" alt="Flash Solar" width={28} height={28} className="object-contain" />
+            </div>
+            <div>
+              <span className="font-heading font-extrabold text-sm text-ivory-100 block leading-tight tracking-tight">
+                FLASH <span className="text-gold-400">SOLAR</span>
+              </span>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-semibold block">
+                Enterprise CMS / CRM
+              </span>
+            </div>
           </div>
-          <div>
-            <span className="font-heading font-extrabold text-sm text-ivory-100 block leading-tight tracking-tight">
-              FLASH <span className="text-gold-400">SOLAR</span>
-            </span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-semibold block">
-              Control Center
-            </span>
-          </div>
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="lg:hidden p-1 text-ivory-400 hover:text-white"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
-        {/* Navigation Items */}
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive =
-              item.href === "/admin"
-                ? pathname === "/admin"
-                : pathname.startsWith(item.href);
+        {/* 20 Sidebar Modules Grouped */}
+        <nav className="flex-1 px-3 py-4 space-y-6 overflow-y-auto custom-scrollbar">
+          {navGroups.map((group) => (
+            <div key={group.group} className="space-y-1">
+              <h4 className="px-3 text-[10px] font-mono uppercase tracking-wider text-ivory-400 font-bold">
+                {group.group}
+              </h4>
+              <div className="space-y-0.5 pt-1">
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  const isActive =
+                    item.href === "/admin"
+                      ? pathname === "/admin"
+                      : pathname === item.href || pathname.startsWith(`${item.href}/`);
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${
-                  isActive
-                    ? "bg-gold-500/10 text-gold-400 border border-gold-500/30 font-semibold"
-                    : "text-ivory-400 hover:text-ivory-100 hover:bg-midnight-800/60"
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? "text-gold-400" : "text-ivory-400"}`} />
-                <span>{item.name}</span>
-              </Link>
-            );
-          })}
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                        isActive
+                          ? "bg-gold-500/15 text-gold-400 border border-gold-500/30 font-semibold"
+                          : "text-ivory-300 hover:text-white hover:bg-midnight-800/60"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Icon className={`w-4 h-4 ${isActive ? "text-gold-400" : "text-ivory-400"}`} />
+                        <span>{item.name}</span>
+                      </div>
+                      {isActive && <ChevronRight className="w-3.5 h-3.5 text-gold-400" />}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
-        {/* User Card & Logout Footer */}
-        <div className="p-4 border-t border-midnight-800/80 bg-midnight-950/40 space-y-3">
-          {user && (
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-midnight-800 border border-midnight-700 flex items-center justify-center text-gold-400 shrink-0">
-                <User className="w-4 h-4" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-xs font-semibold text-ivory-100 truncate">{user.name}</p>
-                <span className="inline-block px-1.5 py-0.5 rounded text-[9px] font-mono uppercase bg-midnight-800 text-gold-400 border border-midnight-700">
-                  {user.role}
+        {/* User Footer Profile & Actions */}
+        <div className="p-4 border-t border-midnight-800/80 bg-midnight-950/60 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="overflow-hidden">
+              <span className="text-xs font-semibold text-ivory-100 block truncate">
+                {user?.name || "Administrator"}
+              </span>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="text-[9px] font-mono uppercase tracking-widest text-gold-400 bg-gold-500/10 px-1.5 py-0.5 rounded border border-gold-500/20 font-bold">
+                  {user?.role || "SUPER_ADMIN"}
                 </span>
               </div>
             </div>
-          )}
+            <button
+              onClick={handleLogout}
+              className="p-1.5 rounded-md hover:bg-rose-500/10 text-ivory-400 hover:text-rose-400 transition-colors"
+              title="Sign Out"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
 
-          <div className="flex items-center gap-2 pt-1">
+          <div className="pt-2 border-t border-midnight-800/60 flex items-center justify-between text-[11px] text-ivory-400">
             <Link
               href="/"
               target="_blank"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-md bg-midnight-800 hover:bg-midnight-700 text-[11px] text-ivory-300 font-medium transition-colors border border-midnight-700"
+              className="flex items-center gap-1 hover:text-gold-400 transition-colors"
             >
-              <span>Site</span>
-              <ExternalLink className="w-3 h-3 text-ivory-400" />
+              <span>View Public Site</span>
+              <ExternalLink className="w-3 h-3" />
             </Link>
-
             <button
-              onClick={handleLogout}
-              className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-md bg-rose-950/40 hover:bg-rose-900/60 text-[11px] text-rose-300 font-medium transition-colors border border-rose-800/40"
-              title="Sign Out"
+              onClick={toggleTheme}
+              className="flex items-center gap-1 hover:text-ivory-200 transition-colors"
             >
-              <LogOut className="w-3 h-3" />
-              <span>Exit</span>
+              {theme === "dark" ? (
+                <>
+                  <Sun className="w-3 h-3 text-gold-400" />
+                  <span>Light</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-3 h-3 text-midnight-400" />
+                  <span>Dark</span>
+                </>
+              )}
             </button>
           </div>
         </div>
       </aside>
 
-      {/* Backdrop for mobile menu */}
-      {mobileMenuOpen && (
-        <div
-          onClick={() => setMobileMenuOpen(false)}
-          className="fixed inset-0 bg-black/60 z-30 lg:hidden"
-        />
-      )}
-
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-        <header className="hidden lg:flex items-center justify-between px-8 py-4 bg-midnight-900/60 border-b border-midnight-800/80 sticky top-0 z-20 backdrop-blur-md">
-          <div className="flex items-center gap-2 text-xs text-ivory-400">
-            <span>Admin</span>
-            <span>/</span>
-            <span className="text-ivory-100 capitalize">
-              {pathname === "/admin"
-                ? "Overview"
-                : pathname.replace("/admin/", "").replace("-", " ")}
-            </span>
+      {/* Main Workspace Area */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+        {/* Top Header Bar */}
+        <header className={`hidden lg:flex items-center justify-between px-8 py-4 border-b ${theme === "dark" ? "bg-[#081728] border-midnight-800/80" : "bg-white border-slate-200"}`}>
+          <div>
+            <h1 className={`text-xl font-heading font-bold ${theme === "dark" ? "text-ivory-100" : "text-slate-900"}`}>
+              {activeTitle}
+            </h1>
+            <p className={`text-xs ${theme === "dark" ? "text-ivory-400" : "text-slate-500"}`}>
+              Flash Solar Enterprise Management Platform • Sub-60V DC Architecture
+            </p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <Link
               href="/"
               target="_blank"
-              className="inline-flex items-center gap-1.5 text-xs text-gold-400 hover:text-gold-300 transition-colors"
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
+                theme === "dark"
+                  ? "border-midnight-700 bg-midnight-900 text-ivory-200 hover:text-gold-400 hover:border-gold-500/40"
+                  : "border-slate-200 bg-slate-50 text-slate-700 hover:text-gold-600 hover:border-gold-500/50"
+              }`}
             >
-              <span>View Public Website</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+              <span>Live Site</span>
+              <ExternalLink className="w-3 h-3" />
             </Link>
+
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-lg border transition-colors ${
+                theme === "dark"
+                  ? "border-midnight-700 bg-midnight-900 text-gold-400 hover:bg-midnight-800"
+                  : "border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100"
+              }`}
+              title="Toggle Light/Dark Workspace"
+            >
+              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+
+            <div className={`flex items-center gap-2 pl-3 border-l ${theme === "dark" ? "border-midnight-800" : "border-slate-200"}`}>
+              <div className="w-7 h-7 rounded-full bg-gold-500/20 border border-gold-500/40 flex items-center justify-center text-gold-400 font-bold text-xs">
+                {user?.name?.[0]?.toUpperCase() || "A"}
+              </div>
+              <div className="text-left hidden sm:block">
+                <span className={`text-xs font-semibold block ${theme === "dark" ? "text-ivory-100" : "text-slate-900"}`}>
+                  {user?.name}
+                </span>
+                <span className="text-[10px] font-mono text-gold-400 block">
+                  {user?.role}
+                </span>
+              </div>
+            </div>
           </div>
         </header>
 
-        <div className="p-4 sm:p-6 lg:p-8 flex-1">{children}</div>
-      </main>
+        {/* Page Content Body */}
+        <main className={`flex-1 p-4 sm:p-6 lg:p-8 ${theme === "dark" ? "bg-[#061321]" : "bg-[#F7F9FC]"}`}>
+          {children}
+        </main>
+      </div>
     </div>
   );
 }

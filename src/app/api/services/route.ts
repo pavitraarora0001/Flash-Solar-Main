@@ -66,3 +66,33 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const session = await requireAuthSession(Role.CONTENT_MANAGER);
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ success: false, error: "Service ID required" }, { status: 400 });
+    }
+
+    db.deleteService(id);
+
+    db.addAuditLog({
+      userId: session.userId,
+      userName: session.name,
+      action: "SERVICE_DELETED",
+      entityType: "Service",
+      entityId: id,
+    });
+
+    return NextResponse.json({ success: true, message: "Service deleted successfully" });
+  } catch (error) {
+    const isAuth = error instanceof Error && error.message.includes("UNAUTHORIZED");
+    return NextResponse.json(
+      { success: false, error: error instanceof Error ? error.message : "Unauthorized" },
+      { status: isAuth ? 401 : 500 }
+    );
+  }
+}

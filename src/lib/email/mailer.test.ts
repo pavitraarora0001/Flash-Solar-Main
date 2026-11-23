@@ -4,6 +4,8 @@ import {
   sendNewEnquiryNotification,
   sendCustomerEnquiryConfirmation,
   sendContactMessageAlert,
+  sendPasswordResetEmail,
+  sendLeadAssignmentNotification,
 } from "./mailer";
 import { DBEnquiry, DBContactMessage } from "../db/store";
 import { EnquiryStatus } from "@prisma/client";
@@ -69,6 +71,38 @@ describe("Flash Solar Transactional Mailer Dispatcher", () => {
     };
 
     const res = await sendContactMessageAlert(mockMsg);
+    expect(res.success).toBe(true);
+  });
+
+  it("dispatches password reset security notifications", async () => {
+    const res = await sendPasswordResetEmail({
+      to: "admin@flashsolar.org",
+      resetToken: "sample_crypto_reset_token_test",
+      userName: "Lead Electrical Architect",
+    });
+    expect(res.success).toBe(true);
+  });
+
+  it("dispatches engineering lead assignment notifications", async () => {
+    const mockEnquiry: DBEnquiry = {
+      id: "enq_test_02",
+      referenceNumber: "FS-2026-8888",
+      fullName: "Dr. Rachel Ward",
+      email: "rachel@ward-cleanpower.com",
+      phone: "+1-415-555-0188",
+      productOfInterest: "Flash DC House Microgrid",
+      message: "Direct DC wiring consultation.",
+      privacyConsent: true,
+      status: EnquiryStatus.NEW,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    const res = await sendLeadAssignmentNotification({
+      to: "sales.engineer@flashsolar.org",
+      engineerName: "Toby Henderson",
+      enquiry: mockEnquiry,
+    });
     expect(res.success).toBe(true);
   });
 });

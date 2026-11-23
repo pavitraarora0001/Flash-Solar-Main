@@ -1,0 +1,2389 @@
+{
+  "users": [
+    {
+      "id": "usr_superadmin_01",
+      "email": "admin@flashsolar.org",
+      "passwordHash": "$2b$10$22D7QL9BYUPoDHltB9fXXO5ti7akeZ9/HYr3vtZgdmD58vIGYloVO",
+      "name": "Flash Solar Administrator",
+      "company": "Flash Solar Engineering Desk",
+      "role": "SUPER_ADMIN",
+      "isActive": true,
+      "createdAt": "2026-11-23T08:27:46.959Z",
+      "updatedAt": "2026-11-23T11:16:59.369Z"
+    },
+    {
+      "id": "usr_sales_01",
+      "email": "sales@flashsolar.org",
+      "passwordHash": "$2b$10$5jaCXXoA8zXDa4AImK4zNe6LouCrJu30kS.7tdlFmrfQHE4sIdQgq",
+      "name": "Technical Sizing Lead",
+      "company": "Flash Solar",
+      "role": "SALES_MANAGER",
+      "isActive": true,
+      "createdAt": "2026-11-23T08:27:46.960Z",
+      "updatedAt": "2026-11-23T08:27:46.960Z"
+    }
+  ],
+  "productCategories": [
+    {
+      "id": "cat_storage",
+      "slug": "energy-storage",
+      "name": "Battery Energy Storage Systems",
+      "description": "Lithium Iron Phosphate wall-mounted and containerized battery solutions.",
+      "displayOrder": 1,
+      "createdAt": "2026-11-23T08:27:46.960Z"
+    },
+    {
+      "id": "cat_dc",
+      "slug": "dc-microgrid",
+      "name": "Direct-Current Architecture",
+      "description": "Native DC electrical distribution systems operating at sub-60V safe bus.",
+      "displayOrder": 2,
+      "createdAt": "2026-11-23T08:27:46.960Z"
+    },
+    {
+      "id": "cat_ac",
+      "slug": "hybrid-solar",
+      "name": "Hybrid AC Solar Systems",
+      "description": "Grid-synchronous hybrid solar architectures with automatic transfer backup.",
+      "displayOrder": 3,
+      "createdAt": "2026-11-23T08:27:46.960Z"
+    },
+    {
+      "id": "cat_1795434820133",
+      "slug": "test-inverter-series",
+      "name": "Test Inverter Series",
+      "description": "Test series for acceptance verification",
+      "displayOrder": 99,
+      "createdAt": "2026-11-23T11:53:40.133Z"
+    },
+    {
+      "id": "cat_1795434917980",
+      "slug": "test-inverter-series",
+      "name": "Test Inverter Series",
+      "description": "Test series for acceptance verification",
+      "displayOrder": 99,
+      "createdAt": "2026-11-23T11:55:17.980Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prod_power_wall",
+      "slug": "flash-power-wall",
+      "categoryId": "cat_storage",
+      "name": "Flash Power Wall",
+      "sku": "FS-PW-512-100",
+      "summary": "Dedicated residential and commercial lithium battery storage system with integrated active BMS.",
+      "description": "High-density Lithium Iron Phosphate (LiFePO4) storage engineered for residential wall-mounting and commercial parallel clustering. Designed for sub-60V DC low-voltage safety and thousands of high-depth discharge cycles.",
+      "status": "PUBLISHED",
+      "featured": true,
+      "displayOrder": 1,
+      "specifications": {
+        "Nominal Operating Bus": "51.2 V DC",
+        "Cell Chemistry": "Lithium Iron Phosphate (LiFePO4)",
+        "Depth of Discharge": "Up to 90% Usable Capacity",
+        "Cycle Endurance": "6,000+ Cycles @ 80% DoD",
+        "Conversion Efficiency": ">95% Round-Trip Cell Efficiency",
+        "Protection & BMS": "Active Cell Balancing, Thermal Cutoff, Over-Voltage Cut",
+        "Clustering": "Parallel scalable up to 8 units"
+      },
+      "features": [
+        "Eliminates volatile thermal runaway risk with LiFePO4 chemistry",
+        "Integrated dual-redundant BMS balancing and monitoring",
+        "Direct compatibility with Flash DC bus and hybrid pure sine inverters",
+        "CAN / RS485 communication protocols for live telemetry"
+      ],
+      "galleryImages": [
+        "/images/power-wall.svg"
+      ],
+      "metaTitle": "Flash Power Wall | 51.2V LiFePO4 Energy Storage",
+      "metaDescription": "Dedicated high-density lithium battery storage with integrated active BMS and modular scalability.",
+      "createdAt": "2026-11-23T08:27:46.960Z",
+      "updatedAt": "2026-11-23T08:27:46.960Z"
+    },
+    {
+      "id": "prod_dc_house",
+      "slug": "flash-dc-house",
+      "categoryId": "cat_dc",
+      "name": "Flash DC House",
+      "sku": "FS-DCH-SYS",
+      "summary": "Pure direct-current microgrid architecture eliminating inverter conversion losses.",
+      "description": "A ground-up direct-current premise distribution standard that powers 12V, 24V, and 48V appliances straight from solar and Flash Power Walls with zero AC/DC double-conversion penalty.",
+      "status": "PUBLISHED",
+      "featured": true,
+      "displayOrder": 2,
+      "specifications": {
+        "Inverter Inversion Loss": "0.0% (Direct DC Native)",
+        "Standard Bus Voltages": "12V, 24V, 48V DC Low-Voltage Safe",
+        "Supported End-Loads": "BLDC Ceiling Fans, LED Arrays, DC Refrigeration",
+        "Thermal Dissipation": "Minimal (No Inverter Radiators)",
+        "System Autonomy Gain": "+15% to +22% vs Conventional AC",
+        "Safety Classification": "Sub-60V DC Touch Safe"
+      },
+      "features": [
+        "100% of solar power flows directly into DC appliances",
+        "Eliminates central inverter failure points and fire hazards",
+        "Powers brushless DC fans and refrigeration with 60% lower motor draw",
+        "Simplifies electrical safety compliance for domestic wiring"
+      ],
+      "galleryImages": [
+        "/images/dc-house.svg"
+      ],
+      "metaTitle": "Flash DC House | Zero-Loss Pure Direct Current Microgrid",
+      "metaDescription": "A revolutionary direct-current residential solar standard that eliminates inverter conversion losses.",
+      "createdAt": "2026-11-23T08:27:46.960Z",
+      "updatedAt": "2026-11-23T08:27:46.960Z"
+    },
+    {
+      "id": "prod_ac_house",
+      "slug": "flash-ac-house",
+      "categoryId": "cat_ac",
+      "name": "Flash AC House",
+      "sku": "FS-ACH-SYS",
+      "summary": "Resilient hybrid alternating-current system with smart inverter integration.",
+      "description": "Engineered for properties with existing 230V residential wiring. Couples high-efficiency pure sine-wave inverters with Flash Solar battery banks for uninterrupted grid synchronization and automatic blackout transfer.",
+      "status": "PUBLISHED",
+      "featured": true,
+      "displayOrder": 3,
+      "specifications": {
+        "AC Distribution": "230V Single-Phase / 400V 3-Phase",
+        "Waveform Quality": "<3% Total Harmonic Distortion (THD)",
+        "Automatic Transfer Speed": "<10ms Instantaneous Switchover",
+        "Battery Bank Coupling": "48V DC Flash Power Wall Compatible",
+        "Grid Interaction": "Zero-Export Limiting & Peak Shaving",
+        "Surge Capacity": "2.5x Rated Output for Inductive AC Starts"
+      },
+      "features": [
+        "Full backward compatibility with existing 230V home appliances",
+        "Automatic transfer switch delivers millisecond blackout protection",
+        "Prioritizes solar consumption while keeping utility grid fallback",
+        "High surge headroom handles air conditioners and water pumps"
+      ],
+      "galleryImages": [
+        "/images/ac-house.svg"
+      ],
+      "metaTitle": "Flash AC House | Resilient Hybrid Solar Solutions",
+      "metaDescription": "Standard 230V alternating-current hybrid residential system with pure sine-wave inverter integration.",
+      "createdAt": "2026-11-23T08:27:46.960Z",
+      "updatedAt": "2026-11-23T08:27:46.960Z"
+    },
+    {
+      "id": "prod_test_1795427870537",
+      "name": "Flash Container Storage 1MWh",
+      "slug": "flash-container-0537",
+      "categoryId": "cat_storage",
+      "summary": "Updated utility-scale LiFePO4 system with active BMS.",
+      "description": "Turnkey 1MWh energy storage container with integrated liquid cooling.",
+      "status": "PUBLISHED",
+      "featured": false,
+      "displayOrder": 99,
+      "specifications": {
+        "Capacity": "1000 kWh",
+        "Voltage": "800V DC"
+      },
+      "features": [
+        "Multi-megawatt scaling",
+        "Integrated HVAC and aerosol fire suppression"
+      ],
+      "galleryImages": [
+        "/images/commercial-facility.svg"
+      ],
+      "createdAt": "2026-11-23T09:57:50.554Z",
+      "updatedAt": "2026-11-23T09:57:51.338Z"
+    },
+    {
+      "id": "prod_test_1795432713740",
+      "name": "Flash Container Storage 1MWh",
+      "slug": "flash-container-3740",
+      "categoryId": "cat_storage",
+      "summary": "Updated utility-scale LiFePO4 system with active BMS.",
+      "description": "Turnkey 1MWh energy storage container with integrated liquid cooling.",
+      "status": "PUBLISHED",
+      "featured": false,
+      "displayOrder": 99,
+      "specifications": {
+        "Capacity": "1000 kWh",
+        "Voltage": "800V DC"
+      },
+      "features": [
+        "Multi-megawatt scaling",
+        "Integrated HVAC and aerosol fire suppression"
+      ],
+      "galleryImages": [
+        "/images/commercial-facility.svg"
+      ],
+      "createdAt": "2026-11-23T11:18:33.749Z",
+      "updatedAt": "2026-11-23T11:18:33.764Z"
+    },
+    {
+      "id": "prod_1795434820147",
+      "name": "Flash Test Cell 500W",
+      "slug": "flash-test-cell-500w",
+      "categoryId": "cat_solar_panels",
+      "summary": "High efficiency test PV module",
+      "description": "Complete description for testing specifications matrix",
+      "status": "PUBLISHED",
+      "featured": false,
+      "displayOrder": 1,
+      "specifications": {
+        "nominalPower": "500 W",
+        "efficiency": "24.5%",
+        "dimensions": "2000 x 1000 x 35 mm",
+        "warranty": "25 Years"
+      },
+      "features": [
+        "Anti-reflective coating",
+        "Direct DC busbar"
+      ],
+      "galleryImages": [],
+      "createdAt": "2026-11-23T11:53:40.148Z",
+      "updatedAt": "2026-11-23T11:53:40.148Z"
+    },
+    {
+      "id": "prod_1795434917997",
+      "name": "Flash Test Cell 500W",
+      "slug": "flash-test-cell-500w",
+      "categoryId": "cat_solar_panels",
+      "summary": "High efficiency test PV module",
+      "description": "Complete description for testing specifications matrix",
+      "status": "PUBLISHED",
+      "featured": false,
+      "displayOrder": 1,
+      "specifications": {
+        "nominalPower": "500 W",
+        "efficiency": "24.5%",
+        "dimensions": "2000 x 1000 x 35 mm",
+        "warranty": "25 Years"
+      },
+      "features": [
+        "Anti-reflective coating",
+        "Direct DC busbar"
+      ],
+      "galleryImages": [],
+      "createdAt": "2026-11-23T11:55:17.999Z",
+      "updatedAt": "2026-11-23T11:55:17.999Z"
+    }
+  ],
+  "services": [
+    {
+      "id": "srv_01",
+      "slug": "residential-microgrids",
+      "categoryId": "cat_dc",
+      "title": "Residential DC & AC Microgrid Engineering",
+      "summary": "Full-scale custom engineering, load profiling, and installation design for homes.",
+      "description": "End-to-end electrical design for off-grid and grid-interactive residences, including conductor sizing, breaker panel integration, and solar array layout.",
+      "iconName": "Home",
+      "status": "PUBLISHED",
+      "displayOrder": 1,
+      "createdAt": "2026-11-23T08:27:46.961Z",
+      "updatedAt": "2026-11-23T08:27:46.961Z"
+    },
+    {
+      "id": "srv_02",
+      "slug": "commercial-bess",
+      "categoryId": "cat_storage",
+      "title": "Commercial Battery Energy Storage Retrofitting",
+      "summary": "Three-phase megawatt-hour containerized storage for commercial and industrial facilities.",
+      "description": "Displaces expensive diesel generators and mitigates utility demand tariffs with high-capacity containerized LiFePO4 battery energy storage systems (BESS).",
+      "iconName": "Building2",
+      "status": "PUBLISHED",
+      "displayOrder": 2,
+      "createdAt": "2026-11-23T08:27:46.961Z",
+      "updatedAt": "2026-11-23T08:27:46.961Z"
+    },
+    {
+      "id": "srv_03",
+      "slug": "battery-sizing-assembly",
+      "categoryId": "cat_storage",
+      "title": "Custom Battery Bank Sizing & Assembly",
+      "summary": "Engineered 48V modular battery assemblies customized to specific inductive duty cycles.",
+      "description": "Individual cell grading, BMS configuration, and thermal enclosure assembly for agricultural, telecom, and marine microgrids.",
+      "iconName": "BatteryCharging",
+      "status": "PUBLISHED",
+      "displayOrder": 3,
+      "createdAt": "2026-11-23T08:27:46.961Z",
+      "updatedAt": "2026-11-23T08:27:46.961Z"
+    },
+    {
+      "id": "srv_04",
+      "slug": "diagnostics-auditing",
+      "categoryId": "cat_dc",
+      "title": "Preventative Diagnostics & Thermal Audits",
+      "summary": "Specialized harmonic analysis, thermal imaging, and conductor integrity audits.",
+      "description": "On-site and remote diagnostic evaluations identifying hot spots, loose connections, and inverter harmonic distortion in mission-critical solar installations.",
+      "iconName": "Gauge",
+      "status": "PUBLISHED",
+      "displayOrder": 4,
+      "createdAt": "2026-11-23T08:27:46.961Z",
+      "updatedAt": "2026-11-23T08:27:46.961Z"
+    }
+  ],
+  "enquiries": [
+    {
+      "fullName": "Dr. Walter Bishop",
+      "email": "walter@fringe-energy.org",
+      "phone": "+1 (555) 019-2834",
+      "company": "Bishop Dynamics",
+      "country": "USA",
+      "city": "Boston",
+      "productOfInterest": "Flash Power Wall",
+      "projectType": "Off-Grid Research Facility",
+      "estimatedPowerReq": "50 kW",
+      "estimatedDailyEnergy": "250 kWh",
+      "message": "Need immediate quotation for 5x Flash Power Wall parallel units.",
+      "privacyConsent": true,
+      "status": "NEW",
+      "id": "enq_1795439089885",
+      "referenceNumber": "FS-2026-1660",
+      "priority": "MEDIUM",
+      "createdAt": "2026-11-23T13:04:49.885Z",
+      "updatedAt": "2026-11-23T13:04:49.885Z"
+    },
+    {
+      "fullName": "Dr. Walter Bishop",
+      "email": "walter@fringe-energy.org",
+      "phone": "+1 (555) 019-2834",
+      "company": "Bishop Dynamics",
+      "country": "USA",
+      "city": "Boston",
+      "productOfInterest": "Flash Power Wall",
+      "projectType": "Off-Grid Research Facility",
+      "estimatedPowerReq": "50 kW",
+      "estimatedDailyEnergy": "250 kWh",
+      "message": "Need immediate quotation for 5x Flash Power Wall parallel units.",
+      "privacyConsent": true,
+      "status": "NEW",
+      "id": "enq_1795439043356",
+      "referenceNumber": "FS-2026-1147",
+      "priority": "MEDIUM",
+      "createdAt": "2026-11-23T13:04:03.356Z",
+      "updatedAt": "2026-11-23T13:04:03.356Z"
+    },
+    {
+      "fullName": "Dr. Walter Bishop",
+      "email": "walter@fringe-energy.org",
+      "phone": "+1 (555) 019-2834",
+      "company": "Bishop Dynamics",
+      "country": "USA",
+      "city": "Boston",
+      "productOfInterest": "Flash Power Wall",
+      "projectType": "Off-Grid Research Facility",
+      "estimatedPowerReq": "50 kW",
+      "estimatedDailyEnergy": "250 kWh",
+      "message": "Need immediate quotation for 5x Flash Power Wall parallel units.",
+      "privacyConsent": true,
+      "status": "NEW",
+      "id": "enq_1795438999084",
+      "referenceNumber": "FS-2026-5937",
+      "priority": "MEDIUM",
+      "createdAt": "2026-11-23T13:03:19.084Z",
+      "updatedAt": "2026-11-23T13:03:19.084Z"
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795438916871",
+      "referenceNumber": "FS-2026-7082",
+      "priority": "MEDIUM",
+      "createdAt": "2026-11-23T13:01:56.871Z",
+      "updatedAt": "2026-11-23T13:01:56.879Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
+    {
+      "fullName": "Dr. Walter Bishop",
+      "email": "walter@fringe-energy.org",
+      "phone": "+1 (555) 019-2834",
+      "company": "Bishop Dynamics",
+      "country": "USA",
+      "city": "Boston",
+      "productOfInterest": "Flash Power Wall",
+      "projectType": "Off-Grid Research Facility",
+      "estimatedPowerReq": "50 kW",
+      "estimatedDailyEnergy": "250 kWh",
+      "message": "Need immediate quotation for 5x Flash Power Wall parallel units.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795434918069",
+      "referenceNumber": "FS-2026-5221",
+      "priority": "URGENT",
+      "createdAt": "2026-11-23T11:55:18.069Z",
+      "updatedAt": "2026-11-23T11:55:18.099Z",
+      "internalNotes": "Verified load profiles. Ready for technical sizing proposal."
+    },
+    {
+      "fullName": "Dr. Walter Bishop",
+      "email": "walter@fringe-energy.org",
+      "phone": "+1 (555) 019-2834",
+      "company": "Bishop Dynamics",
+      "country": "USA",
+      "city": "Boston",
+      "productOfInterest": "Flash Power Wall",
+      "projectType": "Off-Grid Research Facility",
+      "estimatedPowerReq": "50 kW",
+      "estimatedDailyEnergy": "250 kWh",
+      "message": "Need immediate quotation for 5x Flash Power Wall parallel units.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795434820188",
+      "referenceNumber": "FS-2026-9529",
+      "priority": "URGENT",
+      "createdAt": "2026-11-23T11:53:40.188Z",
+      "updatedAt": "2026-11-23T11:53:40.204Z",
+      "internalNotes": "Verified load profiles. Ready for technical sizing proposal."
+    },
+    {
+      "fullName": "Dr. Walter Bishop",
+      "email": "walter@fringe-energy.org",
+      "phone": "+1 (555) 019-2834",
+      "company": "Bishop Dynamics",
+      "country": "USA",
+      "city": "Boston",
+      "productOfInterest": "Flash Power Wall",
+      "projectType": "Off-Grid Research Facility",
+      "estimatedPowerReq": "50 kW",
+      "estimatedDailyEnergy": "250 kWh",
+      "message": "Need immediate quotation for 5x Flash Power Wall parallel units.",
+      "privacyConsent": true,
+      "status": "NEW",
+      "id": "enq_1795434754660",
+      "referenceNumber": "FS-2026-8199",
+      "priority": "MEDIUM",
+      "createdAt": "2026-11-23T11:52:34.660Z",
+      "updatedAt": "2026-11-23T11:52:34.660Z"
+    },
+    {
+      "fullName": "Dr. Walter Bishop",
+      "email": "walter@fringe-energy.org",
+      "phone": "+1 (555) 019-2834",
+      "company": "Bishop Dynamics",
+      "country": "USA",
+      "city": "Boston",
+      "productOfInterest": "Flash Power Wall",
+      "projectType": "Off-Grid Research Facility",
+      "estimatedPowerReq": "50 kW",
+      "estimatedDailyEnergy": "250 kWh",
+      "message": "Need immediate quotation for 5x Flash Power Wall parallel units.",
+      "privacyConsent": true,
+      "status": "NEW",
+      "id": "enq_1795434669024",
+      "referenceNumber": "FS-2026-3779",
+      "priority": "MEDIUM",
+      "createdAt": "2026-11-23T11:51:09.024Z",
+      "updatedAt": "2026-11-23T11:51:09.024Z"
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795434503859",
+      "referenceNumber": "FS-2026-1193",
+      "priority": "MEDIUM",
+      "createdAt": "2026-11-23T11:48:23.859Z",
+      "updatedAt": "2026-11-23T11:48:23.874Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795433211779",
+      "referenceNumber": "FS-2026-7809",
+      "priority": "MEDIUM",
+      "createdAt": "2026-11-23T11:26:51.779Z",
+      "updatedAt": "2026-11-23T11:26:51.785Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795432727841",
+      "referenceNumber": "FS-2026-8989",
+      "createdAt": "2026-11-23T11:18:47.841Z",
+      "updatedAt": "2026-11-23T11:18:47.849Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
+    {
+      "fullName": "Dr. Amara Thorne",
+      "email": "amara.thorne@cleanpower-institute.org",
+      "phone": "+44 20 7946 0882",
+      "company": "Thorne Clean Energy Labs",
+      "country": "United Kingdom",
+      "city": "Oxford",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Research Microgrid",
+      "estimatedPowerReq": "25 kW DC Peak",
+      "estimatedDailyEnergy": "100 kWh",
+      "message": "Requirement for 48V direct-current distribution bus to power laboratory equipment.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795432713776",
+      "referenceNumber": "FS-2026-1611",
+      "createdAt": "2026-11-23T11:18:33.776Z",
+      "updatedAt": "2026-11-23T11:18:33.828Z",
+      "internalNotes": "48V DC bus requirement validated by electrical sizing desk. Proposal drafted."
+    },
+    {
+      "fullName": "Dr. Amara Thorne",
+      "email": "amara.thorne@cleanpower-institute.org",
+      "phone": "+44 20 7946 0882",
+      "company": "Thorne Clean Energy Labs",
+      "country": "United Kingdom",
+      "city": "Oxford",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Research Microgrid",
+      "estimatedPowerReq": "25 kW DC Peak",
+      "estimatedDailyEnergy": "100 kWh",
+      "message": "Requirement for 48V direct-current distribution bus to power laboratory equipment.",
+      "privacyConsent": true,
+      "status": "NEW",
+      "id": "enq_1795432624969",
+      "referenceNumber": "FS-2026-6829",
+      "createdAt": "2026-11-23T11:17:04.969Z",
+      "updatedAt": "2026-11-23T11:17:04.969Z"
+    },
+    {
+      "fullName": "Dr. Amara Thorne",
+      "email": "amara.thorne@cleanpower-institute.org",
+      "phone": "+44 20 7946 0882",
+      "company": "Thorne Clean Energy Labs",
+      "country": "United Kingdom",
+      "city": "Oxford",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Research Microgrid",
+      "estimatedPowerReq": "25 kW DC Peak",
+      "estimatedDailyEnergy": "100 kWh",
+      "message": "Requirement for 48V direct-current distribution bus to power laboratory equipment.",
+      "privacyConsent": true,
+      "status": "NEW",
+      "id": "enq_1795432459527",
+      "referenceNumber": "FS-2026-2095",
+      "createdAt": "2026-11-23T11:14:19.527Z",
+      "updatedAt": "2026-11-23T11:14:19.527Z"
+    },
+    {
+      "fullName": "Dr. Amara Thorne",
+      "email": "amara.thorne@cleanpower-institute.org",
+      "phone": "+44 20 7946 0882",
+      "company": "Thorne Clean Energy Labs",
+      "country": "United Kingdom",
+      "city": "Oxford",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Research Microgrid",
+      "estimatedPowerReq": "25 kW DC Peak",
+      "estimatedDailyEnergy": "100 kWh",
+      "message": "Requirement for 48V direct-current distribution bus to power laboratory equipment.",
+      "privacyConsent": true,
+      "status": "NEW",
+      "id": "enq_1795432411800",
+      "referenceNumber": "FS-2026-5883",
+      "createdAt": "2026-11-23T11:13:31.800Z",
+      "updatedAt": "2026-11-23T11:13:31.800Z"
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795432340433",
+      "referenceNumber": "FS-2026-6843",
+      "createdAt": "2026-11-23T11:12:20.433Z",
+      "updatedAt": "2026-11-23T11:12:20.439Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795427907066",
+      "referenceNumber": "FS-2026-6435",
+      "createdAt": "2026-11-23T09:58:27.066Z",
+      "updatedAt": "2026-11-23T09:58:27.075Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
+    {
+      "fullName": "Dr. Amara Thorne",
+      "email": "amara.thorne@cleanpower-institute.org",
+      "phone": "+44 20 7946 0882",
+      "company": "Thorne Clean Energy Labs",
+      "country": "United Kingdom",
+      "city": "Oxford",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Research Microgrid",
+      "estimatedPowerReq": "25 kW DC Peak",
+      "estimatedDailyEnergy": "100 kWh",
+      "message": "Requirement for 48V direct-current distribution bus to power laboratory equipment.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795427871566",
+      "referenceNumber": "FS-2026-5874",
+      "createdAt": "2026-11-23T09:57:51.566Z",
+      "updatedAt": "2026-11-23T09:57:52.362Z",
+      "internalNotes": "48V DC bus requirement validated by electrical sizing desk. Proposal drafted."
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795427804436",
+      "referenceNumber": "FS-2026-1716",
+      "createdAt": "2026-11-23T09:56:44.436Z",
+      "updatedAt": "2026-11-23T09:56:44.443Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795427563846",
+      "referenceNumber": "FS-2026-3686",
+      "createdAt": "2026-11-23T09:52:43.846Z",
+      "updatedAt": "2026-11-23T09:52:43.857Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
+    {
+      "fullName": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "company": "Vance Industrial Microgrid",
+      "country": "United States",
+      "city": "San Francisco",
+      "productOfInterest": "Flash DC House Microgrid",
+      "projectType": "Commercial Rooftop",
+      "estimatedPowerReq": "15 kW DC Peak",
+      "estimatedDailyEnergy": "60 kWh",
+      "message": "Direct DC industrial line setup for server room backup.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "id": "enq_1795425141456",
+      "referenceNumber": "FS-2026-1358",
+      "createdAt": "2026-11-23T09:12:21.456Z",
+      "updatedAt": "2026-11-23T09:12:21.462Z",
+      "internalNotes": "Engineering desk verified 48V DC bus compatibility. Proposal sent."
+    },
+    {
+      "id": "enq_demo_01",
+      "referenceNumber": "FS-2026-1001",
+      "fullName": "Marcus Vance",
+      "company": "Vance Agro Facilities",
+      "email": "marcus@vanceagro.com",
+      "phone": "+1 (555) 349-2910",
+      "country": "United States",
+      "city": "Austin, TX",
+      "productOfInterest": "Flash DC House",
+      "projectType": "Agricultural / Remote Pumping",
+      "estimatedPowerReq": "15 kW DC",
+      "estimatedDailyEnergy": "45 kWh/day",
+      "message": "Interested in running deep-well submersible water pumps directly from 48V DC solar without central inverters.",
+      "privacyConsent": true,
+      "status": "QUALIFIED",
+      "assignedToId": "usr_sales_01",
+      "followUpDate": "2026-12-05",
+      "internalNotes": "Verified customer requirement. Provided preliminary sizing schematic for 3x Flash Power Wall clustering.",
+      "createdAt": "2026-11-21T08:27:46.961Z",
+      "updatedAt": "2026-11-23T08:27:46.961Z"
+    },
+    {
+      "id": "enq_demo_02",
+      "referenceNumber": "FS-2026-1002",
+      "fullName": "Dr. Sarah Lin",
+      "company": "Lin Estate Residence",
+      "email": "slin@residencemail.org",
+      "phone": "+44 20 7946 0912",
+      "country": "United Kingdom",
+      "city": "Surrey",
+      "productOfInterest": "Flash Power Wall",
+      "projectType": "Residential Storage",
+      "estimatedPowerReq": "10 kW",
+      "estimatedDailyEnergy": "28 kWh/day",
+      "message": "Looking to install 2 units of Flash Power Wall to store excess 8kWp rooftop solar generation and provide blackout resilience.",
+      "privacyConsent": true,
+      "status": "NEW",
+      "createdAt": "2026-11-23T03:27:46.961Z",
+      "updatedAt": "2026-11-23T08:27:46.961Z"
+    }
+  ],
+  "contactMessages": [
+    {
+      "name": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "subject": "Direct DC Microgrid Integration Inquiry",
+      "message": "Requesting consultation for server room sub-60V DC bus architecture.",
+      "status": "UNREAD",
+      "id": "msg_1795432713839",
+      "referenceNumber": "MSG-2026-777",
+      "createdAt": "2026-11-23T11:18:33.839Z",
+      "updatedAt": "2026-11-23T11:18:33.839Z"
+    },
+    {
+      "name": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "subject": "Direct DC Microgrid Integration Inquiry",
+      "message": "Requesting consultation for server room sub-60V DC bus architecture.",
+      "status": "UNREAD",
+      "id": "msg_1795432624989",
+      "referenceNumber": "MSG-2026-638",
+      "createdAt": "2026-11-23T11:17:04.989Z",
+      "updatedAt": "2026-11-23T11:17:04.989Z"
+    },
+    {
+      "name": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "subject": "Direct DC Microgrid Integration Inquiry",
+      "message": "Requesting consultation for server room sub-60V DC bus architecture.",
+      "status": "UNREAD",
+      "id": "msg_1795432459579",
+      "referenceNumber": "MSG-2026-204",
+      "createdAt": "2026-11-23T11:14:19.579Z",
+      "updatedAt": "2026-11-23T11:14:19.579Z"
+    },
+    {
+      "name": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "subject": "Direct DC Microgrid Integration Inquiry",
+      "message": "Requesting consultation for server room sub-60V DC bus architecture.",
+      "status": "UNREAD",
+      "id": "msg_1795432412222",
+      "referenceNumber": "MSG-2026-130",
+      "createdAt": "2026-11-23T11:13:32.222Z",
+      "updatedAt": "2026-11-23T11:13:32.222Z"
+    },
+    {
+      "name": "Marcus Vance",
+      "email": "marcus.vance@example.com",
+      "phone": "+1-415-555-0199",
+      "subject": "Direct DC Microgrid Integration Inquiry",
+      "message": "Requesting consultation for server room sub-60V DC bus architecture.",
+      "status": "UNREAD",
+      "id": "msg_1795427872707",
+      "referenceNumber": "MSG-2026-677",
+      "createdAt": "2026-11-23T09:57:52.707Z",
+      "updatedAt": "2026-11-23T09:57:52.707Z"
+    },
+    {
+      "id": "msg_01",
+      "referenceNumber": "MSG-2026-081",
+      "name": "Engineering Desk Inquiry",
+      "email": "tech@solardistributors.eu",
+      "phone": "+49 30 123456",
+      "subject": "BMS Telemetry Documentation",
+      "message": "Can you provide the CAN bus DBC files and RS485 register mapping for the Flash Power Wall?",
+      "status": "UNREAD",
+      "internalNotes": "Forward to firmware and hardware engineering team.",
+      "createdAt": "2026-11-22T20:27:46.961Z",
+      "updatedAt": "2026-11-23T08:27:46.961Z"
+    }
+  ],
+  "resources": [
+    {
+      "id": "res_01",
+      "slug": "flash-power-wall-datasheet",
+      "title": "Flash Power Wall Technical Datasheet",
+      "resourceType": "DATASHEET",
+      "summary": "Detailed electrical discharge curves, thermal operating limits, BMS protocols, and physical dimensions.",
+      "fileUrl": "/docs/flash-power-wall-datasheet.pdf",
+      "fileSize": "2.4 MB",
+      "downloadCount": 47,
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T08:27:46.961Z"
+    },
+    {
+      "id": "res_02",
+      "slug": "dc-house-architecture-guide",
+      "title": "Direct-Current House Architecture Guide",
+      "resourceType": "WHITEPAPER",
+      "summary": "System schematic for sub-60V DC residential distribution, wire gauge tables, and BLDC motor calculations.",
+      "fileUrl": "/docs/dc-house-architecture-guide.pdf",
+      "fileSize": "4.1 MB",
+      "downloadCount": 88,
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T08:27:46.961Z"
+    }
+  ],
+  "faqs": [
+    {
+      "id": "faq_01",
+      "category": "DC Engineering",
+      "question": "What is the primary engineering difference between Flash DC House and conventional AC solar?",
+      "answer": "Conventional solar systems generate Direct Current (DC), invert it to 230V Alternating Current (AC) using a central inverter, and then consumer appliances convert it back to DC via internal rectifiers, wasting 15% to 22% of solar power as heat. The Flash DC House uses a native direct-current bus to feed DC brushless appliances straight from the battery with zero inverter conversion loss.",
+      "displayOrder": 1,
+      "isPublished": true
+    },
+    {
+      "id": "faq_02",
+      "category": "Flash Power Wall",
+      "question": "Can the Flash Power Wall integrate with standard 230V hybrid AC inverters?",
+      "answer": "Yes. While Flash Solar champions direct DC microgrids for maximum efficiency, the Flash Power Wall operates on a standard 48V/51.2V DC low-voltage battery bus and seamlessly integrates with compatible pure sine-wave hybrid inverters for properties with existing AC wiring.",
+      "displayOrder": 2,
+      "isPublished": true
+    }
+  ],
+  "auditLogs": [
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795439089885",
+      "metadata": {
+        "referenceNumber": "FS-2026-1660",
+        "product": "Flash Power Wall",
+        "email": "walter@fringe-energy.org"
+      },
+      "id": "log_1795439089890",
+      "createdAt": "2026-11-23T13:04:49.890Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795439043356",
+      "metadata": {
+        "referenceNumber": "FS-2026-1147",
+        "product": "Flash Power Wall",
+        "email": "walter@fringe-energy.org"
+      },
+      "id": "log_1795439043361",
+      "createdAt": "2026-11-23T13:04:03.361Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795439014238",
+      "createdAt": "2026-11-23T13:03:34.238Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795438999084",
+      "metadata": {
+        "referenceNumber": "FS-2026-5937",
+        "product": "Flash Power Wall",
+        "email": "walter@fringe-energy.org"
+      },
+      "id": "log_1795438999134",
+      "createdAt": "2026-11-23T13:03:19.134Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795438916883",
+      "createdAt": "2026-11-23T13:01:56.883Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "DATABASE_BACKUP_EXPORTED",
+      "entityType": "System",
+      "entityId": "backup",
+      "id": "log_1795434918222",
+      "createdAt": "2026-11-23T11:55:18.222Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENQUIRY_UPDATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795434918069",
+      "metadata": {
+        "referenceNumber": "FS-2026-5221",
+        "oldStatus": "NEW",
+        "newStatus": "QUALIFIED",
+        "notesUpdated": true
+      },
+      "id": "log_1795434918102",
+      "createdAt": "2026-11-23T11:55:18.102Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795434918069",
+      "metadata": {
+        "referenceNumber": "FS-2026-5221",
+        "product": "Flash Power Wall",
+        "email": "walter@fringe-energy.org"
+      },
+      "id": "log_1795434918082",
+      "createdAt": "2026-11-23T11:55:18.082Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENGINEERING_STAGE_UPDATED",
+      "entityType": "EngineeringStage",
+      "entityId": "stg_01",
+      "metadata": {
+        "stageNumber": 1,
+        "title": "Solar Photovoltaic Generation"
+      },
+      "id": "log_1795434918037",
+      "createdAt": "2026-11-23T11:55:18.037Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PRODUCT_CREATED",
+      "entityType": "Product",
+      "entityId": "prod_1795434917997",
+      "metadata": {
+        "name": "Flash Test Cell 500W",
+        "slug": "flash-test-cell-500w"
+      },
+      "id": "log_1795434918002",
+      "createdAt": "2026-11-23T11:55:18.002Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "CATEGORY_SAVED",
+      "entityType": "ProductCategory",
+      "entityId": "cat_1795434917980",
+      "metadata": {
+        "name": "Test Inverter Series",
+        "slug": "test-inverter-series"
+      },
+      "id": "log_1795434917985",
+      "createdAt": "2026-11-23T11:55:17.985Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PAGE_SECTION_SAVED",
+      "entityType": "PageSection",
+      "entityId": "sec_1795434917966",
+      "metadata": {
+        "pageId": "page_home",
+        "sectionKey": "hero"
+      },
+      "id": "log_1795434917970",
+      "createdAt": "2026-11-23T11:55:17.970Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795434917910",
+      "createdAt": "2026-11-23T11:55:17.910Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "DATABASE_BACKUP_EXPORTED",
+      "entityType": "System",
+      "entityId": "backup",
+      "id": "log_1795434820303",
+      "createdAt": "2026-11-23T11:53:40.303Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENQUIRY_UPDATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795434820188",
+      "metadata": {
+        "referenceNumber": "FS-2026-9529",
+        "oldStatus": "NEW",
+        "newStatus": "QUALIFIED",
+        "notesUpdated": true
+      },
+      "id": "log_1795434820208",
+      "createdAt": "2026-11-23T11:53:40.208Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795434820188",
+      "metadata": {
+        "referenceNumber": "FS-2026-9529",
+        "product": "Flash Power Wall",
+        "email": "walter@fringe-energy.org"
+      },
+      "id": "log_1795434820191",
+      "createdAt": "2026-11-23T11:53:40.191Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENGINEERING_STAGE_UPDATED",
+      "entityType": "EngineeringStage",
+      "entityId": "stg_01",
+      "metadata": {
+        "stageNumber": 1,
+        "title": "Solar Photovoltaic Generation"
+      },
+      "id": "log_1795434820172",
+      "createdAt": "2026-11-23T11:53:40.172Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PRODUCT_CREATED",
+      "entityType": "Product",
+      "entityId": "prod_1795434820147",
+      "metadata": {
+        "name": "Flash Test Cell 500W",
+        "slug": "flash-test-cell-500w"
+      },
+      "id": "log_1795434820151",
+      "createdAt": "2026-11-23T11:53:40.151Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "CATEGORY_SAVED",
+      "entityType": "ProductCategory",
+      "entityId": "cat_1795434820133",
+      "metadata": {
+        "name": "Test Inverter Series",
+        "slug": "test-inverter-series"
+      },
+      "id": "log_1795434820139",
+      "createdAt": "2026-11-23T11:53:40.139Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PAGE_SECTION_SAVED",
+      "entityType": "PageSection",
+      "entityId": "sec_1795434820123",
+      "metadata": {
+        "pageId": "page_home",
+        "sectionKey": "hero"
+      },
+      "id": "log_1795434820127",
+      "createdAt": "2026-11-23T11:53:40.127Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795434820082",
+      "createdAt": "2026-11-23T11:53:40.082Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795434808814",
+      "createdAt": "2026-11-23T11:53:28.814Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795434754660",
+      "metadata": {
+        "referenceNumber": "FS-2026-8199",
+        "product": "Flash Power Wall",
+        "email": "walter@fringe-energy.org"
+      },
+      "id": "log_1795434754664",
+      "createdAt": "2026-11-23T11:52:34.664Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795434669024",
+      "metadata": {
+        "referenceNumber": "FS-2026-3779",
+        "product": "Flash Power Wall",
+        "email": "walter@fringe-energy.org"
+      },
+      "id": "log_1795434669037",
+      "createdAt": "2026-11-23T11:51:09.037Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795434503885",
+      "createdAt": "2026-11-23T11:48:23.885Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795433211796",
+      "createdAt": "2026-11-23T11:26:51.796Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795432727852",
+      "createdAt": "2026-11-23T11:18:47.852Z"
+    },
+    {
+      "action": "CONTACT_MESSAGE_RECEIVED",
+      "entityType": "ContactMessage",
+      "entityId": "msg_1795432713839",
+      "metadata": {
+        "reference": "MSG-2026-777",
+        "email": "marcus.vance@example.com"
+      },
+      "id": "log_1795432713841",
+      "createdAt": "2026-11-23T11:18:33.841Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENQUIRY_UPDATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795432713776",
+      "metadata": {
+        "referenceNumber": "FS-2026-1611",
+        "oldStatus": "NEW",
+        "newStatus": "QUALIFIED",
+        "notesUpdated": true
+      },
+      "id": "log_1795432713830",
+      "createdAt": "2026-11-23T11:18:33.830Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795432713776",
+      "metadata": {
+        "referenceNumber": "FS-2026-1611",
+        "product": "Flash DC House Microgrid",
+        "email": "amara.thorne@cleanpower-institute.org"
+      },
+      "id": "log_1795432713801",
+      "createdAt": "2026-11-23T11:18:33.801Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PRODUCT_UPDATED",
+      "entityType": "Product",
+      "entityId": "prod_test_1795432713740",
+      "metadata": {
+        "name": "Flash Container Storage 1MWh"
+      },
+      "id": "log_1795432713766",
+      "createdAt": "2026-11-23T11:18:33.766Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PRODUCT_CREATED",
+      "entityType": "Product",
+      "entityId": "prod_test_1795432713740",
+      "metadata": {
+        "name": "Flash Container Storage 1MWh",
+        "slug": "flash-container-3740"
+      },
+      "id": "log_1795432713751",
+      "createdAt": "2026-11-23T11:18:33.751Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795432713703",
+      "createdAt": "2026-11-23T11:18:33.703Z"
+    },
+    {
+      "action": "CONTACT_MESSAGE_RECEIVED",
+      "entityType": "ContactMessage",
+      "entityId": "msg_1795432624989",
+      "metadata": {
+        "reference": "MSG-2026-638",
+        "email": "marcus.vance@example.com"
+      },
+      "id": "log_1795432624991",
+      "createdAt": "2026-11-23T11:17:04.991Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795432624969",
+      "metadata": {
+        "referenceNumber": "FS-2026-6829",
+        "product": "Flash DC House Microgrid",
+        "email": "amara.thorne@cleanpower-institute.org"
+      },
+      "id": "log_1795432624971",
+      "createdAt": "2026-11-23T11:17:04.971Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ADMIN_CREDENTIAL_ROTATED",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN",
+        "rotatedAt": "2026-11-23T11:16:59.368Z",
+        "method": "ENVIRONMENT_OR_CLI_CONFIGURED"
+      },
+      "id": "log_1795432619371",
+      "createdAt": "2026-11-23T11:16:59.371Z"
+    },
+    {
+      "action": "CONTACT_MESSAGE_RECEIVED",
+      "entityType": "ContactMessage",
+      "entityId": "msg_1795432459579",
+      "metadata": {
+        "reference": "MSG-2026-204",
+        "email": "marcus.vance@example.com"
+      },
+      "id": "log_1795432459581",
+      "createdAt": "2026-11-23T11:14:19.581Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795432459527",
+      "metadata": {
+        "referenceNumber": "FS-2026-2095",
+        "product": "Flash DC House Microgrid",
+        "email": "amara.thorne@cleanpower-institute.org"
+      },
+      "id": "log_1795432459550",
+      "createdAt": "2026-11-23T11:14:19.550Z"
+    },
+    {
+      "action": "CONTACT_MESSAGE_RECEIVED",
+      "entityType": "ContactMessage",
+      "entityId": "msg_1795432412222",
+      "metadata": {
+        "reference": "MSG-2026-130",
+        "email": "marcus.vance@example.com"
+      },
+      "id": "log_1795432412224",
+      "createdAt": "2026-11-23T11:13:32.224Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795432411800",
+      "metadata": {
+        "referenceNumber": "FS-2026-5883",
+        "product": "Flash DC House Microgrid",
+        "email": "amara.thorne@cleanpower-institute.org"
+      },
+      "id": "log_1795432411803",
+      "createdAt": "2026-11-23T11:13:31.803Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795432340441",
+      "createdAt": "2026-11-23T11:12:20.441Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795427907077",
+      "createdAt": "2026-11-23T09:58:27.077Z"
+    },
+    {
+      "action": "CONTACT_MESSAGE_RECEIVED",
+      "entityType": "ContactMessage",
+      "entityId": "msg_1795427872707",
+      "metadata": {
+        "reference": "MSG-2026-677",
+        "email": "marcus.vance@example.com"
+      },
+      "id": "log_1795427872710",
+      "createdAt": "2026-11-23T09:57:52.710Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ENQUIRY_UPDATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795427871566",
+      "metadata": {
+        "referenceNumber": "FS-2026-5874",
+        "oldStatus": "NEW",
+        "newStatus": "QUALIFIED",
+        "notesUpdated": true
+      },
+      "id": "log_1795427872364",
+      "createdAt": "2026-11-23T09:57:52.364Z"
+    },
+    {
+      "action": "ENQUIRY_CREATED",
+      "entityType": "Enquiry",
+      "entityId": "enq_1795427871566",
+      "metadata": {
+        "referenceNumber": "FS-2026-5874",
+        "product": "Flash DC House Microgrid",
+        "email": "amara.thorne@cleanpower-institute.org"
+      },
+      "id": "log_1795427871572",
+      "createdAt": "2026-11-23T09:57:51.572Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PRODUCT_UPDATED",
+      "entityType": "Product",
+      "entityId": "prod_test_1795427870537",
+      "metadata": {
+        "name": "Flash Container Storage 1MWh"
+      },
+      "id": "log_1795427871339",
+      "createdAt": "2026-11-23T09:57:51.339Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "PRODUCT_CREATED",
+      "entityType": "Product",
+      "entityId": "prod_test_1795427870537",
+      "metadata": {
+        "name": "Flash Container Storage 1MWh",
+        "slug": "flash-container-0537"
+      },
+      "id": "log_1795427870556",
+      "createdAt": "2026-11-23T09:57:50.556Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "USER_LOGIN",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN"
+      },
+      "id": "log_1795427870119",
+      "createdAt": "2026-11-23T09:57:50.119Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795427804446",
+      "createdAt": "2026-11-23T09:56:44.446Z"
+    },
+    {
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "ADMIN_CREDENTIAL_ROTATED",
+      "entityType": "User",
+      "entityId": "usr_superadmin_01",
+      "metadata": {
+        "email": "admin@flashsolar.org",
+        "role": "SUPER_ADMIN",
+        "rotatedAt": "2026-11-23T09:56:36.180Z",
+        "method": "ENVIRONMENT_OR_CLI_CONFIGURED"
+      },
+      "id": "log_1795427796183",
+      "createdAt": "2026-11-23T09:56:36.183Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795427563860",
+      "createdAt": "2026-11-23T09:52:43.860Z"
+    },
+    {
+      "action": "TEST_VERIFICATION",
+      "entityType": "TestSuite",
+      "entityId": "test_01",
+      "metadata": {
+        "passed": true
+      },
+      "id": "log_1795425141465",
+      "createdAt": "2026-11-23T09:12:21.465Z"
+    },
+    {
+      "id": "log_01",
+      "userId": "usr_superadmin_01",
+      "userName": "Flash Solar Administrator",
+      "action": "SYSTEM_INITIALIZATION",
+      "entityType": "System",
+      "entityId": "platform",
+      "metadata": {
+        "status": "Platform initialized with verified products and admin accounts"
+      },
+      "createdAt": "2026-11-23T08:27:46.961Z"
+    }
+  ],
+  "analytics": [
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/",
+      "deviceType": "desktop",
+      "id": "evt_1795439089953",
+      "createdAt": "2026-11-23T13:04:49.953Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795439089885",
+      "metadata": {
+        "referenceNumber": "FS-2026-1660"
+      },
+      "id": "evt_1795439089894",
+      "createdAt": "2026-11-23T13:04:49.894Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/",
+      "deviceType": "desktop",
+      "id": "evt_1795439043409",
+      "createdAt": "2026-11-23T13:04:03.409Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795439043356",
+      "metadata": {
+        "referenceNumber": "FS-2026-1147"
+      },
+      "id": "evt_1795439043365",
+      "createdAt": "2026-11-23T13:04:03.365Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/",
+      "deviceType": "desktop",
+      "id": "evt_1795438999245",
+      "createdAt": "2026-11-23T13:03:19.245Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795438999084",
+      "metadata": {
+        "referenceNumber": "FS-2026-5937"
+      },
+      "id": "evt_1795438999139",
+      "createdAt": "2026-11-23T13:03:19.139Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795438916886",
+      "createdAt": "2026-11-23T13:01:56.886Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/",
+      "deviceType": "desktop",
+      "id": "evt_1795434918160",
+      "createdAt": "2026-11-23T11:55:18.160Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795434918069",
+      "metadata": {
+        "referenceNumber": "FS-2026-5221"
+      },
+      "id": "evt_1795434918085",
+      "createdAt": "2026-11-23T11:55:18.085Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/",
+      "deviceType": "desktop",
+      "id": "evt_1795434820246",
+      "createdAt": "2026-11-23T11:53:40.246Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795434820188",
+      "metadata": {
+        "referenceNumber": "FS-2026-9529"
+      },
+      "id": "evt_1795434820194",
+      "createdAt": "2026-11-23T11:53:40.194Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/",
+      "deviceType": "desktop",
+      "id": "evt_1795434754718",
+      "createdAt": "2026-11-23T11:52:34.718Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795434754660",
+      "metadata": {
+        "referenceNumber": "FS-2026-8199"
+      },
+      "id": "evt_1795434754666",
+      "createdAt": "2026-11-23T11:52:34.666Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/",
+      "deviceType": "desktop",
+      "id": "evt_1795434669103",
+      "createdAt": "2026-11-23T11:51:09.103Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795434669024",
+      "metadata": {
+        "referenceNumber": "FS-2026-3779"
+      },
+      "id": "evt_1795434669043",
+      "createdAt": "2026-11-23T11:51:09.043Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795434503893",
+      "createdAt": "2026-11-23T11:48:23.893Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795433211800",
+      "createdAt": "2026-11-23T11:26:51.800Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795432727854",
+      "createdAt": "2026-11-23T11:18:47.854Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "metadata": {
+        "targetText": "Request Technical Sizing"
+      },
+      "id": "evt_1795432713868",
+      "createdAt": "2026-11-23T11:18:33.868Z"
+    },
+    {
+      "eventType": "RESOURCE_DOWNLOAD",
+      "path": "/resources/flash-power-wall-datasheet",
+      "metadata": {
+        "slug": "flash-power-wall-datasheet"
+      },
+      "id": "evt_1795432713856",
+      "createdAt": "2026-11-23T11:18:33.856Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795432713776",
+      "metadata": {
+        "referenceNumber": "FS-2026-1611"
+      },
+      "id": "evt_1795432713804",
+      "createdAt": "2026-11-23T11:18:33.804Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "metadata": {
+        "targetText": "Request Technical Sizing"
+      },
+      "id": "evt_1795432625010",
+      "createdAt": "2026-11-23T11:17:05.010Z"
+    },
+    {
+      "eventType": "RESOURCE_DOWNLOAD",
+      "path": "/resources/flash-power-wall-datasheet",
+      "metadata": {
+        "slug": "flash-power-wall-datasheet"
+      },
+      "id": "evt_1795432625005",
+      "createdAt": "2026-11-23T11:17:05.005Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795432624969",
+      "metadata": {
+        "referenceNumber": "FS-2026-6829"
+      },
+      "id": "evt_1795432624974",
+      "createdAt": "2026-11-23T11:17:04.974Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "metadata": {
+        "targetText": "Request Technical Sizing"
+      },
+      "id": "evt_1795432459606",
+      "createdAt": "2026-11-23T11:14:19.606Z"
+    },
+    {
+      "eventType": "RESOURCE_DOWNLOAD",
+      "path": "/resources/flash-power-wall-datasheet",
+      "metadata": {
+        "slug": "flash-power-wall-datasheet"
+      },
+      "id": "evt_1795432459597",
+      "createdAt": "2026-11-23T11:14:19.597Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795432459527",
+      "metadata": {
+        "referenceNumber": "FS-2026-2095"
+      },
+      "id": "evt_1795432459553",
+      "createdAt": "2026-11-23T11:14:19.553Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "metadata": {
+        "targetText": "Request Technical Sizing"
+      },
+      "id": "evt_1795432412593",
+      "createdAt": "2026-11-23T11:13:32.593Z"
+    },
+    {
+      "eventType": "RESOURCE_DOWNLOAD",
+      "path": "/resources/flash-power-wall-datasheet",
+      "metadata": {
+        "slug": "flash-power-wall-datasheet"
+      },
+      "id": "evt_1795432412424",
+      "createdAt": "2026-11-23T11:13:32.424Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795432411800",
+      "metadata": {
+        "referenceNumber": "FS-2026-5883"
+      },
+      "id": "evt_1795432411805",
+      "createdAt": "2026-11-23T11:13:31.805Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795432340443",
+      "createdAt": "2026-11-23T11:12:20.443Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795427907079",
+      "createdAt": "2026-11-23T09:58:27.079Z"
+    },
+    {
+      "eventType": "CTA_CLICK",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "metadata": {
+        "targetText": "Request Technical Sizing"
+      },
+      "id": "evt_1795427873270",
+      "createdAt": "2026-11-23T09:57:53.270Z"
+    },
+    {
+      "eventType": "RESOURCE_DOWNLOAD",
+      "path": "/resources/flash-power-wall-datasheet",
+      "metadata": {
+        "slug": "flash-power-wall-datasheet"
+      },
+      "id": "evt_1795427873042",
+      "createdAt": "2026-11-23T09:57:53.042Z"
+    },
+    {
+      "eventType": "ENQUIRY_SUBMIT",
+      "path": "/#enquiry",
+      "entityId": "enq_1795427871566",
+      "metadata": {
+        "referenceNumber": "FS-2026-5874"
+      },
+      "id": "evt_1795427871575",
+      "createdAt": "2026-11-23T09:57:51.575Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795427804448",
+      "createdAt": "2026-11-23T09:56:44.448Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795427563862",
+      "createdAt": "2026-11-23T09:52:43.862Z"
+    },
+    {
+      "eventType": "PAGE_VIEW",
+      "path": "/#enquiry",
+      "deviceType": "desktop",
+      "id": "evt_1795425141468",
+      "createdAt": "2026-11-23T09:12:21.468Z"
+    },
+    {
+      "id": "evt_01",
+      "eventType": "PAGE_VIEW",
+      "path": "/",
+      "deviceType": "desktop",
+      "createdAt": "2026-11-23T08:27:46.961Z"
+    }
+  ],
+  "settings": [
+    {
+      "key": "site_name",
+      "value": "Flash Solar",
+      "description": "Official platform brand name",
+      "group": "general",
+      "updatedAt": "2026-11-23T08:27:46.961Z"
+    },
+    {
+      "key": "contact_email",
+      "value": "info@flashsolar.org",
+      "description": "Primary company notifications and inquiries address",
+      "group": "email",
+      "updatedAt": "2026-11-23T08:27:46.961Z"
+    },
+    {
+      "key": "system_currency",
+      "value": "USD",
+      "description": "Standard currency code",
+      "group": "general",
+      "updatedAt": "2026-11-23T08:27:46.961Z"
+    }
+  ],
+  "mediaAssets": [
+    {
+      "id": "med_01",
+      "filename": "solar-photovoltaic-generation.jpg",
+      "fileUrl": "/images/solar-photovoltaic-generation.jpg",
+      "mimeType": "image/jpeg",
+      "sizeBytes": 887656,
+      "category": "Solar Installation",
+      "altText": "Commercial Solar Farm at Golden Hour with Native DC Generation",
+      "createdAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "med_02",
+      "filename": "flash-power-wall.jpg",
+      "fileUrl": "/images/flash-power-wall.jpg",
+      "mimeType": "image/jpeg",
+      "sizeBytes": 782955,
+      "category": "Battery Storage",
+      "altText": "Flash Power Wall Architectural Wall-Mounted Lithium Battery",
+      "createdAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "med_03",
+      "filename": "logo.jpg",
+      "fileUrl": "/images/logo.jpg",
+      "mimeType": "image/jpeg",
+      "sizeBytes": 25400,
+      "category": "Logos",
+      "altText": "Flash Solar Official Brand Mark",
+      "createdAt": "2026-11-23T11:26:51.763Z"
+    }
+  ],
+  "pages": [
+    {
+      "id": "pg_home",
+      "slug": "home",
+      "title": "Flash Solar — Direct-Current Energy Engineering",
+      "summary": "Official homepage featuring direct-current architecture, Flash Power Wall, and zero-conversion loss microgrids.",
+      "status": "PUBLISHED",
+      "metaTitle": "Flash Solar | High-Efficiency Direct-Current Energy Architecture",
+      "metaDescription": "Pioneering sub-60V touch-safe direct current microgrids and high-density LiFePO4 battery energy storage systems.",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "pg_about",
+      "slug": "about",
+      "title": "About Flash Solar",
+      "summary": "Engineering leadership and vision behind pure direct-current microgrid distribution.",
+      "status": "PUBLISHED",
+      "metaTitle": "About Flash Solar | DC Power Engineering",
+      "metaDescription": "Dedicated to eliminating alternating-current conversion waste in domestic and commercial solar power.",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "pg_products",
+      "slug": "products",
+      "title": "Hardware & Energy Storage Systems",
+      "summary": "Flash Power Wall, DC House microgrids, and hybrid storage systems.",
+      "status": "PUBLISHED",
+      "metaTitle": "Solar & Battery Storage Hardware | Flash Solar",
+      "metaDescription": "Explore Flash Power Wall and scalable direct-current energy storage architectures.",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "pg_services",
+      "slug": "services",
+      "title": "Engineering & Turnkey Services",
+      "summary": "Microgrid load profiling, containerized BESS, and preventative diagnostics.",
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "pg_engineering",
+      "slug": "engineering",
+      "title": "Direct-Current Architecture",
+      "summary": "The 5-stage direct-current energy distribution paradigm.",
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "pg_contact",
+      "slug": "contact",
+      "title": "Engineering Consultation Desk",
+      "summary": "Direct contact with technical sizing engineers.",
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    }
+  ],
+  "pageSections": [
+    {
+      "id": "sec_hero",
+      "pageId": "pg_home",
+      "sectionKey": "hero",
+      "title": "Direct-Current Architecture. Zero Conversion Waste.",
+      "subtitle": "Engineered for uncompromising industrial endurance and sub-60V safe electrical distribution.",
+      "badge": "Next-Gen Energy Architecture",
+      "content": {
+        "primaryCtaText": "Explore DC Journey",
+        "primaryCtaLink": "#dc-journey",
+        "secondaryCtaText": "Consult Engineering Desk",
+        "secondaryCtaLink": "#enquiry",
+        "benchmarkPillText": "High-Efficiency Clean Energy Standard",
+        "benchmarkTitle": "Thermodynamic Benchmark",
+        "benchmarkSub": "99.2% MPPT tracking coupled with direct DC low-voltage distribution."
+      },
+      "mediaUrl": "/images/solar-photovoltaic-generation.jpg",
+      "displayOrder": 1,
+      "isVisible": true,
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "sec_1795434917966",
+      "pageId": "page_home",
+      "sectionKey": "hero",
+      "title": "Flash Solar Clean Energy Systems",
+      "subtitle": "High-Efficiency Clean Energy Engineering",
+      "content": {
+        "headline": "Enterprise Solar Infrastructure"
+      },
+      "displayOrder": 1,
+      "isVisible": true,
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T11:55:17.966Z",
+      "updatedAt": "2026-11-23T11:55:17.968Z"
+    }
+  ],
+  "engineeringStages": [
+    {
+      "id": "stg_01",
+      "stageNumber": 1,
+      "slug": "solar-generation",
+      "title": "Solar Photovoltaic Generation",
+      "badge": "STAGE 01 • HARVEST",
+      "subtitle": "100% Native DC Generation",
+      "description": "Utility and rooftop solar modules capture sunlight and generate pure direct-current electricity directly at source.",
+      "technicalDetails": "High-efficiency N-type TOPCon/HJT crystalline modules operating at optimal irradiance angles, generating steady direct-current without intermediate conversion.",
+      "imageUrl": "/images/solar-photovoltaic-generation.jpg",
+      "voltageBus": "120V - 450V DC",
+      "efficiencyMetric": "22.8% Module Efficiency",
+      "specs": [
+        {
+          "label": "Nominal Operating Bus",
+          "value": "120V - 450V DC"
+        },
+        {
+          "label": "Module Technology",
+          "value": "Bifacial N-Type TOPCon"
+        },
+        {
+          "label": "Temperature Coefficient",
+          "value": "-0.30% / °C"
+        },
+        {
+          "label": "String Architecture",
+          "value": "Optimum Voltage Series"
+        }
+      ],
+      "animationLabel": "STAGE 01 • GENERATION",
+      "displayOrder": 1,
+      "isVisible": true,
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:55:18.033Z"
+    },
+    {
+      "id": "stg_02",
+      "stageNumber": 2,
+      "slug": "mppt-regulation",
+      "title": "Maximum Power Point Tracking (MPPT)",
+      "badge": "STAGE 02 • REGULATION",
+      "subtitle": "High-Speed Dynamic Power Tracking",
+      "description": "Digital microprocessors track the solar array's IV curve in milliseconds, maximizing energy extraction under changing cloud cover.",
+      "technicalDetails": "Patented high-frequency buck-boost DC-DC topologies step varying string voltages down to a stabilized bus with greater than 99% conversion efficiency.",
+      "imageUrl": "/images/dc-house.svg",
+      "voltageBus": "48V - 60V DC Regulated",
+      "efficiencyMetric": "99.2% MPPT Tracking",
+      "specs": [
+        {
+          "label": "Tracking Speed",
+          "value": "<10 Milliseconds"
+        },
+        {
+          "label": "Peak Efficiency",
+          "value": "99.2% Conversion"
+        },
+        {
+          "label": "Topology",
+          "value": "Synchronous Buck-Boost"
+        },
+        {
+          "label": "Thermal Dissipation",
+          "value": "Passive Aluminum Sink"
+        }
+      ],
+      "animationLabel": "STAGE 02 • REGULATION",
+      "displayOrder": 2,
+      "isVisible": true,
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "stg_03",
+      "stageNumber": 3,
+      "slug": "bess-storage",
+      "title": "Battery Energy Storage System (BESS)",
+      "badge": "STAGE 03 • STORAGE",
+      "subtitle": "Flash Power Wall Direct-Coupled Storage",
+      "description": "Direct-coupled LiFePO4 battery storage absorbs solar generation surpluses directly on the common DC bus with zero round-trip AC penalty.",
+      "technicalDetails": "Modular 51.2V architecture with active cell balancing, intelligent thermals, and 6,000+ cycle endurance at 90% depth of discharge.",
+      "imageUrl": "/images/flash-power-wall.jpg",
+      "voltageBus": "51.2V DC Nominal (48V Safe)",
+      "efficiencyMetric": ">95% Round-Trip Cell Efficiency",
+      "specs": [
+        {
+          "label": "Nominal Operating Bus",
+          "value": "51.2 V DC (48V Safe)"
+        },
+        {
+          "label": "Battery Chemistry",
+          "value": "Lithium Iron Phosphate (LiFePO4)"
+        },
+        {
+          "label": "Cycle Endurance",
+          "value": "6,000+ Cycles @ 80% DoD"
+        },
+        {
+          "label": "Scalability",
+          "value": "Up to 8 Units Parallel"
+        }
+      ],
+      "animationLabel": "STAGE 03 • STORAGE",
+      "displayOrder": 3,
+      "isVisible": true,
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "stg_04",
+      "stageNumber": 4,
+      "slug": "dc-distribution",
+      "title": "Direct-Current Distribution Bus",
+      "badge": "STAGE 04 • DISTRIBUTION",
+      "subtitle": "Sub-60V Touch-Safe Premise Architecture",
+      "description": "Centralized copper busbars route safe low-voltage direct current through building raceways, eliminating noisy inverters and fire hazards.",
+      "technicalDetails": "Sub-60V DC classification conforms to strict SELV (Safety Extra-Low Voltage) international electrical standards with zero shock risk.",
+      "imageUrl": "/images/ac-house.svg",
+      "voltageBus": "48V DC Touch Safe",
+      "efficiencyMetric": "99.8% Busbar Transmission",
+      "specs": [
+        {
+          "label": "Safety Standard",
+          "value": "SELV Sub-60V Class 2"
+        },
+        {
+          "label": "Conductor Material",
+          "value": "Electrolytic Pure Copper"
+        },
+        {
+          "label": "Arc Fault Hazard",
+          "value": "Zero AC Inductive Plasma"
+        },
+        {
+          "label": "EMI / RFI Emission",
+          "value": "Zero High-Frequency Noise"
+        }
+      ],
+      "animationLabel": "STAGE 04 • DISTRIBUTION",
+      "displayOrder": 4,
+      "isVisible": true,
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "stg_05",
+      "stageNumber": 5,
+      "slug": "load-applications",
+      "title": "High-Efficiency DC End-Loads",
+      "badge": "STAGE 05 • APPLICATION",
+      "subtitle": "Brushless Motors, LED & Critical Compute",
+      "description": "Modern end-use equipment consumes direct current natively: BLDC fans, refrigeration, LED drivers, computers, and EV chargers.",
+      "technicalDetails": "Eliminating the AC-to-DC internal rectifiers in consumer appliances reduces electricity consumption by up to 25% across all daily loads.",
+      "imageUrl": "/images/flash-power-wall.jpg",
+      "voltageBus": "12V / 24V / 48V DC Native",
+      "efficiencyMetric": "Up to 25% Energy Savings",
+      "specs": [
+        {
+          "label": "Motor Technology",
+          "value": "Brushless DC (BLDC)"
+        },
+        {
+          "label": "Lighting Compatibility",
+          "value": "Direct Constant-Current LED"
+        },
+        {
+          "label": "Compute Readiness",
+          "value": "Server & Microgrid Ready"
+        },
+        {
+          "label": "Continuous Autonomy",
+          "value": "+22% Extended Runtime"
+        }
+      ],
+      "animationLabel": "STAGE 05 • APPLICATION",
+      "displayOrder": 5,
+      "isVisible": true,
+      "status": "PUBLISHED",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    }
+  ],
+  "emailTemplates": [
+    {
+      "id": "tmpl_01",
+      "slug": "enquiry_notification",
+      "name": "New Sizing Enquiry Alert",
+      "subject": "[New Sizing Enquiry] Ref: {{referenceNumber}} - {{customerName}} ({{productName}})",
+      "body": "New Flash Solar Engineering Enquiry\nReference: {{referenceNumber}}\nFull Name: {{customerName}}\nCompany: {{company}}\nEmail: {{email}}\nPhone: {{phone}}\nLocation: {{location}}\nProduct: {{productName}}\nProject Type: {{projectType}}\nEstimated Power: {{powerReq}}\nDaily Energy Demand: {{dailyEnergy}}\n\nMessage:\n{{message}}\n\nReceived: {{date}}",
+      "senderName": "Flash Solar Engineering Desk",
+      "variables": [
+        "referenceNumber",
+        "customerName",
+        "company",
+        "email",
+        "phone",
+        "location",
+        "productName",
+        "projectType",
+        "powerReq",
+        "dailyEnergy",
+        "message",
+        "date"
+      ],
+      "isEnabled": true,
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "tmpl_02",
+      "slug": "enquiry_confirmation",
+      "name": "Customer Enquiry Confirmation Receipt",
+      "subject": "Flash Solar Enquiry Confirmation [Ref: {{referenceNumber}}]",
+      "body": "Hello {{customerName}},\n\nThank you for contacting Flash Solar regarding {{productName}}.\n\nWe have received your project details and assigned reference number: {{referenceNumber}}.\nOur electrical engineering team will review your load specifications and contact you shortly.\n\nSummary of submitted information:\n- Reference: {{referenceNumber}}\n- System of Interest: {{productName}}\n- Contact Phone: {{phone}}\n\nFor urgent technical assistance, please reply to this email or contact info@flashsolar.org.\n\nWarm regards,\nFlash Solar Engineering Desk\nhttps://flashsolar.org",
+      "senderName": "Flash Solar Engineering Desk",
+      "variables": [
+        "referenceNumber",
+        "customerName",
+        "productName",
+        "phone"
+      ],
+      "isEnabled": true,
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "tmpl_03",
+      "slug": "contact_alert",
+      "name": "Contact Message Received",
+      "subject": "[Contact Form Message] {{subject}} - {{name}}",
+      "body": "New Contact Message Received\nReference: {{referenceNumber}}\nName: {{name}}\nEmail: {{email}}\nPhone: {{phone}}\nSubject: {{subject}}\n\nMessage:\n{{message}}",
+      "senderName": "Flash Solar Contact Desk",
+      "variables": [
+        "referenceNumber",
+        "name",
+        "email",
+        "phone",
+        "subject",
+        "message"
+      ],
+      "isEnabled": true,
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "tmpl_04",
+      "slug": "lead_assignment",
+      "name": "Lead Assignment Notification",
+      "subject": "[Lead Assigned] Ref: {{referenceNumber}} - {{customerName}} ({{productName}})",
+      "body": "Hello {{assigneeName}},\n\nA prospective client engineering sizing enquiry has been assigned to you.\n\nLead Reference: {{referenceNumber}}\nClient Name: {{customerName}}\nCompany: {{company}}\nEmail: {{email}}\nPhone: {{phone}}\nProduct of Interest: {{productName}}\nProject Type: {{projectType}}\nEstimated Power: {{powerReq}}\nDaily Energy Demand: {{dailyEnergy}}\n\nReview and update lead status at:\nhttps://flashsolar.org/admin/enquiries?search={{referenceNumber}}\n\nFlash Solar Lead Dispatcher",
+      "senderName": "Flash Solar Lead Dispatcher",
+      "variables": [
+        "assigneeName",
+        "referenceNumber",
+        "customerName",
+        "company",
+        "email",
+        "phone",
+        "productName",
+        "projectType",
+        "powerReq",
+        "dailyEnergy"
+      ],
+      "isEnabled": true,
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "tmpl_05",
+      "slug": "password_reset",
+      "name": "Administrative Password Reset",
+      "subject": "[Flash Solar Security] Administrative Password Reset Request",
+      "body": "Hello {{name}},\n\nA password reset request has been initiated for your Flash Solar administrative account ({{email}}).\n\nTo reset your password, visit the following secure link (valid for 60 minutes):\n{{resetLink}}\n\nIf you did not request this password reset, please ignore this notice or contact the platform security desk immediately at info@flashsolar.org.\n\nFlash Solar Infrastructure Security\nhttps://flashsolar.org",
+      "senderName": "Flash Solar Security",
+      "variables": [
+        "name",
+        "email",
+        "resetLink"
+      ],
+      "isEnabled": true,
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "tst_01",
+      "authorName": "Dr. Evelyn Reed",
+      "authorTitle": "Lead Microgrid Architect",
+      "company": "Nordic Clean Energy Consortium",
+      "quote": "The direct-current architecture eliminates inverter failure points completely. Our remote test laboratory achieved continuous 99.8% power availability with Flash Power Wall clustering.",
+      "rating": 5,
+      "verified": true,
+      "isPublished": true,
+      "createdAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "tst_02",
+      "authorName": "Liam Vance",
+      "authorTitle": "Chief Operations Officer",
+      "company": "Vance Precision Agro",
+      "quote": "Running deep-well water pumps on native 48V DC without a central inverter decreased our motor failure rate to zero and saved over 18% in monthly kilowatt-hour waste.",
+      "rating": 5,
+      "verified": true,
+      "isPublished": true,
+      "createdAt": "2026-11-23T11:26:51.763Z"
+    }
+  ],
+  "blogCategories": [
+    {
+      "id": "bcat_01",
+      "slug": "dc-engineering",
+      "name": "DC Engineering & Architecture",
+      "description": "Thermodynamic and electrical analysis of direct-current microgrid topologies.",
+      "createdAt": "2026-11-23T11:26:51.763Z"
+    },
+    {
+      "id": "bcat_02",
+      "slug": "battery-storage",
+      "name": "Battery Energy Storage",
+      "description": "Lithium Iron Phosphate (LiFePO4) cell chemistry, BMS protocols, and cycle longevity.",
+      "createdAt": "2026-11-23T11:26:51.763Z"
+    }
+  ],
+  "blogPosts": [
+    {
+      "id": "post_01",
+      "categoryId": "bcat_01",
+      "authorId": "usr_superadmin_01",
+      "authorName": "Flash Solar Engineering Desk",
+      "slug": "direct-current-microgrids-thermodynamic-advantage",
+      "title": "Direct-Current Microgrids vs Traditional AC Solar: A Thermodynamic Comparison",
+      "excerpt": "Why inverting DC solar to AC and back to DC inside appliances introduces unacceptable thermal losses and how sub-60V DC architectures fix it.",
+      "content": "## The Inversion Tax\nIn conventional residential and commercial photovoltaic installations, solar panels produce direct-current (DC) power. This electricity is fed into a central inverter to produce 230V alternating current (AC). When this power reaches modern electronics—LED lighting, brushless DC motors, computing clusters, and battery chargers—it is rectified back into DC by internal power supplies.\n\nEach conversion stage sheds energy as heat, creating an aggregate thermodynamic loss between 15% and 22%.\n\n## Sub-60V Direct-Current Distribution\nBy establishing a centralized 48V/51.2V DC low-voltage bus directly from the solar array and the Flash Power Wall, power flows natively into end-loads. Conductor losses are managed via proper copper busbar cross-sections, and central inverter failure points are eliminated.\n\n## Conclusion\nFor modern energy engineering, direct current is not a legacy concept—it is the optimal engineering pathway for high-density, mission-critical renewable power.",
+      "status": "PUBLISHED",
+      "publishedAt": "2026-11-23T11:26:51.763Z",
+      "featuredImage": "/images/solar-photovoltaic-generation.jpg",
+      "metaTitle": "DC Microgrids vs AC Solar | Flash Solar Engineering",
+      "metaDescription": "Thermodynamic comparison between native direct-current microgrids and conventional AC solar.",
+      "createdAt": "2026-11-23T11:26:51.763Z",
+      "updatedAt": "2026-11-23T11:26:51.763Z"
+    }
+  ],
+  "leadActivities": []
+}

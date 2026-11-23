@@ -3,6 +3,24 @@ import { db } from "@/lib/db/store";
 import { requireAuthSession } from "@/lib/auth/session";
 import { Role } from "@prisma/client";
 
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const product = db.getProductById(params.id) || db.getProductBySlug(params.id);
+    if (!product) {
+      return NextResponse.json({ success: false, error: "Product not found" }, { status: 404 });
+    }
+    return NextResponse.json({ success: true, product });
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, error: error instanceof Error ? error.message : "Failed to load product" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }

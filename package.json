@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "admin:bootstrap": "npx tsx scripts/bootstrap-admin.ts"
+    "admin:bootstrap": "npx tsx scripts/bootstrap-admin.ts",
+    "db:migrate-json": "npx tsx scripts/migrate-json-to-postgres.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.21.1",

@@ -17,6 +17,7 @@ export const ROLE_HIERARCHY: Record<Role, number> = {
   SUPER_ADMIN: 5,
   ADMIN: 4,
   CONTENT_MANAGER: 3,
+  MARKETING_MANAGER: 3,
   SALES_MANAGER: 2,
   VIEWER: 1,
 };
@@ -66,6 +67,8 @@ export async function getCurrentSession(): Promise<SessionPayload | null> {
   if (!token) return null;
   return verifySessionToken(token);
 }
+
+export const getSession = getCurrentSession;
 
 export async function requireAuthSession(minRole: Role = Role.VIEWER): Promise<SessionPayload> {
   const session = await getCurrentSession();

@@ -13,6 +13,7 @@ enum Role {
   ADMIN
   CONTENT_MANAGER
   SALES_MANAGER
+  MARKETING_MANAGER
   VIEWER
 }
 
@@ -20,6 +21,13 @@ enum PublishStatus {
   DRAFT
   PUBLISHED
   ARCHIVED
+}
+
+enum LeadPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
 }
 
 enum EnquiryStatus {
@@ -189,6 +197,7 @@ model Enquiry {
   message               String        @db.Text
   privacyConsent        Boolean       @default(true)
   status                EnquiryStatus @default(NEW)
+  priority              LeadPriority  @default(MEDIUM)
   assignedToId          String?
   followUpDate          DateTime?
   internalNotes         String?       @db.Text
@@ -197,10 +206,28 @@ model Enquiry {
   updatedAt             DateTime      @updatedAt
 
   assignedTo            User?         @relation("AssignedLeads", fields: [assignedToId], references: [id])
+  activities            LeadActivity[]
 
   @@index([referenceNumber])
   @@index([status])
+  @@index([priority])
   @@index([email])
+  @@index([createdAt])
+}
+
+model LeadActivity {
+  id                    String        @id @default(cuid())
+  enquiryId             String
+  userId                String?
+  userName              String?
+  type                  String        // NOTE, STATUS_CHANGE, CALL, EMAIL, ASSIGNMENT, FOLLOW_UP
+  description           String        @db.Text
+  metadata              Json?
+  createdAt             DateTime      @default(now())
+
+  enquiry               Enquiry       @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+
+  @@index([enquiryId])
   @@index([createdAt])
 }
 
@@ -314,12 +341,14 @@ model MediaAsset {
   fileUrl               String        @unique
   mimeType              String
   sizeBytes             Int
+  category              String        @default("General") // Homepage, Products, Solar Installation, Battery Storage, Engineering, Applications, Blog, Logos, Documents
   altText               String?
   caption               String?
   publicId              String?       // Object storage key / Cloudinary ID
   createdAt             DateTime      @default(now())
 
   @@index([mimeType])
+  @@index([category])
 }
 
 // -----------------------------------------------------------------------------
@@ -445,3 +474,93 @@ model AnalyticsEvent {
   @@index([path])
   @@index([createdAt])
 }
+
+// -----------------------------------------------------------------------------
+// 22. Website CMS & Page Management
+// -----------------------------------------------------------------------------
+model Page {
+  id                    String        @id @default(cuid())
+  slug                  String        @unique // home, about, products, services, engineering, applications, resources, blog, contact, privacy-policy, terms-and-conditions
+  title                 String
+  summary               String?       @db.Text
+  status                PublishStatus @default(PUBLISHED)
+  metaTitle             String?
+  metaDescription       String?       @db.Text
+  ogImageUrl            String?
+  publishedAt           DateTime?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  sections              PageSection[]
+
+  @@index([slug])
+  @@index([status])
+}
+
+model PageSection {
+  id                    String        @id @default(cuid())
+  pageId                String
+  sectionKey            String        // hero, benchmark, features, showcase, engineering_journey, applications, resources, testimonials, faqs, contact, footer
+  title                 String
+  subtitle              String?
+  badge                 String?
+  content               Json          // text, CTA buttons, metrics, settings, highlights
+  mediaUrl              String?
+  displayOrder          Int           @default(0)
+  isVisible             Boolean       @default(true)
+  status                PublishStatus @default(PUBLISHED)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  page                  Page          @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@unique([pageId, sectionKey])
+  @@index([pageId])
+  @@index([displayOrder])
+}
+
+// -----------------------------------------------------------------------------
+// 23. Engineering Architecture Stages (Direct-Current Journey)
+// -----------------------------------------------------------------------------
+model EngineeringStage {
+  id                    String        @id @default(cuid())
+  stageNumber           Int           @unique // 1..5
+  slug                  String        @unique // solar-generation, mppt-regulation, bess-storage, dc-distribution, load-applications
+  title                 String
+  badge                 String
+  subtitle              String
+  description           String        @db.Text
+  technicalDetails      String        @db.Text
+  imageUrl              String
+  voltageBus            String?       // e.g. "120V - 450V DC", "51.2V DC", "380V DC"
+  efficiencyMetric      String?       // e.g. "99.2% MPPT", ">98% DC Bus"
+  specs                 Json          // array of { label: string, value: string }
+  animationLabel        String?
+  displayOrder          Int           @default(0)
+  isVisible             Boolean       @default(true)
+  status                PublishStatus @default(PUBLISHED)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  @@index([stageNumber])
+  @@index([slug])
+}
+
+// -----------------------------------------------------------------------------
+// 24. Transactional Email Templates
+// -----------------------------------------------------------------------------
+model EmailTemplate {
+  id                    String        @id @default(cuid())
+  slug                  String        @unique // enquiry_notification, enquiry_confirmation, contact_alert, lead_assignment, password_reset, followup_reminder
+  name                  String
+  subject               String
+  body                  String        @db.Text
+  senderName            String?
+  variables             Json          // array of supported placeholder strings
+  isEnabled             Boolean       @default(true)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  @@index([slug])
+}
+

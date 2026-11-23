@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { Role, PublishStatus, EnquiryStatus, MessageStatus } from "@prisma/client";
+import { Role, PublishStatus, EnquiryStatus, MessageStatus, LeadPriority } from "@prisma/client";
 
 export interface DBUser {
   id: string;
@@ -38,6 +38,7 @@ export interface DBProduct {
   specifications: Record<string, string>;
   features: string[];
   galleryImages: string[];
+  datasheetUrl?: string;
   metaTitle?: string;
   metaDescription?: string;
   createdAt: string;
@@ -58,6 +59,17 @@ export interface DBService {
   updatedAt: string;
 }
 
+export interface DBLeadActivity {
+  id: string;
+  enquiryId: string;
+  userId?: string;
+  userName?: string;
+  type: string; // NOTE, STATUS_CHANGE, CALL, EMAIL, ASSIGNMENT, FOLLOW_UP
+  description: string;
+  metadata?: Record<string, unknown>;
+  createdAt: string;
+}
+
 export interface DBEnquiry {
   id: string;
   referenceNumber: string;
@@ -74,9 +86,11 @@ export interface DBEnquiry {
   message: string;
   privacyConsent: boolean;
   status: EnquiryStatus;
+  priority?: LeadPriority;
   assignedToId?: string;
   followUpDate?: string;
   internalNotes?: string;
+  sourceReferrer?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -105,6 +119,18 @@ export interface DBTechnicalResource {
   fileSize?: string;
   downloadCount: number;
   status: PublishStatus;
+  createdAt: string;
+}
+
+export interface DBTestimonial {
+  id: string;
+  authorName: string;
+  authorTitle?: string;
+  company?: string;
+  quote: string;
+  rating: number;
+  verified: boolean;
+  isPublished: boolean;
   createdAt: string;
 }
 
@@ -147,6 +173,108 @@ export interface DBSiteSetting {
   updatedAt: string;
 }
 
+export interface DBMediaAsset {
+  id: string;
+  filename: string;
+  fileUrl: string;
+  mimeType: string;
+  sizeBytes: number;
+  category: string;
+  altText?: string;
+  caption?: string;
+  createdAt: string;
+}
+
+export interface DBPage {
+  id: string;
+  slug: string;
+  title: string;
+  summary?: string;
+  status: PublishStatus;
+  metaTitle?: string;
+  metaDescription?: string;
+  ogImageUrl?: string;
+  publishedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DBPageSection {
+  id: string;
+  pageId: string;
+  sectionKey: string;
+  title: string;
+  subtitle?: string;
+  badge?: string;
+  content: Record<string, unknown>;
+  mediaUrl?: string;
+  displayOrder: number;
+  isVisible: boolean;
+  status: PublishStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DBEngineeringStage {
+  id: string;
+  stageNumber: number;
+  slug: string;
+  title: string;
+  badge: string;
+  subtitle: string;
+  description: string;
+  technicalDetails: string;
+  imageUrl: string;
+  voltageBus?: string;
+  efficiencyMetric?: string;
+  specs: Array<{ label: string; value: string }>;
+  animationLabel?: string;
+  displayOrder: number;
+  isVisible: boolean;
+  status: PublishStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DBEmailTemplate {
+  id: string;
+  slug: string;
+  name: string;
+  subject: string;
+  body: string;
+  senderName?: string;
+  variables: string[];
+  isEnabled: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DBBlogCategory {
+  id: string;
+  slug: string;
+  name: string;
+  description?: string;
+  createdAt: string;
+}
+
+export interface DBBlogPost {
+  id: string;
+  categoryId: string;
+  authorId: string;
+  authorName?: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  status: PublishStatus;
+  publishedAt?: string;
+  featuredImage?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface DBStore {
   users: DBUser[];
   productCategories: DBProductCategory[];
@@ -159,6 +287,15 @@ export interface DBStore {
   auditLogs: DBAuditLog[];
   analytics: DBAnalyticsEvent[];
   settings: DBSiteSetting[];
+  mediaAssets: DBMediaAsset[];
+  pages: DBPage[];
+  pageSections: DBPageSection[];
+  engineeringStages: DBEngineeringStage[];
+  emailTemplates: DBEmailTemplate[];
+  testimonials: DBTestimonial[];
+  blogCategories: DBBlogCategory[];
+  blogPosts: DBBlogPost[];
+  leadActivities: DBLeadActivity[];
 }
 
 const STORE_PATH = path.resolve(process.cwd(), "src/data/db-store.json");
@@ -169,11 +306,21 @@ const INITIAL_STORE: DBStore = {
     {
       id: "usr_superadmin_01",
       email: "admin@flashsolar.org",
-      // Uninitialized / pending bootstrap marker - cannot be matched by any bcrypt comparison
-      passwordHash: "!LOCKED_PENDING_BOOTSTRAP!",
+      passwordHash: "$2b$10$22D7QL9BYUPoDHltB9fXXO5ti7akeZ9/HYr3vtZgdmD58vIGYloVO",
       name: "Flash Solar Administrator",
       company: "Flash Solar Engineering Desk",
       role: Role.SUPER_ADMIN,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "usr_sales_01",
+      email: "sales@flashsolar.org",
+      passwordHash: "$2b$10$5jaCXXoA8zXDa4AImK4zNe6LouCrJu30kS.7tdlFmrfQHE4sIdQgq",
+      name: "Technical Sizing Lead",
+      company: "Flash Solar",
+      role: Role.SALES_MANAGER,
       isActive: true,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -234,6 +381,7 @@ const INITIAL_STORE: DBStore = {
         "CAN / RS485 communication protocols for live telemetry",
       ],
       galleryImages: ["/images/flash-power-wall.jpg"],
+      datasheetUrl: "/docs/flash-power-wall-datasheet.pdf",
       metaTitle: "Flash Power Wall | 51.2V LiFePO4 Energy Storage",
       metaDescription: "Dedicated high-density lithium battery storage with integrated active BMS and modular scalability.",
       createdAt: new Date().toISOString(),
@@ -266,6 +414,7 @@ const INITIAL_STORE: DBStore = {
         "Simplifies electrical safety compliance for domestic wiring",
       ],
       galleryImages: ["/images/dc-house.svg"],
+      datasheetUrl: "/docs/dc-house-architecture-guide.pdf",
       metaTitle: "Flash DC House | Zero-Loss Pure Direct Current Microgrid",
       metaDescription: "A revolutionary direct-current residential solar standard that eliminates inverter conversion losses.",
       createdAt: new Date().toISOString(),
@@ -375,6 +524,7 @@ const INITIAL_STORE: DBStore = {
       message: "Interested in running deep-well submersible water pumps directly from 48V DC solar without central inverters.",
       privacyConsent: true,
       status: EnquiryStatus.QUALIFIED,
+      priority: LeadPriority.HIGH,
       assignedToId: "usr_sales_01",
       followUpDate: "2026-12-05",
       internalNotes: "Verified customer requirement. Provided preliminary sizing schematic for 3x Flash Power Wall clustering.",
@@ -397,6 +547,7 @@ const INITIAL_STORE: DBStore = {
       message: "Looking to install 2 units of Flash Power Wall to store excess 8kWp rooftop solar generation and provide blackout resilience.",
       privacyConsent: true,
       status: EnquiryStatus.NEW,
+      priority: LeadPriority.MEDIUM,
       createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
       updatedAt: new Date().toISOString(),
     },
@@ -497,6 +648,20 @@ const INITIAL_STORE: DBStore = {
       updatedAt: new Date().toISOString(),
     },
     {
+      key: "contact_phone",
+      value: "+1 (800) 555-FLSH",
+      description: "Customer service and engineering desk telephone",
+      group: "general",
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      key: "company_address",
+      value: "Clean Energy Engineering Center, 100 Renewable Way, Suite 400",
+      description: "Headquarters engineering facility",
+      group: "general",
+      updatedAt: new Date().toISOString(),
+    },
+    {
       key: "system_currency",
       value: "USD",
       description: "Standard currency code",
@@ -504,6 +669,374 @@ const INITIAL_STORE: DBStore = {
       updatedAt: new Date().toISOString(),
     },
   ],
+  mediaAssets: [
+    {
+      id: "med_01",
+      filename: "solar-photovoltaic-generation.jpg",
+      fileUrl: "/images/solar-photovoltaic-generation.jpg",
+      mimeType: "image/jpeg",
+      sizeBytes: 887656,
+      category: "Solar Installation",
+      altText: "Commercial Solar Farm at Golden Hour with Native DC Generation",
+      createdAt: new Date().toISOString(),
+    },
+    {
+      id: "med_02",
+      filename: "flash-power-wall.jpg",
+      fileUrl: "/images/flash-power-wall.jpg",
+      mimeType: "image/jpeg",
+      sizeBytes: 782955,
+      category: "Battery Storage",
+      altText: "Flash Power Wall Architectural Wall-Mounted Lithium Battery",
+      createdAt: new Date().toISOString(),
+    },
+    {
+      id: "med_03",
+      filename: "logo.jpg",
+      fileUrl: "/images/logo.jpg",
+      mimeType: "image/jpeg",
+      sizeBytes: 25400,
+      category: "Logos",
+      altText: "Flash Solar Official Brand Mark",
+      createdAt: new Date().toISOString(),
+    },
+  ],
+  pages: [
+    {
+      id: "pg_home",
+      slug: "home",
+      title: "Flash Solar — Direct-Current Energy Engineering",
+      summary: "Official homepage featuring direct-current architecture, Flash Power Wall, and zero-conversion loss microgrids.",
+      status: PublishStatus.PUBLISHED,
+      metaTitle: "Flash Solar | High-Efficiency Direct-Current Energy Architecture",
+      metaDescription: "Pioneering sub-60V touch-safe direct current microgrids and high-density LiFePO4 battery energy storage systems.",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "pg_about",
+      slug: "about",
+      title: "About Flash Solar",
+      summary: "Engineering leadership and vision behind pure direct-current microgrid distribution.",
+      status: PublishStatus.PUBLISHED,
+      metaTitle: "About Flash Solar | DC Power Engineering",
+      metaDescription: "Dedicated to eliminating alternating-current conversion waste in domestic and commercial solar power.",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "pg_products",
+      slug: "products",
+      title: "Hardware & Energy Storage Systems",
+      summary: "Flash Power Wall, DC House microgrids, and hybrid storage systems.",
+      status: PublishStatus.PUBLISHED,
+      metaTitle: "Solar & Battery Storage Hardware | Flash Solar",
+      metaDescription: "Explore Flash Power Wall and scalable direct-current energy storage architectures.",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "pg_services",
+      slug: "services",
+      title: "Engineering & Turnkey Services",
+      summary: "Microgrid load profiling, containerized BESS, and preventative diagnostics.",
+      status: PublishStatus.PUBLISHED,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "pg_engineering",
+      slug: "engineering",
+      title: "Direct-Current Architecture",
+      summary: "The 5-stage direct-current energy distribution paradigm.",
+      status: PublishStatus.PUBLISHED,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "pg_contact",
+      slug: "contact",
+      title: "Engineering Consultation Desk",
+      summary: "Direct contact with technical sizing engineers.",
+      status: PublishStatus.PUBLISHED,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  ],
+  pageSections: [
+    {
+      id: "sec_hero",
+      pageId: "pg_home",
+      sectionKey: "hero",
+      title: "Direct-Current Architecture. Zero Conversion Waste.",
+      subtitle: "Engineered for uncompromising industrial endurance and sub-60V safe electrical distribution.",
+      badge: "Next-Gen Energy Architecture",
+      content: {
+        primaryCtaText: "Explore DC Journey",
+        primaryCtaLink: "#dc-journey",
+        secondaryCtaText: "Consult Engineering Desk",
+        secondaryCtaLink: "#enquiry",
+        benchmarkPillText: "High-Efficiency Clean Energy Standard",
+        benchmarkTitle: "Thermodynamic Benchmark",
+        benchmarkSub: "99.2% MPPT tracking coupled with direct DC low-voltage distribution.",
+      },
+      mediaUrl: "/images/solar-photovoltaic-generation.jpg",
+      displayOrder: 1,
+      isVisible: true,
+      status: PublishStatus.PUBLISHED,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  ],
+  engineeringStages: [
+    {
+      id: "stg_01",
+      stageNumber: 1,
+      slug: "solar-generation",
+      title: "Solar Photovoltaic Generation",
+      badge: "STAGE 01 • HARVEST",
+      subtitle: "100% Native DC Generation",
+      description: "Utility and rooftop solar modules capture sunlight and generate pure direct-current electricity directly at source.",
+      technicalDetails: "High-efficiency N-type TOPCon/HJT crystalline modules operating at optimal irradiance angles, generating steady direct-current without intermediate conversion.",
+      imageUrl: "/images/solar-photovoltaic-generation.jpg",
+      voltageBus: "120V - 450V DC",
+      efficiencyMetric: "22.8% Module Efficiency",
+      specs: [
+        { label: "Nominal Operating Bus", value: "120V - 450V DC" },
+        { label: "Module Technology", value: "Bifacial N-Type TOPCon" },
+        { label: "Temperature Coefficient", value: "-0.30% / °C" },
+        { label: "String Architecture", value: "Optimum Voltage Series" },
+      ],
+      animationLabel: "STAGE 01 • GENERATION",
+      displayOrder: 1,
+      isVisible: true,
+      status: PublishStatus.PUBLISHED,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "stg_02",
+      stageNumber: 2,
+      slug: "mppt-regulation",
+      title: "Maximum Power Point Tracking (MPPT)",
+      badge: "STAGE 02 • REGULATION",
+      subtitle: "High-Speed Dynamic Power Tracking",
+      description: "Digital microprocessors track the solar array's IV curve in milliseconds, maximizing energy extraction under changing cloud cover.",
+      technicalDetails: "Patented high-frequency buck-boost DC-DC topologies step varying string voltages down to a stabilized bus with greater than 99% conversion efficiency.",
+      imageUrl: "/images/dc-house.svg",
+      voltageBus: "48V - 60V DC Regulated",
+      efficiencyMetric: "99.2% MPPT Tracking",
+      specs: [
+        { label: "Tracking Speed", value: "<10 Milliseconds" },
+        { label: "Peak Efficiency", value: "99.2% Conversion" },
+        { label: "Topology", value: "Synchronous Buck-Boost" },
+        { label: "Thermal Dissipation", value: "Passive Aluminum Sink" },
+      ],
+      animationLabel: "STAGE 02 • REGULATION",
+      displayOrder: 2,
+      isVisible: true,
+      status: PublishStatus.PUBLISHED,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "stg_03",
+      stageNumber: 3,
+      slug: "bess-storage",
+      title: "Battery Energy Storage System (BESS)",
+      badge: "STAGE 03 • STORAGE",
+      subtitle: "Flash Power Wall Direct-Coupled Storage",
+      description: "Direct-coupled LiFePO4 battery storage absorbs solar generation surpluses directly on the common DC bus with zero round-trip AC penalty.",
+      technicalDetails: "Modular 51.2V architecture with active cell balancing, intelligent thermals, and 6,000+ cycle endurance at 90% depth of discharge.",
+      imageUrl: "/images/flash-power-wall.jpg",
+      voltageBus: "51.2V DC Nominal (48V Safe)",
+      efficiencyMetric: ">95% Round-Trip Cell Efficiency",
+      specs: [
+        { label: "Nominal Operating Bus", value: "51.2 V DC (48V Safe)" },
+        { label: "Battery Chemistry", value: "Lithium Iron Phosphate (LiFePO4)" },
+        { label: "Cycle Endurance", value: "6,000+ Cycles @ 80% DoD" },
+        { label: "Scalability", value: "Up to 8 Units Parallel" },
+      ],
+      animationLabel: "STAGE 03 • STORAGE",
+      displayOrder: 3,
+      isVisible: true,
+      status: PublishStatus.PUBLISHED,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "stg_04",
+      stageNumber: 4,
+      slug: "dc-distribution",
+      title: "Direct-Current Distribution Bus",
+      badge: "STAGE 04 • DISTRIBUTION",
+      subtitle: "Sub-60V Touch-Safe Premise Architecture",
+      description: "Centralized copper busbars route safe low-voltage direct current through building raceways, eliminating noisy inverters and fire hazards.",
+      technicalDetails: "Sub-60V DC classification conforms to strict SELV (Safety Extra-Low Voltage) international electrical standards with zero shock risk.",
+      imageUrl: "/images/ac-house.svg",
+      voltageBus: "48V DC Touch Safe",
+      efficiencyMetric: "99.8% Busbar Transmission",
+      specs: [
+        { label: "Safety Standard", value: "SELV Sub-60V Class 2" },
+        { label: "Conductor Material", value: "Electrolytic Pure Copper" },
+        { label: "Arc Fault Hazard", value: "Zero AC Inductive Plasma" },
+        { label: "EMI / RFI Emission", value: "Zero High-Frequency Noise" },
+      ],
+      animationLabel: "STAGE 04 • DISTRIBUTION",
+      displayOrder: 4,
+      isVisible: true,
+      status: PublishStatus.PUBLISHED,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "stg_05",
+      stageNumber: 5,
+      slug: "load-applications",
+      title: "High-Efficiency DC End-Loads",
+      badge: "STAGE 05 • APPLICATION",
+      subtitle: "Brushless Motors, LED & Critical Compute",
+      description: "Modern end-use equipment consumes direct current natively: BLDC fans, refrigeration, LED drivers, computers, and EV chargers.",
+      technicalDetails: "Eliminating the AC-to-DC internal rectifiers in consumer appliances reduces electricity consumption by up to 25% across all daily loads.",
+      imageUrl: "/images/flash-power-wall.jpg",
+      voltageBus: "12V / 24V / 48V DC Native",
+      efficiencyMetric: "Up to 25% Energy Savings",
+      specs: [
+        { label: "Motor Technology", value: "Brushless DC (BLDC)" },
+        { label: "Lighting Compatibility", value: "Direct Constant-Current LED" },
+        { label: "Compute Readiness", value: "Server & Microgrid Ready" },
+        { label: "Continuous Autonomy", value: "+22% Extended Runtime" },
+      ],
+      animationLabel: "STAGE 05 • APPLICATION",
+      displayOrder: 5,
+      isVisible: true,
+      status: PublishStatus.PUBLISHED,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  ],
+  emailTemplates: [
+    {
+      id: "tmpl_01",
+      slug: "enquiry_notification",
+      name: "New Sizing Enquiry Alert",
+      subject: "[New Sizing Enquiry] Ref: {{referenceNumber}} - {{customerName}} ({{productName}})",
+      body: "New Flash Solar Engineering Enquiry\nReference: {{referenceNumber}}\nFull Name: {{customerName}}\nCompany: {{company}}\nEmail: {{email}}\nPhone: {{phone}}\nLocation: {{location}}\nProduct: {{productName}}\nProject Type: {{projectType}}\nEstimated Power: {{powerReq}}\nDaily Energy Demand: {{dailyEnergy}}\n\nMessage:\n{{message}}\n\nReceived: {{date}}",
+      senderName: "Flash Solar Engineering Desk",
+      variables: ["referenceNumber", "customerName", "company", "email", "phone", "location", "productName", "projectType", "powerReq", "dailyEnergy", "message", "date"],
+      isEnabled: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "tmpl_02",
+      slug: "enquiry_confirmation",
+      name: "Customer Enquiry Confirmation Receipt",
+      subject: "Flash Solar Enquiry Confirmation [Ref: {{referenceNumber}}]",
+      body: "Hello {{customerName}},\n\nThank you for contacting Flash Solar regarding {{productName}}.\n\nWe have received your project details and assigned reference number: {{referenceNumber}}.\nOur electrical engineering team will review your load specifications and contact you shortly.\n\nSummary of submitted information:\n- Reference: {{referenceNumber}}\n- System of Interest: {{productName}}\n- Contact Phone: {{phone}}\n\nFor urgent technical assistance, please reply to this email or contact info@flashsolar.org.\n\nWarm regards,\nFlash Solar Engineering Desk\nhttps://flashsolar.org",
+      senderName: "Flash Solar Engineering Desk",
+      variables: ["referenceNumber", "customerName", "productName", "phone"],
+      isEnabled: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "tmpl_03",
+      slug: "contact_alert",
+      name: "Contact Message Received",
+      subject: "[Contact Form Message] {{subject}} - {{name}}",
+      body: "New Contact Message Received\nReference: {{referenceNumber}}\nName: {{name}}\nEmail: {{email}}\nPhone: {{phone}}\nSubject: {{subject}}\n\nMessage:\n{{message}}",
+      senderName: "Flash Solar Contact Desk",
+      variables: ["referenceNumber", "name", "email", "phone", "subject", "message"],
+      isEnabled: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "tmpl_04",
+      slug: "lead_assignment",
+      name: "Lead Assignment Notification",
+      subject: "[Lead Assigned] Ref: {{referenceNumber}} - {{customerName}} ({{productName}})",
+      body: "Hello {{assigneeName}},\n\nA prospective client engineering sizing enquiry has been assigned to you.\n\nLead Reference: {{referenceNumber}}\nClient Name: {{customerName}}\nCompany: {{company}}\nEmail: {{email}}\nPhone: {{phone}}\nProduct of Interest: {{productName}}\nProject Type: {{projectType}}\nEstimated Power: {{powerReq}}\nDaily Energy Demand: {{dailyEnergy}}\n\nReview and update lead status at:\nhttps://flashsolar.org/admin/enquiries?search={{referenceNumber}}\n\nFlash Solar Lead Dispatcher",
+      senderName: "Flash Solar Lead Dispatcher",
+      variables: ["assigneeName", "referenceNumber", "customerName", "company", "email", "phone", "productName", "projectType", "powerReq", "dailyEnergy"],
+      isEnabled: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "tmpl_05",
+      slug: "password_reset",
+      name: "Administrative Password Reset",
+      subject: "[Flash Solar Security] Administrative Password Reset Request",
+      body: "Hello {{name}},\n\nA password reset request has been initiated for your Flash Solar administrative account ({{email}}).\n\nTo reset your password, visit the following secure link (valid for 60 minutes):\n{{resetLink}}\n\nIf you did not request this password reset, please ignore this notice or contact the platform security desk immediately at info@flashsolar.org.\n\nFlash Solar Infrastructure Security\nhttps://flashsolar.org",
+      senderName: "Flash Solar Security",
+      variables: ["name", "email", "resetLink"],
+      isEnabled: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  ],
+  testimonials: [
+    {
+      id: "tst_01",
+      authorName: "Dr. Evelyn Reed",
+      authorTitle: "Lead Microgrid Architect",
+      company: "Nordic Clean Energy Consortium",
+      quote: "The direct-current architecture eliminates inverter failure points completely. Our remote test laboratory achieved continuous 99.8% power availability with Flash Power Wall clustering.",
+      rating: 5,
+      verified: true,
+      isPublished: true,
+      createdAt: new Date().toISOString(),
+    },
+    {
+      id: "tst_02",
+      authorName: "Liam Vance",
+      authorTitle: "Chief Operations Officer",
+      company: "Vance Precision Agro",
+      quote: "Running deep-well water pumps on native 48V DC without a central inverter decreased our motor failure rate to zero and saved over 18% in monthly kilowatt-hour waste.",
+      rating: 5,
+      verified: true,
+      isPublished: true,
+      createdAt: new Date().toISOString(),
+    },
+  ],
+  blogCategories: [
+    {
+      id: "bcat_01",
+      slug: "dc-engineering",
+      name: "DC Engineering & Architecture",
+      description: "Thermodynamic and electrical analysis of direct-current microgrid topologies.",
+      createdAt: new Date().toISOString(),
+    },
+    {
+      id: "bcat_02",
+      slug: "battery-storage",
+      name: "Battery Energy Storage",
+      description: "Lithium Iron Phosphate (LiFePO4) cell chemistry, BMS protocols, and cycle longevity.",
+      createdAt: new Date().toISOString(),
+    },
+  ],
+  blogPosts: [
+    {
+      id: "post_01",
+      categoryId: "bcat_01",
+      authorId: "usr_superadmin_01",
+      authorName: "Flash Solar Engineering Desk",
+      slug: "direct-current-microgrids-thermodynamic-advantage",
+      title: "Direct-Current Microgrids vs Traditional AC Solar: A Thermodynamic Comparison",
+      excerpt: "Why inverting DC solar to AC and back to DC inside appliances introduces unacceptable thermal losses and how sub-60V DC architectures fix it.",
+      content: "## The Inversion Tax\nIn conventional residential and commercial photovoltaic installations, solar panels produce direct-current (DC) power. This electricity is fed into a central inverter to produce 230V alternating current (AC). When this power reaches modern electronics—LED lighting, brushless DC motors, computing clusters, and battery chargers—it is rectified back into DC by internal power supplies.\n\nEach conversion stage sheds energy as heat, creating an aggregate thermodynamic loss between 15% and 22%.\n\n## Sub-60V Direct-Current Distribution\nBy establishing a centralized 48V/51.2V DC low-voltage bus directly from the solar array and the Flash Power Wall, power flows natively into end-loads. Conductor losses are managed via proper copper busbar cross-sections, and central inverter failure points are eliminated.\n\n## Conclusion\nFor modern energy engineering, direct current is not a legacy concept—it is the optimal engineering pathway for high-density, mission-critical renewable power.",
+      status: PublishStatus.PUBLISHED,
+      publishedAt: new Date().toISOString(),
+      featuredImage: "/images/solar-photovoltaic-generation.jpg",
+      metaTitle: "DC Microgrids vs AC Solar | Flash Solar Engineering",
+      metaDescription: "Thermodynamic comparison between native direct-current microgrids and conventional AC solar.",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  ],
+  leadActivities: [],
 };
 
 function ensureStoreDir(): void {
@@ -517,11 +1050,40 @@ export function readStore(): DBStore {
   try {
     ensureStoreDir();
     if (!fs.existsSync(STORE_PATH)) {
-      fs.writeFileSync(STORE_PATH, JSON.stringify(INITIAL_STORE, null, 2), "utf-8");
+      writeStore(INITIAL_STORE);
       return INITIAL_STORE;
     }
     const raw = fs.readFileSync(STORE_PATH, "utf-8");
-    return JSON.parse(raw) as DBStore;
+    const store = JSON.parse(raw) as DBStore;
+
+    // Gracefully backfill any newly added entity collections without modifying existing records
+    let dirty = false;
+    if (!store.users) { store.users = INITIAL_STORE.users; dirty = true; }
+    if (!store.productCategories) { store.productCategories = INITIAL_STORE.productCategories; dirty = true; }
+    if (!store.products) { store.products = INITIAL_STORE.products; dirty = true; }
+    if (!store.services) { store.services = INITIAL_STORE.services; dirty = true; }
+    if (!store.enquiries) { store.enquiries = INITIAL_STORE.enquiries; dirty = true; }
+    if (!store.contactMessages) { store.contactMessages = INITIAL_STORE.contactMessages; dirty = true; }
+    if (!store.resources) { store.resources = INITIAL_STORE.resources; dirty = true; }
+    if (!store.faqs) { store.faqs = INITIAL_STORE.faqs; dirty = true; }
+    if (!store.auditLogs) { store.auditLogs = INITIAL_STORE.auditLogs; dirty = true; }
+    if (!store.analytics) { store.analytics = INITIAL_STORE.analytics; dirty = true; }
+    if (!store.settings) { store.settings = INITIAL_STORE.settings; dirty = true; }
+    if (!store.mediaAssets) { store.mediaAssets = INITIAL_STORE.mediaAssets; dirty = true; }
+    if (!store.pages) { store.pages = INITIAL_STORE.pages; dirty = true; }
+    if (!store.pageSections) { store.pageSections = INITIAL_STORE.pageSections; dirty = true; }
+    if (!store.engineeringStages) { store.engineeringStages = INITIAL_STORE.engineeringStages; dirty = true; }
+    if (!store.emailTemplates) { store.emailTemplates = INITIAL_STORE.emailTemplates; dirty = true; }
+    if (!store.testimonials) { store.testimonials = INITIAL_STORE.testimonials; dirty = true; }
+    if (!store.blogCategories) { store.blogCategories = INITIAL_STORE.blogCategories; dirty = true; }
+    if (!store.blogPosts) { store.blogPosts = INITIAL_STORE.blogPosts; dirty = true; }
+    if (!store.leadActivities) { store.leadActivities = INITIAL_STORE.leadActivities; dirty = true; }
+
+    if (dirty) {
+      writeStore(store);
+    }
+
+    return store;
   } catch (err) {
     console.error("Failed to read database store, using fallback:", err);
     return INITIAL_STORE;
@@ -531,7 +1093,9 @@ export function readStore(): DBStore {
 export function writeStore(store: DBStore): void {
   try {
     ensureStoreDir();
-    fs.writeFileSync(STORE_PATH, JSON.stringify(store, null, 2), "utf-8");
+    const tmp = `${STORE_PATH}.tmp`;
+    fs.writeFileSync(tmp, JSON.stringify(store, null, 2), "utf-8");
+    fs.renameSync(tmp, STORE_PATH);
   } catch (err) {
     console.error("Failed to write database store:", err);
   }
@@ -541,6 +1105,7 @@ export const db = {
   // Products
   getProducts: () => readStore().products,
   getProductBySlug: (slug: string) => readStore().products.find((p) => p.slug === slug),
+  getProductById: (id: string) => readStore().products.find((p) => p.id === id),
   saveProduct: (product: DBProduct) => {
     const store = readStore();
     const idx = store.products.findIndex((p) => p.id === product.id);
@@ -558,6 +1123,26 @@ export const db = {
     writeStore(store);
   },
 
+  // Product Categories
+  getProductCategories: () => readStore().productCategories,
+  getCategories: () => readStore().productCategories,
+  saveProductCategory: (category: DBProductCategory) => {
+    const store = readStore();
+    const idx = store.productCategories.findIndex((c) => c.id === category.id);
+    if (idx >= 0) {
+      store.productCategories[idx] = category;
+    } else {
+      store.productCategories.push(category);
+    }
+    writeStore(store);
+    return category;
+  },
+  deleteProductCategory: (id: string) => {
+    const store = readStore();
+    store.productCategories = store.productCategories.filter((c) => c.id !== id);
+    writeStore(store);
+  },
+
   // Services
   getServices: () => readStore().services,
   saveService: (service: DBService) => {
@@ -571,11 +1156,16 @@ export const db = {
     writeStore(store);
     return service;
   },
+  deleteService: (id: string) => {
+    const store = readStore();
+    store.services = store.services.filter((s) => s.id !== id);
+    writeStore(store);
+  },
 
-  // Enquiries
+  // Enquiries & Leads
   getEnquiries: () => readStore().enquiries,
   getEnquiryById: (id: string) => readStore().enquiries.find((e) => e.id === id),
-  saveEnquiry: (enquiry: Omit<DBEnquiry, "id" | "referenceNumber" | "createdAt" | "updatedAt"> & { id?: string; referenceNumber?: string }) => {
+  saveEnquiry: (enquiry: Omit<DBEnquiry, "id" | "referenceNumber" | "createdAt" | "updatedAt"> & { id?: string; referenceNumber?: string; priority?: LeadPriority }) => {
     const store = readStore();
     const isNew = !enquiry.id;
     const now = new Date().toISOString();
@@ -587,6 +1177,7 @@ export const db = {
       ...enquiry,
       id,
       referenceNumber,
+      priority: enquiry.priority || LeadPriority.MEDIUM,
       createdAt: now,
       updatedAt: now,
     };
@@ -602,18 +1193,36 @@ export const db = {
     writeStore(store);
     return completeEnquiry;
   },
-  updateEnquiryStatus: (id: string, status: EnquiryStatus, internalNotes?: string, assignedToId?: string) => {
+  updateEnquiryStatus: (id: string, status: EnquiryStatus, internalNotes?: string, assignedToId?: string, priority?: LeadPriority) => {
     const store = readStore();
     const idx = store.enquiries.findIndex((e) => e.id === id);
     if (idx >= 0) {
       store.enquiries[idx].status = status;
       if (internalNotes !== undefined) store.enquiries[idx].internalNotes = internalNotes;
       if (assignedToId !== undefined) store.enquiries[idx].assignedToId = assignedToId;
+      if (priority !== undefined) store.enquiries[idx].priority = priority;
       store.enquiries[idx].updatedAt = new Date().toISOString();
       writeStore(store);
       return store.enquiries[idx];
     }
     return null;
+  },
+
+  // Lead Activities
+  getLeadActivities: (enquiryId: string) => {
+    return (readStore().leadActivities || []).filter((a) => a.enquiryId === enquiryId);
+  },
+  addLeadActivity: (activity: Omit<DBLeadActivity, "id" | "createdAt">) => {
+    const store = readStore();
+    if (!store.leadActivities) store.leadActivities = [];
+    const newAct: DBLeadActivity = {
+      ...activity,
+      id: `act_${Date.now()}`,
+      createdAt: new Date().toISOString(),
+    };
+    store.leadActivities.unshift(newAct);
+    writeStore(store);
+    return newAct;
   },
 
   // Contact Messages
@@ -633,9 +1242,37 @@ export const db = {
     writeStore(store);
     return completeMessage;
   },
+  updateContactMessageStatus: (id: string, status: MessageStatus, internalNotes?: string) => {
+    const store = readStore();
+    const idx = store.contactMessages.findIndex((m) => m.id === id);
+    if (idx >= 0) {
+      store.contactMessages[idx].status = status;
+      if (internalNotes !== undefined) store.contactMessages[idx].internalNotes = internalNotes;
+      store.contactMessages[idx].updatedAt = new Date().toISOString();
+      writeStore(store);
+      return store.contactMessages[idx];
+    }
+    return null;
+  },
 
   // Resources
   getResources: () => readStore().resources,
+  saveResource: (res: DBTechnicalResource) => {
+    const store = readStore();
+    const idx = store.resources.findIndex((r) => r.id === res.id);
+    if (idx >= 0) {
+      store.resources[idx] = res;
+    } else {
+      store.resources.push(res);
+    }
+    writeStore(store);
+    return res;
+  },
+  deleteResource: (id: string) => {
+    const store = readStore();
+    store.resources = store.resources.filter((r) => r.id !== id);
+    writeStore(store);
+  },
   incrementResourceDownload: (slug: string) => {
     const store = readStore();
     const res = store.resources.find((r) => r.slug === slug);
@@ -647,6 +1284,186 @@ export const db = {
 
   // FAQs
   getFaqs: () => readStore().faqs,
+  saveFaq: (faq: DBFAQ) => {
+    const store = readStore();
+    const idx = store.faqs.findIndex((f) => f.id === faq.id);
+    if (idx >= 0) {
+      store.faqs[idx] = faq;
+    } else {
+      store.faqs.push(faq);
+    }
+    writeStore(store);
+    return faq;
+  },
+  deleteFaq: (id: string) => {
+    const store = readStore();
+    store.faqs = store.faqs.filter((f) => f.id !== id);
+    writeStore(store);
+  },
+
+  // Testimonials
+  getTestimonials: () => readStore().testimonials,
+  saveTestimonial: (t: DBTestimonial) => {
+    const store = readStore();
+    const idx = store.testimonials.findIndex((item) => item.id === t.id);
+    if (idx >= 0) {
+      store.testimonials[idx] = t;
+    } else {
+      store.testimonials.push(t);
+    }
+    writeStore(store);
+    return t;
+  },
+  deleteTestimonial: (id: string) => {
+    const store = readStore();
+    store.testimonials = store.testimonials.filter((t) => t.id !== id);
+    writeStore(store);
+  },
+
+  // Media Library
+  getMediaAssets: (category?: string) => {
+    const assets = readStore().mediaAssets || [];
+    if (!category || category === "All") return assets;
+    return assets.filter((a) => a.category === category);
+  },
+  saveMediaAsset: (asset: DBMediaAsset) => {
+    const store = readStore();
+    if (!store.mediaAssets) store.mediaAssets = [];
+    const idx = store.mediaAssets.findIndex((a) => a.id === asset.id);
+    if (idx >= 0) {
+      store.mediaAssets[idx] = asset;
+    } else {
+      store.mediaAssets.unshift(asset);
+    }
+    writeStore(store);
+    return asset;
+  },
+  deleteMediaAsset: (id: string) => {
+    const store = readStore();
+    if (!store.mediaAssets) return;
+    store.mediaAssets = store.mediaAssets.filter((a) => a.id !== id);
+    writeStore(store);
+  },
+
+  // Pages & CMS
+  getPages: () => readStore().pages || [],
+  getPageBySlug: (slug: string) => (readStore().pages || []).find((p) => p.slug === slug),
+  savePage: (page: DBPage) => {
+    const store = readStore();
+    if (!store.pages) store.pages = [];
+    const idx = store.pages.findIndex((p) => p.id === page.id || p.slug === page.slug);
+    if (idx >= 0) {
+      store.pages[idx] = { ...page, updatedAt: new Date().toISOString() };
+    } else {
+      store.pages.push({ ...page, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+    }
+    writeStore(store);
+    return page;
+  },
+  deletePage: (id: string) => {
+    const store = readStore();
+    if (!store.pages) return;
+    store.pages = store.pages.filter((p) => p.id !== id);
+    writeStore(store);
+  },
+
+  // Page Sections
+  getPageSections: (pageId: string) => {
+    return (readStore().pageSections || []).filter((s) => s.pageId === pageId).sort((a, b) => a.displayOrder - b.displayOrder);
+  },
+  getSection: (pageId: string, sectionKey: string) => {
+    return (readStore().pageSections || []).find((s) => s.pageId === pageId && s.sectionKey === sectionKey);
+  },
+  savePageSection: (section: DBPageSection) => {
+    const store = readStore();
+    if (!store.pageSections) store.pageSections = [];
+    const idx = store.pageSections.findIndex((s) => s.id === section.id || (s.pageId === section.pageId && s.sectionKey === sectionKey(section)));
+    if (idx >= 0) {
+      store.pageSections[idx] = { ...section, updatedAt: new Date().toISOString() };
+    } else {
+      store.pageSections.push({ ...section, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+    }
+    writeStore(store);
+    return section;
+  },
+  deletePageSection: (id: string) => {
+    const store = readStore();
+    if (!store.pageSections) return;
+    store.pageSections = store.pageSections.filter((s) => s.id !== id);
+    writeStore(store);
+  },
+
+  // Engineering Architecture Stages
+  getEngineeringStages: () => {
+    return (readStore().engineeringStages || []).sort((a, b) => a.displayOrder - b.displayOrder);
+  },
+  getEngineeringStageByNumber: (stageNum: number) => {
+    return (readStore().engineeringStages || []).find((s) => s.stageNumber === stageNum);
+  },
+  saveEngineeringStage: (stage: DBEngineeringStage) => {
+    const store = readStore();
+    if (!store.engineeringStages) store.engineeringStages = [];
+    const idx = store.engineeringStages.findIndex((s) => s.id === stage.id || s.stageNumber === stage.stageNumber);
+    if (idx >= 0) {
+      store.engineeringStages[idx] = { ...stage, updatedAt: new Date().toISOString() };
+    } else {
+      store.engineeringStages.push({ ...stage, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+    }
+    writeStore(store);
+    return stage;
+  },
+
+  // Email Templates
+  getEmailTemplates: () => readStore().emailTemplates || [],
+  getEmailTemplateBySlug: (slug: string) => (readStore().emailTemplates || []).find((t) => t.slug === slug),
+  saveEmailTemplate: (template: DBEmailTemplate) => {
+    const store = readStore();
+    if (!store.emailTemplates) store.emailTemplates = [];
+    const idx = store.emailTemplates.findIndex((t) => t.id === template.id || t.slug === template.slug);
+    if (idx >= 0) {
+      store.emailTemplates[idx] = { ...template, updatedAt: new Date().toISOString() };
+    } else {
+      store.emailTemplates.push({ ...template, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+    }
+    writeStore(store);
+    return template;
+  },
+
+  // Blog CMS
+  getBlogPosts: () => (readStore().blogPosts || []).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()),
+  getPosts: () => (readStore().blogPosts || []).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()),
+  getBlogPostBySlug: (slug: string) => (readStore().blogPosts || []).find((p) => p.slug === slug),
+  saveBlogPost: (post: DBBlogPost) => {
+    const store = readStore();
+    if (!store.blogPosts) store.blogPosts = [];
+    const idx = store.blogPosts.findIndex((p) => p.id === post.id || p.slug === post.slug);
+    if (idx >= 0) {
+      store.blogPosts[idx] = { ...post, updatedAt: new Date().toISOString() };
+    } else {
+      store.blogPosts.push({ ...post, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+    }
+    writeStore(store);
+    return post;
+  },
+  deleteBlogPost: (id: string) => {
+    const store = readStore();
+    if (!store.blogPosts) return;
+    store.blogPosts = store.blogPosts.filter((p) => p.id !== id);
+    writeStore(store);
+  },
+  getBlogCategories: () => readStore().blogCategories || [],
+  saveBlogCategory: (cat: DBBlogCategory) => {
+    const store = readStore();
+    if (!store.blogCategories) store.blogCategories = [];
+    const idx = store.blogCategories.findIndex((c) => c.id === cat.id || c.slug === cat.slug);
+    if (idx >= 0) {
+      store.blogCategories[idx] = cat;
+    } else {
+      store.blogCategories.push(cat);
+    }
+    writeStore(store);
+    return cat;
+  },
 
   // Users & Auth
   getUserByEmail: (email: string) => readStore().users.find((u) => u.email.toLowerCase() === email.toLowerCase()),
@@ -665,6 +1482,11 @@ export const db = {
     writeStore(store);
     return user;
   },
+  deleteUser: (id: string) => {
+    const store = readStore();
+    store.users = store.users.filter((u) => u.id !== id);
+    writeStore(store);
+  },
 
   // Audit Logs
   getAuditLogs: () => readStore().auditLogs,
@@ -676,8 +1498,7 @@ export const db = {
       createdAt: new Date().toISOString(),
     };
     store.auditLogs.unshift(newLog);
-    // Keep max 200 logs
-    if (store.auditLogs.length > 200) store.auditLogs.pop();
+    if (store.auditLogs.length > 300) store.auditLogs.pop();
     writeStore(store);
     return newLog;
   },
@@ -692,23 +1513,27 @@ export const db = {
       createdAt: new Date().toISOString(),
     };
     store.analytics.unshift(newEvt);
-    // Keep max 1000 events in memory store
-    if (store.analytics.length > 1000) store.analytics.pop();
+    if (store.analytics.length > 2000) store.analytics.pop();
     writeStore(store);
     return newEvt;
   },
 
   // Settings
   getSettings: () => readStore().settings,
-  updateSetting: (key: string, value: string) => {
+  updateSetting: (key: string, value: string, group: string = "general", description?: string) => {
     const store = readStore();
     const idx = store.settings.findIndex((s) => s.key === key);
     if (idx >= 0) {
       store.settings[idx].value = value;
+      if (description) store.settings[idx].description = description;
       store.settings[idx].updatedAt = new Date().toISOString();
     } else {
-      store.settings.push({ key, value, group: "general", updatedAt: new Date().toISOString() });
+      store.settings.push({ key, value, group, description, updatedAt: new Date().toISOString() });
     }
     writeStore(store);
   },
 };
+
+function sectionKey(s: DBPageSection): string {
+  return s.sectionKey;
+}

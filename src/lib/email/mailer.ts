@@ -204,3 +204,119 @@ ${msg.message}
 
   return sendEmail({ to: companyEmail, subject, text, html });
 }
+
+export async function sendPasswordResetEmail({
+  to,
+  resetToken,
+  userName,
+}: {
+  to: string;
+  resetToken: string;
+  userName: string;
+}): Promise<EmailResult> {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://flashsolar.org";
+  const resetLink = `${appUrl}/admin/reset-password?token=${encodeURIComponent(resetToken)}`;
+  const subject = `[Flash Solar Security] Administrative Password Reset Request`;
+
+  const text = `
+Hello ${userName},
+
+A password reset request has been initiated for your Flash Solar administrative account (${to}).
+
+To reset your password, visit the following secure link (valid for 60 minutes):
+${resetLink}
+
+If you did not request this password reset, please ignore this notice or contact the platform security desk immediately at info@flashsolar.org.
+
+Flash Solar Infrastructure Security
+https://flashsolar.org
+  `.trim();
+
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #061321; color: #F7F7F5; padding: 32px; border-radius: 12px; border: 1px solid #29445E;">
+      <div style="border-bottom: 2px solid #F2B33F; padding-bottom: 16px; margin-bottom: 24px;">
+        <h2 style="color: #F7F7F5; margin: 0; font-size: 22px;">FLASH <span style="color: #F2B33F;">SOLAR</span></h2>
+        <span style="font-size: 11px; text-transform: uppercase; color: #B6C1D0; letter-spacing: 2px;">Administrative Security Desk</span>
+      </div>
+      <h3 style="color: #F7F7F5; margin-top: 0; font-size: 18px;">Password Reset Authorization</h3>
+      <p style="font-size: 14px; color: #B6C1D0; line-height: 1.6;">
+        Hello <strong>${userName}</strong>,<br/><br/>
+        A credential reset request was submitted for your administrator account. Click the button below to establish a new password (active for 60 minutes):
+      </p>
+      <div style="text-align: center; margin: 28px 0;">
+        <a href="${resetLink}" style="background: #F2B33F; color: #061321; font-weight: bold; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-size: 13px; display: inline-block;">
+          Reset Administrator Password
+        </a>
+      </div>
+      <p style="font-size: 12px; color: #B6C1D0; line-height: 1.6; word-break: break-all;">
+        Direct link: <a href="${resetLink}" style="color: #F2B33F;">${resetLink}</a>
+      </p>
+      <div style="border-top: 1px solid #1E3E62; padding-top: 16px; margin-top: 24px; font-size: 11px; color: #B6C1D0;">
+        If you did not request this reset, your account remains secure. No action is required.
+      </div>
+    </div>
+  `;
+
+  return sendEmail({ to, subject, text, html });
+}
+
+export async function sendLeadAssignmentNotification({
+  to,
+  engineerName,
+  enquiry,
+}: {
+  to: string;
+  engineerName: string;
+  enquiry: DBEnquiry;
+}): Promise<EmailResult> {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://flashsolar.org";
+  const deskLink = `${appUrl}/admin/enquiries?search=${encodeURIComponent(enquiry.referenceNumber)}`;
+  const subject = `[Lead Assigned] Ref: ${enquiry.referenceNumber} - ${enquiry.fullName} (${enquiry.productOfInterest})`;
+
+  const text = `
+Hello ${engineerName},
+
+A prospective client engineering sizing enquiry has been assigned to you.
+
+Lead Reference: ${enquiry.referenceNumber}
+Client Name: ${enquiry.fullName}
+Company: ${enquiry.company || "Individual"}
+Email: ${enquiry.email}
+Phone: ${enquiry.phone}
+Product of Interest: ${enquiry.productOfInterest}
+Project Type: ${enquiry.projectType || "General Consultation"}
+Estimated Power: ${enquiry.estimatedPowerReq || "Not specified"}
+Daily Energy Demand: ${enquiry.estimatedDailyEnergy || "Not specified"}
+
+Review and update lead status at:
+${deskLink}
+
+Flash Solar Lead Dispatcher
+  `.trim();
+
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #061321; color: #F7F7F5; padding: 32px; border-radius: 12px; border: 1px solid #29445E;">
+      <div style="border-bottom: 2px solid #F2B33F; padding-bottom: 16px; margin-bottom: 24px;">
+        <h2 style="color: #F7F7F5; margin: 0; font-size: 22px;">FLASH <span style="color: #F2B33F;">SOLAR</span></h2>
+        <span style="font-size: 11px; text-transform: uppercase; color: #B6C1D0; letter-spacing: 2px;">Engineering Lead Assignment</span>
+      </div>
+      <h3 style="color: #F7F7F5; margin-top: 0; font-size: 18px;">New Lead Assigned</h3>
+      <p style="font-size: 14px; color: #B6C1D0;">
+        Hello <strong>${engineerName}</strong>, the following engineering inquiry has been routed to your queue:
+      </p>
+      <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; background: #101F32; border-radius: 8px;">
+        <tr style="border-bottom: 1px solid #1E3E62;"><td style="padding: 8px 12px; color: #B6C1D0;">Reference:</td><td style="padding: 8px 12px; color: #F2B33F; font-family: monospace; font-weight: bold;">${enquiry.referenceNumber}</td></tr>
+        <tr style="border-bottom: 1px solid #1E3E62;"><td style="padding: 8px 12px; color: #B6C1D0;">Client:</td><td style="padding: 8px 12px; color: #F7F7F5;">${enquiry.fullName} (${enquiry.company || "Individual"})</td></tr>
+        <tr style="border-bottom: 1px solid #1E3E62;"><td style="padding: 8px 12px; color: #B6C1D0;">System:</td><td style="padding: 8px 12px; color: #34D399; font-weight: bold;">${enquiry.productOfInterest}</td></tr>
+        <tr style="border-bottom: 1px solid #1E3E62;"><td style="padding: 8px 12px; color: #B6C1D0;">Contact:</td><td style="padding: 8px 12px; color: #F7F7F5;">${enquiry.email} / ${enquiry.phone}</td></tr>
+      </table>
+      <div style="text-align: center; margin: 24px 0;">
+        <a href="${deskLink}" style="background: #F2B33F; color: #061321; font-weight: bold; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 13px; display: inline-block;">
+          Open Lead in Command Center
+        </a>
+      </div>
+    </div>
+  `;
+
+  return sendEmail({ to, subject, text, html });
+}

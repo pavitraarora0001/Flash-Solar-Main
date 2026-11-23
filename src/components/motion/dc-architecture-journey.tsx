@@ -7,8 +7,28 @@ import { Sun, Cpu, Battery, Network, Laptop, ArrowRight, CheckCircle2, ShieldChe
 
 export function DcArchitectureJourney() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [dbStages, setDbStages] = React.useState<Array<{
+    stageNumber: number;
+    title: string;
+    badge: string;
+    description: string;
+    imageUrl: string;
+    voltageBus?: string;
+    efficiencyMetric?: string;
+  }> | null>(null);
 
-  const steps = [
+  React.useEffect(() => {
+    fetch("/api/engineering")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && Array.isArray(d.stages) && d.stages.length >= 5) {
+          setDbStages(d.stages);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const rawSteps = [
     {
       id: "solar",
       title: "1. Solar Photovoltaic Generation",
@@ -90,6 +110,23 @@ export function DcArchitectureJourney() {
       metrics: { voltage: "Direct DC", losses: "0.0%", state: "100% Usable" },
     },
   ];
+
+  const steps = rawSteps.map((step, idx) => {
+    if (!dbStages || !dbStages[idx]) return step;
+    const dbS = dbStages[idx];
+    return {
+      ...step,
+      title: `${idx + 1}. ${dbS.title}`,
+      description: dbS.description || step.description,
+      image: dbS.imageUrl || step.image,
+      badge: dbS.badge || step.badge,
+      metrics: {
+        ...step.metrics,
+        voltage: dbS.voltageBus || step.metrics.voltage,
+      },
+      isPhoto: dbS.imageUrl?.includes(".jpg") || dbS.imageUrl?.includes(".png") || step.isPhoto,
+    };
+  });
 
   return (
     <section id="dc-journey" className="bg-midnight-900 text-ivory-100 py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-midnight-700/80">
