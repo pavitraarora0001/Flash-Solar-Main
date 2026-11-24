@@ -16,6 +16,7 @@ export async function GET() {
         email: session.email,
         name: session.name,
         role: session.role,
+        mustChangePassword: session.mustChangePassword ?? false,
         expiresAt: session.expiresAt,
       },
     });

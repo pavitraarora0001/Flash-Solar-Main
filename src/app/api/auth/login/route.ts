@@ -44,6 +44,7 @@ export async function POST(req: NextRequest) {
       email: user.email,
       name: user.name,
       role: user.role,
+      mustChangePassword: user.mustChangePassword ?? false,
     });
 
     db.addAuditLog({
@@ -52,16 +53,18 @@ export async function POST(req: NextRequest) {
       action: "USER_LOGIN",
       entityType: "User",
       entityId: user.id,
-      metadata: { email: user.email, role: user.role },
+      metadata: { email: user.email, role: user.role, mustChangePassword: user.mustChangePassword ?? false },
     });
 
     const response = NextResponse.json({
       success: true,
+      mustChangePassword: user.mustChangePassword ?? false,
       user: {
         id: user.id,
         email: user.email,
         name: user.name,
         role: user.role,
+        mustChangePassword: user.mustChangePassword ?? false,
       },
     });
 

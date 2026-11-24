@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle } from "lucide-react";
+import { BrandLogo } from "@/components/shared/brand-logo";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -33,6 +34,12 @@ export default function AdminLoginPage() {
         return;
       }
 
+      if (data.mustChangePassword || data.user?.mustChangePassword) {
+        router.push("/admin/change-password");
+        router.refresh();
+        return;
+      }
+
       router.push("/admin");
       router.refresh();
     } catch {
@@ -48,27 +55,8 @@ export default function AdminLoginPage() {
       <div className="absolute bottom-10 left-10 w-72 h-72 bg-midnight-800/40 rounded-full blur-2xl pointer-events-none" />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
-        <div className="flex justify-center mb-4">
-          <Link href="/" className="inline-flex items-center gap-2 group">
-            <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-gold-500/40 bg-midnight-900 flex items-center justify-center p-1.5 shadow-lg group-hover:border-gold-400 transition-colors">
-              <Image
-                src="/images/logo.jpg"
-                alt="Flash Solar Logo"
-                width={36}
-                height={36}
-                className="object-contain"
-                priority
-              />
-            </div>
-            <div>
-              <span className="text-xl font-heading font-extrabold tracking-tight text-ivory-100 block leading-tight">
-                FLASH <span className="text-gold-400">SOLAR</span>
-              </span>
-              <span className="text-[10px] font-mono tracking-widest text-ivory-400 uppercase">
-                Engineering Desk
-              </span>
-            </div>
-          </Link>
+        <div className="flex justify-center mb-6">
+          <BrandLogo variant="admin" subtitle="Engineering Desk" priority />
         </div>
 
         <h2 className="text-center text-2xl font-heading font-bold text-ivory-100 tracking-tight">

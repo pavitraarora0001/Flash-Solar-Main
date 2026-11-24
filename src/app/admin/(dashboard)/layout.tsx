@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { BrandLogo } from "@/components/shared/brand-logo";
 import {
   LayoutDashboard,
   BarChart3,
@@ -120,6 +121,10 @@ export default function AdminDashboardLayout({
           router.push("/admin/login");
           return;
         }
+        if (data.user.mustChangePassword) {
+          router.push("/admin/change-password");
+          return;
+        }
         setUser(data.user);
       } catch (err) {
         console.error("Auth check failed:", err);
@@ -175,14 +180,7 @@ export default function AdminDashboardLayout({
     <div className={`min-h-screen flex flex-col lg:flex-row ${theme === "dark" ? "bg-[#061321] text-ivory-100" : "bg-[#F7F9FC] text-midnight-950"}`}>
       {/* Mobile Top Header */}
       <div className="lg:hidden bg-midnight-900 border-b border-midnight-800 px-4 py-3 flex items-center justify-between z-30 sticky top-0 text-ivory-100">
-        <div className="flex items-center gap-2.5">
-          <div className="relative w-7 h-7 rounded bg-midnight-950 border border-gold-500/40 p-1 flex items-center justify-center">
-            <Image src="/images/logo.jpg" alt="Logo" width={22} height={22} className="object-contain" />
-          </div>
-          <span className="font-heading font-extrabold text-sm text-ivory-100">
-            FLASH <span className="text-gold-400">ADMIN</span>
-          </span>
-        </div>
+        <BrandLogo variant="compact" subtitle="Admin Control" href="/" />
         <div className="flex items-center gap-2">
           <button
             onClick={toggleTheme}
@@ -209,19 +207,7 @@ export default function AdminDashboardLayout({
       >
         {/* Brand Header */}
         <div className="p-5 border-b border-midnight-800/80 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="relative w-9 h-9 rounded-lg bg-midnight-950 border border-gold-500/40 p-1.5 flex items-center justify-center shadow">
-              <Image src="/images/logo.jpg" alt="Flash Solar" width={28} height={28} className="object-contain" />
-            </div>
-            <div>
-              <span className="font-heading font-extrabold text-sm text-ivory-100 block leading-tight tracking-tight">
-                FLASH <span className="text-gold-400">SOLAR</span>
-              </span>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-semibold block">
-                Enterprise CMS / CRM
-              </span>
-            </div>
-          </div>
+          <BrandLogo variant="admin-sidebar" subtitle="Enterprise CMS / CRM" href="/" />
           <button
             onClick={() => setMobileMenuOpen(false)}
             className="lg:hidden p-1 text-ivory-400 hover:text-white"

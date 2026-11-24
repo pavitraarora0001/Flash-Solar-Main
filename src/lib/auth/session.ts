@@ -10,6 +10,7 @@ export interface SessionPayload {
   email: string;
   name: string;
   role: Role;
+  mustChangePassword?: boolean;
   expiresAt: string;
 }
 

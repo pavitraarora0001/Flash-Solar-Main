@@ -62,9 +62,10 @@ export async function GET() {
     });
   } catch (error) {
     const isAuth = error instanceof Error && error.message.includes("UNAUTHORIZED");
+    const isForbidden = error instanceof Error && error.message.includes("FORBIDDEN");
     return NextResponse.json(
       { success: false, error: error instanceof Error ? error.message : "Unauthorized export request" },
-      { status: isAuth ? 401 : 500 }
+      { status: isAuth ? 401 : isForbidden ? 403 : 500 }
     );
   }
 }

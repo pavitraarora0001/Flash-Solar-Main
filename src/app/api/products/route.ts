@@ -74,9 +74,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, product }, { status: 201 });
   } catch (error) {
     const isAuth = error instanceof Error && error.message.includes("UNAUTHORIZED");
+    const isForbidden = error instanceof Error && error.message.includes("FORBIDDEN");
     return NextResponse.json(
       { success: false, error: error instanceof Error ? error.message : "Unauthorized" },
-      { status: isAuth ? 401 : 500 }
+      { status: isAuth ? 401 : isForbidden ? 403 : 500 }
     );
   }
 }

@@ -214,7 +214,7 @@ export function InteractiveProductShowcase() {
                       {/* Brand Overlay Badge in HTML */}
                       <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-midnight-950/90 backdrop-blur-md border border-gold-500/30 px-3 py-1.5 rounded-lg shadow-lg">
                         <div className="relative w-5 h-5 rounded overflow-hidden">
-                          <Image src="/images/logo.jpg" alt="Flash Solar Logo" width={20} height={20} className="object-contain" />
+                          <Image src="/images/logo.png" alt="Flash Solar Logo" width={20} height={20} className="object-contain" />
                         </div>
                         <span className="text-[11px] font-heading font-extrabold text-ivory-100 tracking-tight">
                           FLASH <span className="text-gold-400">SOLAR</span>

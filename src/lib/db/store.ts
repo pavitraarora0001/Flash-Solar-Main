@@ -11,6 +11,7 @@ export interface DBUser {
   company?: string;
   role: Role;
   isActive: boolean;
+  mustChangePassword?: boolean;
   createdAt: string;
   updatedAt: string;
 }

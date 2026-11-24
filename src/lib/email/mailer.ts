@@ -12,14 +12,25 @@ export interface EmailResult {
   messageId?: string;
   error?: string;
   mode: "resend" | "development_logged";
+  recoveryLink?: string;
+}
+
+export function isEmailServiceConfigured(): boolean {
+  const resendApiKey = process.env.RESEND_API_KEY;
+  return Boolean(
+    resendApiKey &&
+      resendApiKey.startsWith("re_") &&
+      !resendApiKey.includes("placeholder") &&
+      !resendApiKey.includes("simulator")
+  );
 }
 
 export async function sendEmail({ to, subject, html, text }: SendEmailOptions): Promise<EmailResult> {
   const resendApiKey = process.env.RESEND_API_KEY;
   const fromEmail = process.env.RESEND_FROM_EMAIL || "Flash Solar <notifications@flashsolar.org>";
 
-  // If live Resend API key is configured, send through Resend
-  if (resendApiKey && resendApiKey.startsWith("re_")) {
+  // If live Resend API key is configured (and not in vitest/mocked test unless explicitly intended), send through Resend
+  if (isEmailServiceConfigured()) {
     try {
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
@@ -38,16 +49,31 @@ export async function sendEmail({ to, subject, html, text }: SendEmailOptions): 
 
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
-        console.error("Resend delivery failure:", errData);
-        return { success: false, error: JSON.stringify(errData), mode: "resend" };
+        const safeError =
+          typeof errData?.message === "string"
+            ? errData.message
+            : "Provider rejected message dispatch";
+        return { success: false, error: `RESEND_ERROR: ${safeError}`, mode: "resend" };
       }
 
       const data = await res.json();
       return { success: true, messageId: data.id, mode: "resend" };
     } catch (err: unknown) {
-      console.error("Resend network error:", err);
-      return { success: false, error: err instanceof Error ? err.message : "Unknown error", mode: "resend" };
+      return {
+        success: false,
+        error: "NETWORK_ERROR: Unable to reach email delivery service",
+        mode: "resend",
+      };
     }
+  }
+
+  // If in production and email service is not configured, fail safely rather than claiming success
+  if (process.env.NODE_ENV === "production") {
+    return {
+      success: false,
+      error: "EMAIL_SERVICE_UNAVAILABLE: Resend API key is not configured in production environment.",
+      mode: "resend",
+    };
   }
 
   // Development & local fallback: structured logger preventing failures
@@ -256,6 +282,18 @@ https://flashsolar.org
       </div>
     </div>
   `;
+
+  if (!isEmailServiceConfigured()) {
+    console.warn(
+      `[LOCAL ADMIN RECOVERY] Email provider not configured. Reset link for ${to}: ${resetLink}`
+    );
+    return {
+      success: false,
+      error: "EMAIL_SERVICE_UNAVAILABLE: Resend API key is not configured for email dispatch.",
+      mode: "resend",
+      recoveryLink: resetLink,
+    };
+  }
 
   return sendEmail({ to, subject, text, html });
 }

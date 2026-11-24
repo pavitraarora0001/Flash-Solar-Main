@@ -3,7 +3,6 @@ import path from "path";
 import { Role, PublishStatus, LeadPriority } from "@prisma/client";
 
 function loadEnvVar(key: string, defaultValue?: string): string {
-  if (process.env[key]) return process.env[key]!;
   try {
     const envPath = path.resolve(process.cwd(), ".env.local");
     if (fs.existsSync(envPath)) {
@@ -11,11 +10,16 @@ function loadEnvVar(key: string, defaultValue?: string): string {
       for (const line of content.split("\n")) {
         const trimmed = line.trim();
         if (trimmed.startsWith(`${key}=`)) {
-          return trimmed.substring(key.length + 1).trim();
+          let val = trimmed.substring(key.length + 1).trim();
+          if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+            val = val.slice(1, -1);
+          }
+          return val;
         }
       }
     }
   } catch {}
+  if (process.env[key]) return process.env[key]!;
   if (defaultValue !== undefined) return defaultValue;
   throw new Error(`CRITICAL SECURITY: ${key} is not configured in environment or .env.local.`);
 }

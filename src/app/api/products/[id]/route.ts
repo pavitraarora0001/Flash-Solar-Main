@@ -52,9 +52,10 @@ export async function PATCH(
     return NextResponse.json({ success: true, product: updated });
   } catch (error) {
     const isAuth = error instanceof Error && error.message.includes("UNAUTHORIZED");
+    const isForbidden = error instanceof Error && error.message.includes("FORBIDDEN");
     return NextResponse.json(
       { success: false, error: error instanceof Error ? error.message : "Failed to update product" },
-      { status: isAuth ? 401 : 500 }
+      { status: isAuth ? 401 : isForbidden ? 403 : 500 }
     );
   }
 }
@@ -85,9 +86,10 @@ export async function DELETE(
     return NextResponse.json({ success: true, message: "Product deleted" });
   } catch (error) {
     const isAuth = error instanceof Error && error.message.includes("UNAUTHORIZED");
+    const isForbidden = error instanceof Error && error.message.includes("FORBIDDEN");
     return NextResponse.json(
       { success: false, error: error instanceof Error ? error.message : "Unauthorized" },
-      { status: isAuth ? 401 : 500 }
+      { status: isAuth ? 401 : isForbidden ? 403 : 500 }
     );
   }
 }
